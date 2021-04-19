@@ -60,7 +60,7 @@ function AccountPage(props) {
                 <Row>
                     <Col>
                     <p>Your platforms</p>
-                    <Button variant = "outline-dark" size='lg'>+</Button>
+                    <Button variant = "outline-dark" size='lg' href='/createplatform'>+</Button>
                     </Col>
                 </Row>
             </Col>
