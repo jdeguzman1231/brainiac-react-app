@@ -10,17 +10,48 @@ import { AuthContext } from "../context/auth";
 function CreatePlatformPage(props) {
     const { user, logout } = useContext(AuthContext);
     console.log(user);
+    const { handleChange, onSubmit, values} = useForm(createPlatform, {
+        name: '',
+        creatorName: user.username,
+        description: ''
+    })
+
+    
+
+    const [addPlatform, {loading}] = useMutation(CREATE_PLATFORM, {
+        update(proxy, result) {
+            props.history.push('/')
+        },
+        onError(err) {
+            // setErrors(err.graphQLErrors[0].extensions.exception.errors)
+            console.log(values.name);
+            console.log(values.creatorName);
+            console.log(values.description);
+            console.log(err)
+        },
+        variables: {
+            name: values.name,
+            creatorName: values.creatorName,
+            description: values.description
+        }
+    })
+
+    function createPlatform() {
+        console.log(addPlatform);
+        addPlatform();
+    }
     return (
             <div>
                 <div className="form-container">
                 <h4>Create a New Platform</h4>
-                <Form noValidate>
+                <Form onSubmit = {onSubmit}noValidate>
                 <Form.Group controlId="platform">
                     <Form.Label>Platform Name</Form.Label>
                     <Form.Control 
                     type="text" 
                     placeholder="Platform" 
-                    name = "platformName"/>
+                    name = "name"
+                    onChange = {handleChange}/>
                     <Form.Text className="text-muted">
                     Put the name of your new title
                     </Form.Text>
@@ -32,13 +63,14 @@ function CreatePlatformPage(props) {
                     as="textarea" 
                     rows={3}
                     type="text" 
-                    name="description"/>
+                    name="description"
+                    onChange = {handleChange}/>
                     <Form.Text className="text-muted">
                     Put a description for you and other users to understand your platform
                     </Form.Text>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Login
+                    Create Platform
                 </Button>
             </Form>
                 </div>
@@ -49,35 +81,20 @@ function CreatePlatformPage(props) {
 
 export default CreatePlatformPage;
 
-const FETCH_USER_QUERY = gql`
-    query($username: String!) {
-        getUser(username: $username) 
-        {
-            username
-            email
-            name
-            createdPlatforms
-            playedPlatforms
-            bookmarkedPlatforms
-        }
-    }
-`
-
-const EDIT_USER = gql`
-    mutation saveChanges(
-        $username: String!
+const CREATE_PLATFORM = gql`
+    mutation createPlatform(
         $name: String!
+        $creatorName: String!
+        $description: String!
     ) {
-        saveChanges(
-            username: $username
-            email: $email
+        createPlaform(
             name: $name
-            password: $password
+            creatorName: $creatorName
+            description: $description
         ) {
-            username
-            email
             name
-            token
+            creatorName
+            description
         }
     }
 `
