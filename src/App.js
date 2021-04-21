@@ -22,12 +22,12 @@ function App() {
       <Router>
       <NavBar />
       <Route exact path = '/' component = {HomePage}/>
-      {/* <Route exact path = '/explore' component = {ExplorePage}/> */}
+      <Route exact path = '/explore' component = {ExplorePage}/>
       <Route exact path = '/login' component = {LoginPage}/>
       <Route exact path = '/signup' component = {SignUpPage}/>
       <Route exact path = '/account/:username' component = {AccountPage}/>
-      {/* <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
-      <Route exact path = '/game/:gameID' component = {GamePage}/> */}
+      <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
+      <Route exact path = '/game/:gameID' component = {GamePage}/>
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       {/* <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage}/> */}
       <Route exact path = '/createplatform' component = {CreatePlatformPage} />
