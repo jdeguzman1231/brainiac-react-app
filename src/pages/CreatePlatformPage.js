@@ -20,7 +20,7 @@ function CreatePlatformPage(props) {
 
     const [addPlatform, {loading}] = useMutation(CREATE_PLATFORM, {
         update(proxy, result) {
-            props.history.push('/')
+            props.history.push('/account/'+user.username)
         },
         onError(err) {
             // setErrors(err.graphQLErrors[0].extensions.exception.errors)
@@ -87,7 +87,7 @@ const CREATE_PLATFORM = gql`
         $creatorName: String!
         $description: String!
     ) {
-        createPlaform(
+        createPlatform(
             name: $name
             creatorName: $creatorName
             description: $description
