@@ -2,12 +2,12 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
-// import ExplorePage from './pages/ExplorePage';
+import ExplorePage from './pages/ExplorePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AccountPage from './pages/AccountPage.js';
-// import PlatformPage from './pages/PlatformPage';
-// import GamePage from './pages/GamePage';
+import PlatformPage from './pages/PlatformPage';
+import GamePage from './pages/GamePage';
 import AccountSettingsPage from './pages/AccountSettingsPage.js';
 import {AuthProvider} from './context/auth'
 // import PlatformSettingsPage from './pages/PlatformSettingsPage';
