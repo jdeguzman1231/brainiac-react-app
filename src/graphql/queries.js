@@ -10,3 +10,11 @@ query($platformID: Int!){
     }
 }  
 `;
+export const FETCH_PLATFORMS_QUERY = gql`
+
+    {
+    getPlatforms{
+        platformID name creatorName description
+    }
+}   
+`;

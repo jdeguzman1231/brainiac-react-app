@@ -22,7 +22,6 @@ function Menu() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/explore">Explore</Nav.Link>
             <Nav.Link href={link}>Profile</Nav.Link>
             <Nav.Link href={settingsLink}>Settings</Nav.Link>
@@ -38,7 +37,6 @@ function Menu() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/explore">Explore</Nav.Link>
             <Nav.Link href="/signup">Sign Up</Nav.Link>
             <Nav.Link href="/login">Log In</Nav.Link>

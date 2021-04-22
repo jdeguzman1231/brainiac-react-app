@@ -1,20 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-
-function PlatformCard({ platform: { platformID, name, creatorName } }) {
+import {run as runHolder} from 'holderjs/holder'
+function PlatformCard({ platform: { platformID, name, creatorName, description } }) {
+    useEffect(() => {
+        runHolder('layoutimg')
+    })
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+        <div>
+        <Card style={{ width: '18rem'}}>
+            <Card.Img className = 'layoutimg' variant="top" src="holder.js/100px180?random=yes" thumbnail/>
             <Card.Body>
                 <Link to={`/platform/${platformID}`}>
                     <Card.Title>{name}</Card.Title>
                 </Link>
-                <Card.Text>
+                <Card.Subtitle className = 'mb-2 text-muted'>
                     created by {creatorName}
+                </Card.Subtitle>
+                <Card.Text>
+                    {description}
                 </Card.Text>
+                
             </Card.Body>
         </Card>
+        </div>
     )
 }
 
