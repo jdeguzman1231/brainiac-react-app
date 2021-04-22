@@ -69,6 +69,7 @@ function AccountPage(props) {
                 <Row style = {{paddingBottom: '60px'}}>
                     <Col>
                     <p>Your platforms</p>
+
                     <Row>
                         {user.createdPlatforms.map((platform) => (
                         <Col >
@@ -76,7 +77,7 @@ function AccountPage(props) {
                         </Col>
                         ))}
                     </Row>
-                    <Button variant = "outline-dark" size='lg'>+</Button>
+                    <Button variant = "outline-dark" size='lg' href='/createplatform'>+</Button>
                     </Col>
                 </Row>
             </Col>

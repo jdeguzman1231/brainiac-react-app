@@ -16,6 +16,7 @@ import PlatformSettingsPage from './pages/PlatformSettingsPage.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import CreatePlatformPage from './pages/CreatePlatformPage';
 function App() {
   return (
     <AuthProvider>
@@ -30,6 +31,7 @@ function App() {
       <Route exact path = '/game/:gameID' component = {GamePage}/>
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />
+      <Route exact path = '/createplatform' component = {CreatePlatformPage} />
     </Router>
     </AuthProvider>
   );
