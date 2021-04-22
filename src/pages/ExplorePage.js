@@ -34,7 +34,8 @@ function ExplorePage() {
 }
 
 const FETCH_PLATFORMS_QUERY = gql`
-{
+
+    {
     getPlatforms{
         platformID name creatorName description
     }
