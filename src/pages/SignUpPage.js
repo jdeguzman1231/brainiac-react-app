@@ -85,9 +85,11 @@ function SignUpPage(props) {
                 {/* <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group> */}
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" block>
                     Sign Up
                 </Button>
+                <p style = {{marginTop: '30px'}}>Already have an account?</p>
+                <Button style = {{marginTop: '-30px', marginLeft: '-9px'}} href="/login" variant = "link" size = "sm">Login</Button>
             </Form>
         </div>
     );

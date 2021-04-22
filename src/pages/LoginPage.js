@@ -66,10 +66,13 @@ function LoginPage(props) {
                 {/* <Form.Group controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group> */}
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" block>
                     Login
                 </Button>
             </Form>
+            <Button block variant='link'>
+                Forgot your password?
+            </Button>
             <Modal show={valid} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Incorrect username or password</Modal.Title>
