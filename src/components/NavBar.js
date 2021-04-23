@@ -56,7 +56,7 @@ function Menu() {
             <Nav.Link href="/explore">Explore</Nav.Link>
             <Nav.Link href={link}>Profile</Nav.Link>
             <Nav.Link href={settingsLink}>Settings</Nav.Link>
-            <Nav.Link onClick={logout}>Log Out</Nav.Link>
+            <Nav.Link onClick={logout} href = "/">Log Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
