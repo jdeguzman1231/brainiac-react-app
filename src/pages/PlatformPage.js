@@ -1,29 +1,49 @@
-import React, {useState, useEffect} from 'react';
-import gql from 'graphql-tag'
-import {Router, Route} from 'react-router-dom'
+
 import { useQuery, useMutation } from '@apollo/client'
-import { Container, Col, Row, Jumbotron, Button } from 'react-bootstrap'
+import { Container, Col, Row, Jumbotron, Button, Modal } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
+import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
-import { useContext, useForm } from "react";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function PlatformPage(props) {
-    function refresh(){
+    function refresh() {
         window.location.reload();
     }
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const { user, logout } = useContext(AuthContext);
+    console.log(user)
     const pplatformID = props.match.params.platformID;
     var platformID = parseInt(pplatformID, 10);
-    const parentPlatform = platformID;                                                       
-    
+    const platformURL = '/platform/' + pplatformID;
+
     const { loading, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID: platformID },
         fetchPolicy: 'cache-and-network'
     });
 
-    
+
     const platform_settings = '/platform/' + pplatformID + '/settings';
-    const toSettings = () =>{
-        props.history.push(platform_settings)
+    const toSettings = () => {
+        props.history.push()
+    }
+    const [bookmark] = useMutation(BOOKMARK_PLATFORM, {
+        update(proxy, results) {
+            props.history.push(platformURL)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            username: user.username,
+            platformID: platformID
+        }
+    })
+    function bookmarkPlatform() {
+        bookmark();
     }
 
     const { user, logout } = useContext(AuthContext);
@@ -40,6 +60,8 @@ function PlatformPage(props) {
                 fields:{
                     games(existingGames = []){
                         const newGameref= cache.writeFragment({
+
+
                             data: addGame,
                             fragment: gql`
                                 fragment NewGame on Game{
@@ -53,32 +75,80 @@ function PlatformPage(props) {
                 }
             })
         }
+
       });
 
    
+    });
+
+    const [delPlatform] = useMutation(DELETE_PLATFORM, {
+        update(proxy, result) {
+            props.history.push("/account/" + username)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors)
+        },
+        variables: {
+            username: username,
+            platformID: platformID,
+        }
+    })
+
+    function deletePlatform() {
+        console.log("delete platform");
+        delPlatform();
+    }
+
+
     if (loading) { return "loading" }
     else {
         console.log(pdata)
         const platform = pdata.getPlatform
         console.log(platform_settings);
-        if(user && user.username == platform.creatorName ){
+        if (user && user.username == platform.creatorName) {
             return (
                 <div className="page-container">
                     <Jumbotron>
-                        <h1>{platform.name}</h1>
-                        <br></br>
-                        <p>{platform.description}</p>
-                        <p>created by {platform.creatorName}</p>
-                        <Button onClick = {toSettings} variant = 'secondary'>
-                        Settings
-                    </Button>
+                        <Row>
+                            <Col>
+                                <h1>{platform.name}</h1>
+                                <br></br>
+                                <p>{platform.description}</p>
+                                <p>created by {platform.creatorName}</p>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button onClick={toSettings} variant='secondary' style={{ marginLeft: '1000px', marginBottom: '10px' }}>
+                                    Settings
+                                </Button>
+                                <Button onClick={handleShow}>Delete Platform</Button>
+                                <Modal show={show} onHide={handleClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirm Delete</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        Are you sure you want to delete this platform? All games in this platform will be deleted.
+                                </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button onClick={e => {
+                                            e.preventDefault();
+                                            deletePlatform({ variables: { username: username, platformID: platformID } });
+                                        }}>Yes</Button>
+                                        <Button onClick={handleClose}>No</Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+                                    Bookmark
+                                </Button>
+                            </Col>
+                        </Row>
                     </Jumbotron>
-                    
                     <h3>Games:</h3>
                     <Button onClick={e => {
                         e.preventDefault();
-                        addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform} });refresh();
-                        }}>Add Game
+                        addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform } }); refresh();
+                    }}>Add Game
                     </Button>
                     <hr></hr>
                     <Container>
@@ -94,7 +164,7 @@ function PlatformPage(props) {
                 </div>
             )
         }
-        else{
+        else {
             return (
                 <div className="page-container">
                     <Jumbotron>
@@ -102,6 +172,11 @@ function PlatformPage(props) {
                         <br></br>
                         <p>{platform.description}</p>
                         <p>created by {platform.creatorName}</p>
+
+                        <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+                            Bookmark
+                        </Button>
+
                     </Jumbotron>
                     <h3>Games:</h3>
                     <hr></hr>
@@ -118,7 +193,6 @@ function PlatformPage(props) {
                 </div>
             )
         }
-        
     }
 }
 
@@ -133,7 +207,19 @@ const FETCH_PLATFORM_QUERY = gql`
     }  
 `;
 
-const CREATE_GAME= gql`
+const BOOKMARK_PLATFORM = gql`
+    mutation bookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        bookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
+`;
+
+const CREATE_GAME = gql`
     mutation createGame(
         $creatorName: String!
         $parentPlatform: Int!
@@ -147,5 +233,18 @@ const CREATE_GAME= gql`
         }
     }
 `
+
+
+const DELETE_PLATFORM = gql`
+    mutation deletePlatform(
+        $username: String!
+        $platformID: Int!
+        ){
+           deletePlatform(
+                username: $username
+                platformID: $platformID
+            )
+        }
+`;
 
 export default PlatformPage;

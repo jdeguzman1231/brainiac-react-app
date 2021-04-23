@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom'
 function GameCard(id) {
     const gameID = parseInt(id['gameID'], 10);
     console.log(gameID)
-    const { loading, data } = useQuery(FETCH_GAME_QUERY, {
+    const { loading, data, error } = useQuery(FETCH_GAME_QUERY, {
         variables: { gameID, gameID },
     });
     if (loading) { return "loading" }
     else {
         console.log(data)
         const game = data.getGame
+        if(game==null){return null;}
         const parentPlatform= game.parentPlatform
         return (
             <Card style={{ width: '18rem' }}>

@@ -3,16 +3,11 @@ import { useQuery, useLazyQuery } from '@apollo/client';
 import {Row, Col, Container, Image, Button, Jumbotron} from 'react-bootstrap';
 import gql from 'graphql-tag';
 import {run as runHolder} from 'holderjs/holder'
-import PlatformCard from '../components/PlatformCard'
+import AccountPlatformCard from '../components/AccountPlatformCard'
 import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
 import {addTheme as add_theme} from 'holderjs/holder'
 function AccountPage(props) {
     var username = props.match.params.username
-    console.log(useQuery(FETCH_USER_QUERY, {
-        variables: {
-            username: username
-        }
-    }));
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
         variables: {
             username: username
@@ -60,25 +55,59 @@ function AccountPage(props) {
                 <Row style = {{paddingBottom: '60px'}}>
                     <Col>
                     <p>Recently Played:</p>
+
+                    <Row style = {{paddingBottom: '10px'}}>
+                        {user.playedPlatforms.slice(0,3).map((platformID) => (
+                        <Col >
+                            <AccountPlatformCard platformID={platformID} />
+                        </Col>
+                        ))}
+                    </Row>
+                    <Row>
+                        <Col style = {{paddingLeft: '90px'}}>
+                            <Button variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Platforms</Button>
+                        </Col>
+                    </Row>
                     </Col>
                 </Row>
                 <Row style = {{paddingBottom: '60px'}}>
                     <Col>
                     <p>Bookmarked:</p>
+
+                    <Row style = {{paddingBottom: '10px'}}>
+                        {user.bookmarkedPlatforms.slice(0,3).map((platformID) => (
+                        <Col >
+                            <AccountPlatformCard platformID={platformID} />
+                        </Col>
+                        ))}
+                    </Row>
+                    <Row>
+                        <Col style = {{paddingLeft: '90px'}}>
+                            <Button variant = "outline-dark" size='lg' href='/bookmarkedplatforms'>View Bookmarked Platforms</Button>
+                        </Col>
+                    </Row>
                     </Col>
                 </Row>
                 <Row style = {{paddingBottom: '60px'}}>
                     <Col>
                     <p>Your platforms</p>
 
-                    <Row>
-                        {user.createdPlatforms.map((platform) => (
+                    <Row style = {{paddingBottom: '10px'}}>
+                        {user.createdPlatforms.slice(0,3).map((platformID) => (
                         <Col >
-                            <PlatformCard platform={platform} />
+                            <AccountPlatformCard platformID={platformID} />
                         </Col>
                         ))}
                     </Row>
-                    <Button variant = "outline-dark" size='lg' href='/createplatform'>+</Button>
+                    <Row>
+                        <Col style = {{paddingLeft: '90px'}}>
+                            <Button variant = "outline-dark" size='lg' href='/createplatform'>Create New Platform</Button>
+                        </Col>
+                        <Col>
+                            <Button variant = "outline-dark" size='lg' href='/createdplatforms'>View Your Platforms</Button>
+                        </Col>
+                    </Row>
+                    
                     </Col>
                 </Row>
             </Col>
