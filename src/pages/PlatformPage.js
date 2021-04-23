@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation } from '@apollo/client'
 import { Container, Col, Row, Jumbotron, Button, Modal } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
@@ -44,18 +45,23 @@ function PlatformPage(props) {
     function bookmarkPlatform() {
         bookmark();
     }
-    const creatorName = user.username;
-    const username = creatorName;
-    const parentPlatform = platformID;
 
-
-    const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME, {
-
-        update(cache, { data: { addGame } }) {
+    const { user, logout } = useContext(AuthContext);
+    if(user){
+        var creatorName = user.username;
+    }
+    else{
+        var creatorname = '' ; 
+    }
+    const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME,{
+       
+        update(cache,{ data: {addGame}}){
             cache.modify({
-                fields: {
-                    games(existingGames = []) {
-                        const newGameref = cache.writeFragment({
+                fields:{
+                    games(existingGames = []){
+                        const newGameref= cache.writeFragment({
+
+
                             data: addGame,
                             fragment: gql`
                                 fragment NewGame on Game{
@@ -69,6 +75,10 @@ function PlatformPage(props) {
                 }
             })
         }
+
+      });
+
+   
     });
 
     const [delPlatform] = useMutation(DELETE_PLATFORM, {
@@ -95,7 +105,6 @@ function PlatformPage(props) {
         console.log(pdata)
         const platform = pdata.getPlatform
         console.log(platform_settings);
-
         if (user && user.username == platform.creatorName) {
             return (
                 <div className="page-container">
@@ -163,9 +172,11 @@ function PlatformPage(props) {
                         <br></br>
                         <p>{platform.description}</p>
                         <p>created by {platform.creatorName}</p>
+
                         <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
                             Bookmark
                         </Button>
+
                     </Jumbotron>
                     <h3>Games:</h3>
                     <hr></hr>
@@ -196,7 +207,6 @@ const FETCH_PLATFORM_QUERY = gql`
     }  
 `;
 
-
 const BOOKMARK_PLATFORM = gql`
     mutation bookmarkPlatform(
         $username: String!
@@ -223,6 +233,7 @@ const CREATE_GAME = gql`
         }
     }
 `
+
 
 const DELETE_PLATFORM = gql`
     mutation deletePlatform(

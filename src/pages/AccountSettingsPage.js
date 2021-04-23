@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, setState ,useState} from 'react';
 import PlatformCard from '../components/PlatformCard'
 import {Form, Button} from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
@@ -14,6 +14,7 @@ function AccountSettingsPage(props) {
             username: username
         },
     }));
+    console.log(username)
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
         variables: {
             username: username
@@ -42,6 +43,12 @@ function AccountSettingsPage(props) {
     })
     function update_user_settings(){
         console.log('callback')
+        if(values.name == ''){
+            values.name = context.user.name
+        }
+        if(values.username == ''){
+            values.username = context.user.username
+        }
         edit_user();
     }
     if (loading) {return "loading"}

@@ -78,6 +78,7 @@ function GamePage(props) {
                         className="d-block w-100"
                         src="holder.js/800x400?text=Second slide&bg=282c34"
                     />
+
                     <Button onClick={handleShow}>Delete Game</Button>
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
@@ -162,6 +163,7 @@ export const EDIT_GAME = gql`
         
         }
 `;
+
 
 export const DELETE_GAME = gql`
     mutation deleteGame(
