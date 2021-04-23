@@ -81,7 +81,7 @@ function GamePage(props) {
                     <Button onClick={handleShow}>Delete Game</Button>
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
-                            <Modal.Title></Modal.Title>
+                            <Modal.Title>Confirm Delete</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             Are you sure you want to delete this game?
