@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { Container, Col, Row, Jumbotron, Button } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
+import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
 import { useContext, useForm } from "react";
 
@@ -39,9 +40,8 @@ function PlatformPage(props) {
     function bookmarkPlatform(){
         bookmark();
     }
-
-    const { user, logout } = useContext(AuthContext);
     const creatorName = user.username;
+    const parentPlatform = platformID;
     const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME,{
        
         update(cache,{ data: {addGame}}){
@@ -71,16 +71,12 @@ function PlatformPage(props) {
         const platform = pdata.getPlatform
         console.log(platform_settings);
 
-        return (
-            <div className="page-container">
-                <Jumbotron>
-                    <Container>
-                        <Row>
-                            <Col>
         if(user && user.username == platform.creatorName ){
             return (
                 <div className="page-container">
                     <Jumbotron>
+                        <Row>
+                        <Col>
                         <h1>{platform.name}</h1>
                         <br></br>
                         <p>{platform.description}</p>
@@ -97,7 +93,6 @@ function PlatformPage(props) {
                         </Button>
                         </Col>
                         </Row>
-                    </Container>
                 </Jumbotron>
                 <h3>Games:</h3>
                 <hr></hr>
@@ -111,13 +106,6 @@ function PlatformPage(props) {
                     )}
                     </Row>
                 </Container>
-            </div>
-        )
-                        <Button onClick = {toSettings} variant = 'secondary'>
-                        Settings
-                    </Button>
-                    </Jumbotron>
-                    
                     <h3>Games:</h3>
                     <Button onClick={e => {
                         e.preventDefault();
