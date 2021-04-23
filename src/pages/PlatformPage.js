@@ -15,9 +15,16 @@ function PlatformPage(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { user, logout } = useContext(AuthContext);
+    if(user){
+        var creatorName = user.username;
+    }
+    else{
+        var creatorName = '' ; 
+    }
     console.log(user)
     const pplatformID = props.match.params.platformID;
     var platformID = parseInt(pplatformID, 10);
+    const parentPlatform = platformID
     const platformURL = '/platform/' + pplatformID;
 
     const { loading, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
@@ -28,7 +35,7 @@ function PlatformPage(props) {
 
     const platform_settings = '/platform/' + pplatformID + '/settings';
     const toSettings = () => {
-        props.history.push()
+        props.history.push(platform_settings);
     }
     const [bookmark] = useMutation(BOOKMARK_PLATFORM, {
         update(proxy, results) {
@@ -38,7 +45,7 @@ function PlatformPage(props) {
             console.log(err.networkError.result.errors);
         },
         variables: {
-            username: user.username,
+            username: creatorName,
             platformID: platformID
         }
     })
@@ -46,13 +53,6 @@ function PlatformPage(props) {
         bookmark();
     }
 
-    const { user, logout } = useContext(AuthContext);
-    if(user){
-        var creatorName = user.username;
-    }
-    else{
-        var creatorname = '' ; 
-    }
     const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME,{
        
         update(cache,{ data: {addGame}}){
@@ -79,17 +79,16 @@ function PlatformPage(props) {
       });
 
    
-    });
 
     const [delPlatform] = useMutation(DELETE_PLATFORM, {
         update(proxy, result) {
-            props.history.push("/account/" + username)
+            props.history.push("/account/" + creatorName)
         },
         onError(err) {
             console.log(err.networkError.result.errors)
         },
         variables: {
-            username: username,
+            username: creatorName,
             platformID: platformID,
         }
     })
@@ -133,7 +132,7 @@ function PlatformPage(props) {
                                     <Modal.Footer>
                                         <Button onClick={e => {
                                             e.preventDefault();
-                                            deletePlatform({ variables: { username: username, platformID: platformID } });
+                                            deletePlatform({ variables: { username: creatorName, platformID: platformID } });
                                         }}>Yes</Button>
                                         <Button onClick={handleClose}>No</Button>
                                     </Modal.Footer>

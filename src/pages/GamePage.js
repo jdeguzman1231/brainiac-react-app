@@ -21,6 +21,12 @@ function GamePage(props) {
         variables: { gameID, gameID },
     });
     const { user, logout } = useContext(AuthContext);
+    if(user){
+        var creatorName = user.username;
+    }
+    else{
+        var creatorName = '' ; 
+    }
 
     const { handleChange, onSubmit, values } = useForm(editGame, {
         name: '',
@@ -37,7 +43,7 @@ function GamePage(props) {
             gameID: gameID,
             parentPlatform: parentPlatform,
             name: values.name,
-            creatorName: user.username,
+            creatorName: creatorName,
             description: values.description
         }
     })
