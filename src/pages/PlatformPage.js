@@ -27,7 +27,12 @@ function PlatformPage(props) {
     }
 
     const { user, logout } = useContext(AuthContext);
-    const creatorName = user.username;
+    if(user){
+        var creatorName = user.username;
+    }
+    else{
+        var creatorname = '' ; 
+    }
     const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME,{
        
         update(cache,{ data: {addGame}}){

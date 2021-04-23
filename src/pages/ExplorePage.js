@@ -21,16 +21,17 @@ function ExplorePage() {
                 <Form inline style = {{width: '100%', paddingInlineStart: '10%'}}className='mb-md-5 '>
                     <Form.Control style = {{width: '50%'}} type= 'text' placeholder ='search' className ='mr-md-3'></Form.Control>
                     <Form.Label className ='mr-md-3'>By</Form.Label>
-                    <DropdownButton className ='mr-md-3' id='dropdown-basic-button' title = 'Game title' variant ='secondary'>
-                        <Dropdown.Item>Platform name</Dropdown.Item>
-                    </DropdownButton>
+                    <Form.Control custom as="select" className ='mr-md-3' title = 'Game title' variant ='secondary'>
+                        <option value = "0">Platform name</option>
+                        <option value = "1">Game title</option>
+                    </Form.Control>
                     <Form.Label className ='mr-md-3'>In</Form.Label>
-                    <DropdownButton className ='mr-md-3' id='dropdown-basic-button' title = 'Any Category' variant ='secondary'>
-                        <Dropdown.Item>History</Dropdown.Item>
-                        <Dropdown.Item>Biology</Dropdown.Item>
-                        <Dropdown.Item>Computer Science</Dropdown.Item>
-                        <Dropdown.Item>Geography</Dropdown.Item>
-                    </DropdownButton>
+                    <Form.Control custom as="select" className ='mr-md-3' title = 'Any Category' variant ='secondary'>
+                        <option value = "0">History</option>
+                        <option value = "1">Biology</option>
+                        <option value = "2">Computer Science</option>
+                        <option value = "3">Geography</option>
+                    </Form.Control>
                 </Form>
                 <Container>
                     <Row>{loading ? (<h1>Loading...</h1>) : (
