@@ -11,6 +11,7 @@ import GamePage from './pages/GamePage';
 import AccountSettingsPage from './pages/AccountSettingsPage.js';
 import {AuthProvider} from './context/auth'
 import PlatformSettingsPage from './pages/PlatformSettingsPage.js';
+import DesignPage from './pages/DesignPage';
 // import PlatformSettingsPage from './pages/PlatformSettingsPage';
 
 
@@ -28,6 +29,7 @@ function App() {
       <Route exact path = '/account/:username' component = {AccountPage}/>
       <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
       <Route exact path = '/game/:gameID' component = {GamePage}/>
+      <Route exact path = '/game/:gameID/design' component = {DesignPage} />
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />
     </Router>
