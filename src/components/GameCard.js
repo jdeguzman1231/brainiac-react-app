@@ -14,12 +14,13 @@ function GameCard(id) {
     else {
         console.log(data)
         const game = data.getGame
+        const parentPlatform= game.parentPlatform
         return (
             <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src="holder.js/100px180" />
                 <Card.Body>
                     <Card.Title>{game.name}</Card.Title>
-                    <Link to={`/game/${gameID}`}>play</Link>
+                    <Link to={`/platform/${parentPlatform}/game/${gameID}`}>play</Link>
                     <Card.Text>
                         created by {game.creatorName}
                     </Card.Text>
