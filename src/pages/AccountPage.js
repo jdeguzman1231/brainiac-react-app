@@ -11,7 +11,8 @@ function AccountPage(props) {
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
         variables: {
             username: username
-        }
+        },
+        fetchPolicy: 'cache-and-network'
     });
     useEffect(() => {
        //add_theme("theme1",{background: '#aecad6', backgroundImage: 'linear-gradient(315deg, #aecad6 0%, #b8d3fe 74%)'})
