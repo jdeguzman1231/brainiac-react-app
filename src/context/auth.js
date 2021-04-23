@@ -47,6 +47,7 @@ function AuthProvider(props){
             type: 'LOGIN',
             payload: userData
         })
+
     }
 
     function logout(){
@@ -55,7 +56,6 @@ function AuthProvider(props){
             type: 'LOGOUT'
         })
     }
-
     return(
         <AuthContext.Provider 
             value={{ user: state.user, login, logout}}
