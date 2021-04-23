@@ -28,7 +28,7 @@ function App() {
       <Route exact path = '/signup' component = {SignUpPage}/>
       <Route exact path = '/account/:username' component = {AccountPage}/>
       <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
-      <Route exact path = '/game/:gameID' component = {GamePage}/>
+      <Route exact path = '/platform/:parentPlatform/game/:gameID' component = {GamePage}/>
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />
       <Route exact path = '/createplatform' component = {CreatePlatformPage} />
