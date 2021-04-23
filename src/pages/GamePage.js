@@ -1,31 +1,35 @@
 import React from 'react';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
-import { Form, Button, Modal } from 'react-bootstrap';
+import { Form, Button, Modal, Figure } from 'react-bootstrap';
 import { AuthContext } from "../context/auth";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
+import {run as runHolder} from 'holderjs/holder'
 
 
 function GamePage(props) {
+    useEffect(() => {
+        runHolder('layoutimg')
+    })
     const [show, setShow] = useState(false);
-    const handleClose=()=>setShow(false);
+    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const ggameID = props.match.params.gameID;
     const pplatformID = props.match.params.parentPlatform
     const gameID = parseInt(ggameID, 10);
     const parentPlatform = parseInt(pplatformID, 10);
-    const platformID=parentPlatform;
+    const platformID = parentPlatform;
     const { loading, data } = useQuery(FETCH_GAME_QUERY, {
         variables: { gameID, gameID },
     });
     const { user, logout } = useContext(AuthContext);
-    if(user){
+    if (user) {
         var creatorName = user.username;
     }
-    else{
-        var creatorName = '' ; 
+    else {
+        var creatorName = '';
     }
 
     const { handleChange, onSubmit, values } = useForm(editGame, {
@@ -55,7 +59,7 @@ function GamePage(props) {
 
     const [delGame] = useMutation(DELETE_GAME, {
         update(proxy, result) {
-            props.history.push("/platform/"+platformID)
+            props.history.push("/platform/" + platformID)
         },
         onError(err) {
             console.log(err.networkError.result.errors)
@@ -66,7 +70,7 @@ function GamePage(props) {
         }
     })
 
-    function deleteGame(){
+    function deleteGame() {
         console.log("delete game");
         delGame();
     }
@@ -80,11 +84,13 @@ function GamePage(props) {
             return (
                 <div className="game-page-container">
                     <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=282c34"
-                    />
-
+                    <Figure>
+                        <Figure.Image className = 'layoutimg'
+                            width={870}
+                            height={524}
+                            src="holder.js/870x524"
+                        />
+                    </Figure>
                     <Button onClick={handleShow}>Delete Game</Button>
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
@@ -95,9 +101,9 @@ function GamePage(props) {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button onClick={e => {
-                        e.preventDefault();
-                        deleteGame({ variables: { gameID: gameID, platformID: platformID} });
-                        }}>Yes</Button>
+                                e.preventDefault();
+                                deleteGame({ variables: { gameID: gameID, platformID: platformID } });
+                            }}>Yes</Button>
                             <Button onClick={handleClose}>No</Button>
                         </Modal.Footer>
                     </Modal>
@@ -122,10 +128,13 @@ function GamePage(props) {
         else {
             return (
                 <div className="game-page-container">
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=282c34"
-                    />
+                    <Figure>
+                        <Figure.Image className = 'layoutimg'
+                            width={870}
+                            height={524}
+                            src="holder.js/870x524"
+                        />
+                    </Figure>
                     <h2>{game.name}</h2>
                     <p>by {game.creatorName}</p>
                     <hr></hr>
@@ -135,7 +144,6 @@ function GamePage(props) {
                 </div>
             )
         }
-
     }
 }
 
