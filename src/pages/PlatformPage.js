@@ -1,13 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import gql from 'graphql-tag'
 import {Router, Route} from 'react-router-dom'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { Container, Col, Row, Jumbotron, Button } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
+import { AuthContext } from "../context/auth";
 
 function PlatformPage(props) {
+    const { user, logout } = useContext(AuthContext);
+    console.log(user)
     const pplatformID = props.match.params.platformID;
     var platformID = parseInt(pplatformID, 10);
+    const platformURL = '/platform/' + pplatformID;
     const { loading, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID: platformID },
         fetchPolicy: 'cache-and-network'
@@ -16,7 +20,22 @@ function PlatformPage(props) {
     
     const platform_settings = '/platform/' + pplatformID + '/settings';
     const toSettings = () =>{
-        props.history.push(platform_settings)
+        props.history.push()
+    }
+    const [bookmark] = useMutation(BOOKMARK_PLATFORM, {
+        update(proxy, results) {
+            props.history.push(platformURL)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            username: user.username,
+            platformID: platformID
+        }
+    })
+    function bookmarkPlatform(){
+        bookmark();
     }
     if (loading) { return "loading" }
     else {
@@ -26,14 +45,27 @@ function PlatformPage(props) {
         return (
             <div className="page-container">
                 <Jumbotron>
-                    <h1>{platform.name}</h1>
-                    <br></br>
-                    <p>{platform.description}</p>
-                    <p>created by {platform.creatorName}</p>
+                    <Container>
+                        <Row>
+                            <Col>
+                        <h1>{platform.name}</h1>
+                        <br></br>
+                        <p>{platform.description}</p>
+                        <p>created by {platform.creatorName}</p>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col>
+                        <Button onClick = {toSettings} variant = 'secondary' style = {{marginLeft: '1000px', marginBottom: '10px'}}>
+                        Settings
+                        </Button>
+                        <Button onClick = {bookmarkPlatform} variant = 'secondary' style = {{marginLeft: '1000px'}}>
+                        Bookmark
+                        </Button>
+                        </Col>
+                        </Row>
+                    </Container>
                 </Jumbotron>
-                <Button onClick = {toSettings} variant = 'secondary'>
-                    Settings
-                </Button>
                 <h3>Games:</h3>
                 <hr></hr>
                 <Container>
@@ -60,6 +92,18 @@ const FETCH_PLATFORM_QUERY = gql`
             games
         }
     }  
+`;
+
+const BOOKMARK_PLATFORM = gql`
+    mutation bookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        bookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
 `;
 
 export default PlatformPage;
