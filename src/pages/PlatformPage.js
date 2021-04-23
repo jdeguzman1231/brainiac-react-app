@@ -94,18 +94,6 @@ function PlatformPage(props) {
                         </Col>
                         </Row>
                 </Jumbotron>
-                <h3>Games:</h3>
-                <hr></hr>
-                <Container>
-                    <Row>{loading ? (<h1>Loading...</h1>) : (
-                        platform.games && platform.games.map((gameID) => (
-                            <Col >
-                                <GameCard gameID={gameID} />
-                            </Col>
-                        ))
-                    )}
-                    </Row>
-                </Container>
                     <h3>Games:</h3>
                     <Button onClick={e => {
                         e.preventDefault();
@@ -134,6 +122,9 @@ function PlatformPage(props) {
                         <br></br>
                         <p>{platform.description}</p>
                         <p>created by {platform.creatorName}</p>
+                        <Button onClick = {bookmarkPlatform} variant = 'secondary' style = {{marginLeft: '1000px'}}>
+                        Bookmark
+                        </Button>
                     </Jumbotron>
                     <h3>Games:</h3>
                     <hr></hr>
