@@ -104,6 +104,15 @@ function PlatformPage(props) {
         console.log(pdata)
         const platform = pdata.getPlatform
         console.log(platform_settings);
+        var bookmarkButton;
+        if (creatorName == '') {
+            bookmarkButton = '';
+        }
+        else {
+            bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+            Bookmark
+            </Button>
+        }
         if (user && user.username == platform.creatorName) {
             return (
                 <div className="page-container">
@@ -121,7 +130,7 @@ function PlatformPage(props) {
                                 <Button onClick={toSettings} variant='secondary' style={{ marginLeft: '1000px', marginBottom: '10px' }}>
                                     Settings
                                 </Button>
-                                <Button onClick={handleShow}>Delete Platform</Button>
+                                <Button onClick={handleShow} variant='secondary' style={{ marginLeft: '1000px', marginBottom: '10px' }}>Delete Platform</Button>
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Confirm Delete</Modal.Title>
@@ -172,9 +181,7 @@ function PlatformPage(props) {
                         <p>{platform.description}</p>
                         <p>created by {platform.creatorName}</p>
 
-                        <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
-                            Bookmark
-                        </Button>
+                        {bookmarkButton}
 
                     </Jumbotron>
                     <h3>Games:</h3>
