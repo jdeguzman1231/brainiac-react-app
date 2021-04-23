@@ -1,6 +1,3 @@
-import React, {useState, useEffect} from 'react';
-import gql from 'graphql-tag'
-import {Router, Route} from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/client'
 import { Container, Col, Row, Jumbotron, Button } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
@@ -11,10 +8,12 @@ function PlatformPage(props) {
     function refresh(){
         window.location.reload();
     }
+     const { user, logout } = useContext(AuthContext);
+    console.log(user)
     const pplatformID = props.match.params.platformID;
     var platformID = parseInt(pplatformID, 10);
-    const parentPlatform = platformID;                                                       
-    
+    const platformURL = '/platform/' + pplatformID;                                          
+
     const { loading, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID: platformID },
         fetchPolicy: 'cache-and-network'
@@ -23,7 +22,22 @@ function PlatformPage(props) {
     
     const platform_settings = '/platform/' + pplatformID + '/settings';
     const toSettings = () =>{
-        props.history.push(platform_settings)
+        props.history.push()
+    }
+    const [bookmark] = useMutation(BOOKMARK_PLATFORM, {
+        update(proxy, results) {
+            props.history.push(platformURL)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            username: user.username,
+            platformID: platformID
+        }
+    })
+    function bookmarkPlatform(){
+        bookmark();
     }
 
     const { user, logout } = useContext(AuthContext);
@@ -56,6 +70,13 @@ function PlatformPage(props) {
         console.log(pdata)
         const platform = pdata.getPlatform
         console.log(platform_settings);
+
+        return (
+            <div className="page-container">
+                <Jumbotron>
+                    <Container>
+                        <Row>
+                            <Col>
         if(user && user.username == platform.creatorName ){
             return (
                 <div className="page-container">
@@ -64,6 +85,34 @@ function PlatformPage(props) {
                         <br></br>
                         <p>{platform.description}</p>
                         <p>created by {platform.creatorName}</p>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col>
+                        <Button onClick = {toSettings} variant = 'secondary' style = {{marginLeft: '1000px', marginBottom: '10px'}}>
+                        Settings
+                        </Button>
+                        <Button onClick = {bookmarkPlatform} variant = 'secondary' style = {{marginLeft: '1000px'}}>
+                        Bookmark
+                        </Button>
+                        </Col>
+                        </Row>
+                    </Container>
+                </Jumbotron>
+                <h3>Games:</h3>
+                <hr></hr>
+                <Container>
+                    <Row>{loading ? (<h1>Loading...</h1>) : (
+                        platform.games && platform.games.map((gameID) => (
+                            <Col >
+                                <GameCard gameID={gameID} />
+                            </Col>
+                        ))
+                    )}
+                    </Row>
+                </Container>
+            </div>
+        )
                         <Button onClick = {toSettings} variant = 'secondary'>
                         Settings
                     </Button>
@@ -113,7 +162,6 @@ function PlatformPage(props) {
                 </div>
             )
         }
-        
     }
 }
 
@@ -126,6 +174,19 @@ const FETCH_PLATFORM_QUERY = gql`
             games
         }
     }  
+`;
+
+
+const BOOKMARK_PLATFORM = gql`
+    mutation bookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        bookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
 `;
 
 const CREATE_GAME= gql`
@@ -142,5 +203,6 @@ const CREATE_GAME= gql`
         }
     }
 `
+
 
 export default PlatformPage;
