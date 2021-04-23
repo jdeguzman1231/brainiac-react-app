@@ -1,18 +1,22 @@
 import React from 'react';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { AuthContext } from "../context/auth";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
 
 
 function GamePage(props) {
+    const [show, setShow] = useState(false);
+    const handleClose=()=>setShow(false);
+    const handleShow = () => setShow(true);
     const ggameID = props.match.params.gameID;
     const pplatformID = props.match.params.parentPlatform
     const gameID = parseInt(ggameID, 10);
     const parentPlatform = parseInt(pplatformID, 10);
+    const platformID=parentPlatform;
     const { loading, data } = useQuery(FETCH_GAME_QUERY, {
         variables: { gameID, gameID },
     });
@@ -43,6 +47,23 @@ function GamePage(props) {
         updateGame();
     }
 
+    const [delGame] = useMutation(DELETE_GAME, {
+        update(proxy, result) {
+            props.history.push("/platform/"+platformID)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors)
+        },
+        variables: {
+            gameID: gameID,
+            platformID: platformID,
+        }
+    })
+
+    function deleteGame(){
+        console.log("delete game");
+        delGame();
+    }
 
     if (loading) { return "loading" }
     else {
@@ -57,6 +78,23 @@ function GamePage(props) {
                         className="d-block w-100"
                         src="holder.js/800x400?text=Second slide&bg=282c34"
                     />
+                    <Button onClick={handleShow}>Delete Game</Button>
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to delete this game?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={e => {
+                        e.preventDefault();
+                        deleteGame({ variables: { gameID: gameID, platformID: platformID} });
+                        }}>Yes</Button>
+                            <Button onClick={handleClose}>No</Button>
+                        </Modal.Footer>
+                    </Modal>
+
                     <Form onSubmit={onSubmit} noValidate>
                         <Form.Group>
                             <Form.Label>Game Title</Form.Label>
@@ -122,6 +160,18 @@ export const EDIT_GAME = gql`
                 description: $description
             )
         
+        }
+`;
+
+export const DELETE_GAME = gql`
+    mutation deleteGame(
+        $gameID: Int!
+        $platformID: Int!
+        ){
+           deleteGame(
+                gameID: $gameID
+                platformID: $platformID
+            )
         }
 `;
 
