@@ -12,11 +12,15 @@ import AccountSettingsPage from './pages/AccountSettingsPage.js';
 import {AuthProvider} from './context/auth'
 import PlatformSettingsPage from './pages/PlatformSettingsPage.js';
 import DesignPage from './pages/DesignPage';
-// import PlatformSettingsPage from './pages/PlatformSettingsPage';
+import CreatedPlatforms from './pages/CreatedPlatforms';
+import PlatformSettingsPage from './pages/PlatformSettingsPage';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import CreatePlatformPage from './pages/CreatePlatformPage';
+import BookmarkedPlatforms from './pages/BookmarkedPlatforms';
+import RecentlyPlayed from './pages/RecentlyPlayed';
 function App() {
   return (
     <AuthProvider>
@@ -30,8 +34,13 @@ function App() {
       <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
       <Route exact path = '/game/:gameID' component = {GamePage}/>
       <Route exact path = '/game/:gameID/design' component = {DesignPage} />
+      <Route exact path = '/platform/:parentPlatform/game/:gameID' component = {GamePage}/>
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />
+      <Route exact path = '/createplatform' component = {CreatePlatformPage} />
+      <Route exact path = '/createdplatforms' component = {CreatedPlatforms} />
+      <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
+      <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
     </Router>
     </AuthProvider>
   );

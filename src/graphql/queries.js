@@ -18,3 +18,28 @@ export const FETCH_PLATFORMS_QUERY = gql`
     }
 }   
 `;
+
+export const FETCH_USER_QUERY = gql`
+query($username: String!) {
+    getUser(username: $username) 
+    {
+        username
+        email
+        name
+        createdPlatforms
+        playedPlatforms
+        bookmarkedPlatforms
+    }
+}
+`;
+export const FETCH_USERS_QUERY = gql`
+{
+    getUsers
+    {
+        email
+        username
+        name
+        
+    }
+}
+`;
