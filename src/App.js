@@ -11,9 +11,8 @@ import GamePage from './pages/GamePage';
 import AccountSettingsPage from './pages/AccountSettingsPage.js';
 import {AuthProvider} from './context/auth'
 import PlatformSettingsPage from './pages/PlatformSettingsPage.js';
+import DesignPage from './pages/DesignPage';
 import CreatedPlatforms from './pages/CreatedPlatforms';
-// import PlatformSettingsPage from './pages/PlatformSettingsPage';
-
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -31,6 +30,8 @@ function App() {
       <Route exact path = '/signup' component = {SignUpPage}/>
       <Route exact path = '/account/:username' component = {AccountPage}/>
       <Route exact path = '/platform/:platformID' component = {PlatformPage}/>
+      <Route exact path = '/game/:gameID' component = {GamePage}/>
+      <Route exact path = '/platform/:parentPlatform/game/:gameID/design' component = {DesignPage} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID' component = {GamePage}/>
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />

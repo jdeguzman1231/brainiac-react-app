@@ -31,7 +31,7 @@ function GamePage(props) {
     else {
         var creatorName = '';
     }
-
+    const designLink = gameID + "/design"
     const { handleChange, onSubmit, values } = useForm(editGame, {
         name: '',
         description: ''
@@ -107,7 +107,7 @@ function GamePage(props) {
                             <Button onClick={handleClose}>No</Button>
                         </Modal.Footer>
                     </Modal>
-
+                            
                     <Form onSubmit={onSubmit} noValidate>
                         <Form.Group>
                             <Form.Label>Game Title</Form.Label>
@@ -121,6 +121,10 @@ function GamePage(props) {
                         </Form.Group>
                         <Button type="submit">Save Changes</Button>
                     </Form>
+
+                    <Button href = {designLink}>
+                            Design Page
+                    </Button>
                 </div>
 
             )

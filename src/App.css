@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.scrollable{
+  width: 50px;
+  height: 400px;
+}
+
 .form-container {
   width: 400px;
   margin: auto;
