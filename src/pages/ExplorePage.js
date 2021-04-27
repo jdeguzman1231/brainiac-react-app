@@ -15,11 +15,12 @@ function ExplorePage() {
         const platforms = data.getPlatforms
         return (
             <div class="page-container">
-                <Jumbotron style = {{backgroundColor: '#9cdaf8', backgroundImage: 'linear-gradient(315deg, #9cdaf8 0%, #98fcbd 74%)'}}>
-                    <h1 style = {{textAlign: 'center'}}>Explore Games</h1>
+                <div class="explore">
+                <Jumbotron style={{background: 'radial-gradient(36.69% 153.15% at 50% 50%, #FFFEEE 0%, rgba(255, 255, 255, 0) 100%), #D1E9E3'}}> 
+                    <h1 class ="title" style = {{textAlign: 'center'}}>Explore Games</h1>
                 </Jumbotron>
                 <Form inline style = {{width: '100%', paddingInlineStart: '10%'}}className='mb-md-5 '>
-                    <Form.Control style = {{width: '50%'}} type= 'text' placeholder ='search' className ='mr-md-3'></Form.Control>
+                    <Form.Control style = {{width: '50%'}} type= 'text' placeholder ='Search' className ='mr-md-3'></Form.Control>
                     <Form.Label className ='mr-md-3'>By</Form.Label>
                     <Form.Control custom as="select" className ='mr-md-3' title = 'Game title' variant ='secondary'>
                         <option value = "0">Platform name</option>
@@ -43,6 +44,7 @@ function ExplorePage() {
                     )}
                     </Row>
                 </Container>
+                </div>
             </div>
         );
     }
