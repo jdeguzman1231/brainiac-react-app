@@ -2,13 +2,15 @@ import React, {useState, useEffect, setState} from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client'
 import PlatformCard from '../components/PlatformCard'
-import { Container, Col, Row, Jumbotron, Form, Button, DropdownButton, Dropdown} from 'react-bootstrap'
+import { Container, Col, Row, Jumbotron, Form, Button, Pagination, Dropdown} from 'react-bootstrap'
 import { stripIgnoredCharacters } from 'graphql';
 import {FETCH_PLATFORMS_QUERY} from '../graphql/queries'
 import {useForm} from '../util/hooks';
 function ExplorePage() {
     const [form, setSearch] = useState({search: '', pvg: 0, category: 0})
+    const [page, setPage] = useState(6);
     const [platforms, setPlatforms] = useState([]);
+    const pages = Math.floor(platforms.length / 6) + 1;
     console.log(useQuery(FETCH_PLATFORMS_QUERY));
     const { loading, data } = useQuery(FETCH_PLATFORMS_QUERY);
     useEffect(() =>{
@@ -39,6 +41,41 @@ function ExplorePage() {
             setPlatforms(newPlatforms)
             
         }
+        
+       const switchPage = (e) =>{
+           e.preventDefault();
+           console.log(e.target.id);
+           console.log(pages);
+            console.log(page);
+           var id = e.target.id;
+           switch (id) {
+               case "first":
+                   setPage(6);
+                   break;
+                case "last":
+                    setPage(pages * 6);
+                    break;
+                case "prev":
+                    setPage(page - 6);
+                    break;
+                case "next":
+                    console.log(page);
+                    setPage(page + 6);
+                    break;
+               default:
+                   var newPage = parseInt(id);
+                   setPage(newPage * 6);
+                   break;
+           }
+       }
+        var items = []
+        for (var i = 1; i <= pages; i++){
+            items.push(
+                <Pagination.Item onClick = {switchPage} id = {i.toString()} key = {i} active = {(i * 6) == page}>
+                    {i}
+                </Pagination.Item>
+            )
+        }
         return (
             <div class="page-container">
                 <div class="explore">
@@ -65,7 +102,7 @@ function ExplorePage() {
                 </Form>
                 <Container>
                     <Row>{loading ? (<h1>Loading...</h1>) : (
-                        platforms && platforms.map((platform) => (
+                        platforms && platforms.slice(page-6,page).map((platform) => (
                             <Col >
                                 <PlatformCard platform={platform} />
                             </Col>
@@ -73,6 +110,13 @@ function ExplorePage() {
                     )}
                     </Row>
                 </Container>
+                <Pagination style = {{marginBottom: '150px', marginTop: "50px", justifyContent: "center"}}>
+                    <Pagination.First  id = "first" disabled = {page == 6} onClick = {switchPage}/>
+                    <Pagination.Prev id = "prev" disabled = {page == 6} onClick = {switchPage}/>
+                    {items}
+                    <Pagination.Next  id = "next" disabled = {page == (pages * 6)} onClick = {switchPage}/>
+                    <Pagination.Last id = "last" disabled = {page == (pages * 6)} onClick = {switchPage} />
+                </Pagination>
                 </div>
             </div>
         );
