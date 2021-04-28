@@ -32,6 +32,7 @@ function GamePage(props) {
         var creatorName = '';
     }
     const designLink = gameID + "/design"
+    const playLink = gameID + "/play"
     const { handleChange, onSubmit, values } = useForm(editGame, {
         name: '',
         description: ''
@@ -124,6 +125,9 @@ function GamePage(props) {
 
                     <Button href = {designLink}>
                             Design Page
+                    </Button>
+                    <Button href = {playLink}>
+                        Play Game
                     </Button>
                 </div>
 
