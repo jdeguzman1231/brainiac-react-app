@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import { Container, Jumbotron, Button, Col, Row } from "react-bootstrap";
-
+import ReactCardFlip from 'react-card-flip'
 export default function MultipleChoiceActivity(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
   const [currentActivity, setCurrentActivity] = useState(0);
   const [endGame, setEndGame] = useState(false);
-
+  const [flipped , setFlip] = useState(false);
   const ggameID = props.match.params.gameID;
   const gameID = parseInt(ggameID, 10);
   var game = {};
@@ -87,7 +87,9 @@ export default function MultipleChoiceActivity(props) {
             setEndGame(true);
         }
     }
-
+    const type = activityData.type;
+    console.log(type);
+    if(type === "multiple"){
     return (
     <Container>
         {endGame ? (
@@ -146,6 +148,67 @@ export default function MultipleChoiceActivity(props) {
   }
 </Container>
     )
+}
+if(type === "Flashcards"){
+  
+  const handleFlip = (e) =>{
+    e.preventDefault();
+    if(flipped == false){
+      setFlip(true);
+    }
+    else{
+      setFlip(false);
+    }
+  }
+  return(
+    <Container>
+        {endGame ? (
+            <Container> 
+                You completed the game!
+            </Container>
+        ) : (
+      <Container>
+        {showScore ? (
+          <Container>
+            You scored {score} out of {questions.length}
+          </Container>
+        ) : (
+          <Container>
+            <Row>
+              <Col>
+                <Button>Last Activity</Button>
+              </Col>
+              <Col xs={8}>
+                <ReactCardFlip isFlipped = {flipped} flipDirection = "horizontal">
+                <Container style = {{cursor: "pointer"}}onClick = {handleFlip}>
+                  <Jumbotron>
+                    <h4>
+                      Question:
+                    </h4>
+                    <h2>{questions[currentQuestion][0]}</h2>
+                    <h6>Click to see answer</h6>
+                  </Jumbotron>
+                </Container>
+                <Container style = {{cursor: "pointer"}} onClick = {handleFlip}>
+                  <Jumbotron>
+                    <h4>Answer:</h4>
+                    <h2>{questions[currentQuestion][1]}</h2>
+                  </Jumbotron>
+                </Container>
+                </ReactCardFlip>
+              </Col>
+              <Col>
+                <Button onClick = {() => nextActivity()}>Next Activity</Button>
+              </Col>
+            </Row>
+          </Container>
+        )}
+      </Container>
+    )
+  }
+</Container>
+  )
+}
 }
 }
 
