@@ -19,6 +19,7 @@ import './App.css';
 import CreatePlatformPage from './pages/CreatePlatformPage';
 import BookmarkedPlatforms from './pages/BookmarkedPlatforms';
 import RecentlyPlayed from './pages/RecentlyPlayed';
+import MultipleChoiceActivity from './components/MultipleChoiceActivity';
 function App() {
   return (
     <AuthProvider>
@@ -39,6 +40,7 @@ function App() {
       <Route exact path = '/createdplatforms' component = {CreatedPlatforms} />
       <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
+      <Route exact path = '/multiplechoice' component = {MultipleChoiceActivity} />
     </Router>
     </AuthProvider>
   );
