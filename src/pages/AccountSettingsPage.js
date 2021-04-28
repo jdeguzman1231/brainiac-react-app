@@ -1,12 +1,18 @@
-import React, {useContext, setState ,useState} from 'react';
+import React, {useContext, useEffect ,useState} from 'react';
 import PlatformCard from '../components/PlatformCard'
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Image} from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useForm } from '../util/hooks';
 import gql from 'graphql-tag';
 import {FETCH_USER_QUERY} from '../graphql/queries';
 import { AuthContext } from '../context/auth'
+import {run as runHolder} from 'holderjs/holder'
+
 function AccountSettingsPage(props) {
+    const [pfp, setpfp] = useState("holder.js/200x200?theme=sky&text=\n");
+    useEffect(() =>{
+        runHolder("temp");
+    })
     const context = useContext(AuthContext)
     var username = props.match.params.username
     console.log(useQuery(FETCH_USER_QUERY, {
@@ -50,6 +56,9 @@ function AccountSettingsPage(props) {
             values.username = context.user.username
         }
         edit_user();
+    }
+    const changepfp = (e) =>{
+        setpfp(URL.createObjectURL(e.target.files[0]));
     }
     if (loading) {return "loading"}
     else {
@@ -98,7 +107,14 @@ function AccountSettingsPage(props) {
                         onChange = {handleChange}
                         name = "email"/>
                     </Form.Group>
-
+                    <Form.Group>
+                        <Form.Label>Profile Picture</Form.Label>
+                        <Image src = {pfp} roundedCircle></Image>
+                        <Form.File id = "formcheck-api-regular">
+                            <Form.File.Label>Choose file</Form.File.Label>
+                            <Form.File.Input onChange = {changepfp}/>
+                        </Form.File>
+                    </Form.Group>
                     <Button>Change password</Button>
                     <p></p>
                     <Button variant="primary" type="submit">

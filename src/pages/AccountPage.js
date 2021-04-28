@@ -6,6 +6,7 @@ import {run as runHolder} from 'holderjs/holder'
 import AccountPlatformCard from '../components/AccountPlatformCard'
 import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
 import {addTheme as add_theme} from 'holderjs/holder'
+import Avatar from "react-avatar-edit"
 function AccountPage(props) {
     var username = props.match.params.username
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
@@ -41,7 +42,9 @@ function AccountPage(props) {
             <Row>
             <Col xs = {4}>
                 <Row >
+  
                     <Image style = {{marginLeft: '30px'}} src = "holder.js/200x200?theme=sky&text=\n"roundedCircle/>
+                
                 </Row>
                 <Row  style = {{marginTop: '15px', marginLeft: '80px'}}>
                     <h3>{user.name}</h3>
