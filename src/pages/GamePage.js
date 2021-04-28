@@ -149,6 +149,9 @@ function GamePage(props) {
                     <p>{game.description}</p>
                     <p>Tags:</p>
                     <p>{game.tags}</p>
+                    <Button href = {playLink}>
+                        Play Game
+                    </Button>
                 </div>
             )
         }
