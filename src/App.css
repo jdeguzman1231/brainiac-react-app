@@ -7,9 +7,23 @@
   height: 400px;
 }
 
+h1{
+  font-family: "DM Sans";
+}
+
+p{
+  font-family: "Lato";
+}
+
 .form-container {
-  width: 400px;
+  width: 280px;
+  height: 550px;
   margin: auto;
+  padding-top: 90px;
+}
+
+.form-container h1{
+  font-size: 30px;
 }
 
 .page-container{
@@ -24,6 +38,36 @@
   padding-left: 120px;
   padding-right: 100px;
   margin: 0 auto;
+}
+
+.home-header{
+  padding-top: 40px;
+  padding-left: 80px;
+}
+
+.home-header h1{
+  line-height: 40px;
+}
+
+.home-header p{
+  line-height: 25px;
+}
+
+.home-header img{
+  padding-left: 420px;
+  margin-top: -250px;
+  width: 850px;
+}
+
+.pagecard{
+  font-family: "Lato";
+}
+
+.btn-custom{
+  font-family: "Lato";
+  background: #141414;
+  border-radius: 10px;
+  color: white;
 }
 
 .App-logo {

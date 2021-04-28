@@ -43,6 +43,7 @@ function App() {
       <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID/start' component = {MultipleChoiceActivity} />
+
     </Router>
     </AuthProvider>
   );

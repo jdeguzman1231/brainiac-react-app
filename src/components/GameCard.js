@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
-import {run as runHolder} from 'holderjs/holder'
+import { run as runHolder } from 'holderjs/holder'
 import { Link } from 'react-router-dom'
 
 function GameCard(id) {
@@ -18,19 +18,21 @@ function GameCard(id) {
     else {
         console.log(data)
         const game = data.getGame
-        if(game==null){return null;}
-        const parentPlatform= game.parentPlatform
+        if (game == null) { return null; }
+        const parentPlatform = game.parentPlatform
         return (
-            <Card style={{ width: '18rem' }}>
-                <Card.Img className = 'layoutimg' variant="top" src="holder.js/100px180?random=yes" thumbnail/>
-                <Card.Body>
-                    <Card.Title>{game.name}</Card.Title>
-                    <Link to={`/platform/${parentPlatform}/game/${gameID}`}>play</Link>
-                    <Card.Text>
-                        created by {game.creatorName}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+            <div class="pagecard">
+                <Card style={{ width: '16rem' }}>
+                    <Card.Img className='layoutimg' variant="top" src="holder.js/100px180?random=yes" thumbnail />
+                    <Card.Body>
+                        <Card.Title>{game.name}</Card.Title>
+                        <Link to={`/platform/${parentPlatform}/game/${gameID}`}>play</Link>
+                        <Card.Text>
+                            created by {game.creatorName}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </div>
         )
     }
 }

@@ -7,8 +7,8 @@ function PlatformCard({ platform: { platformID, name, creatorName, description }
         runHolder('layoutimg')
     })
     return (
-        <div>
-        <Card style={{ width: '18rem'}}>
+        <div class="pagecard">
+        <Card style={{ width: '16rem'}}>
             <Card.Img className = 'layoutimg' variant="top" src="holder.js/100px180?random=yes" thumbnail/>
             <Card.Body>
                 <Link to={`/platform/${platformID}`}>
