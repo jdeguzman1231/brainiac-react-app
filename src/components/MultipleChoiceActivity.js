@@ -14,9 +14,9 @@ export default function MultipleChoiceActivity(props) {
   const gameID = parseInt(ggameID, 10);
   var game = {};
   var activities = [];
-
+  console.log(gameID);
   const { loading: load, data: gameData } = useQuery(FETCH_GAME_QUERY, {
-    variables: { gameID, gameID },
+    variables: { gameID: gameID },
     onError(err) {
       console.log(err);
       console.log(err.networkError.result.errors);
@@ -37,6 +37,7 @@ export default function MultipleChoiceActivity(props) {
       variables: {
         activityID: activities[currentActivity],
       },
+      skip: !gameData,
       onError(err) {
         console.log(err.networkError.result.errors);
       },
@@ -55,6 +56,7 @@ export default function MultipleChoiceActivity(props) {
     return "loading";
   } else {
     console.log(data);
+
     const activityData = data.getActivity;
     console.log(activityData.data);
     // const questions = [activityData.data];
