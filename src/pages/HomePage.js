@@ -32,8 +32,8 @@ function HomePage(props) {
                     <h1>learning tools</h1>
                     <p>Create and customize simple games for a <br></br>
                         learning experience catered to you</p>
-                    <Button onClick={handleRoute} variant="custom">Get Started</Button>
                     <p><img src={headerimg}></img></p>
+                    <Button style = {{marginTop: "-60px"}}onClick={handleRoute} variant="custom">Get Started</Button>
                 </div>
             </Jumbotron>
             <Jumbotron style={{ background: 'radial-gradient(57.56% 81.11% at 85.97% 42.44%, #BEE9FC 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(63.97% 63.97% at 23.26% 36.03%, #F4DCC6 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(46.04% 86.57% at 50% 90.25%, #DDEBCB 0%, rgba(255, 255, 255, 0) 100%), #FDFDF0' }}>

@@ -23,6 +23,10 @@ function PlayPage(props) {
             console.log(err.networkError.result.errors);
           },
     });
+    const starturl = props.location.pathname.slice(0, -4) + "start";
+    const startGame = () =>{
+        props.history.push(starturl);
+    }
     if (loading) {
         return "loading"
     }
@@ -38,7 +42,7 @@ function PlayPage(props) {
                 <Row>
                 <Col xs = {8}>
                 <Container>
-                    <Button href = 'start'> Click the Button to Start</Button>
+                    <Button onClick = {startGame}> Click the Button to Start</Button>
                 </Container>
                 </Col>
                 </Row>

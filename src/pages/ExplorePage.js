@@ -100,6 +100,7 @@ function ExplorePage() {
                         Search
                     </Button>
                 </Form>
+  
                 <Container>
                     <Row>{loading ? (<h1>Loading...</h1>) : (
                         platforms && platforms.slice(page-6,page).map((platform) => (
@@ -117,6 +118,7 @@ function ExplorePage() {
                     <Pagination.Next  id = "next" disabled = {page == (pages * 6)} onClick = {switchPage}/>
                     <Pagination.Last id = "last" disabled = {page == (pages * 6)} onClick = {switchPage} />
                 </Pagination>
+      
                 </div>
             </div>
         );
