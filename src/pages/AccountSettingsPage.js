@@ -10,6 +10,8 @@ import {run as runHolder} from 'holderjs/holder'
 
 function AccountSettingsPage(props) {
     const [pfp, setpfp] = useState("holder.js/200x200?theme=sky&text=\n");
+    const [newname, setName] = useState('');
+    const [newusername, setUN] = useState('');
     useEffect(() =>{
         runHolder("temp");
     })
@@ -27,9 +29,9 @@ function AccountSettingsPage(props) {
         },
         fetchPolicy: 'cache-and-network'
     });
-    const { handleChange, onSubmit, values } = useForm(update_user_settings, {
-        name: '',
-        username: '',
+    const { handleChange, onSubmit, values } = useForm(a, {
+        name: newname,
+        username: newusername,
         email: ''
     }) 
     const [edit_user] = useMutation(EDIT_USER, {
@@ -42,19 +44,26 @@ function AccountSettingsPage(props) {
             console.log(err)
         },
         variables:{
-            name: values.name,
-            username: values.username,
+            name: newname,
+            username: newusername,
             email: values.email
         }
     })
-    function update_user_settings(){
+    function a(){}
+    const update_user_settings = () =>{
         console.log('callback')
-        if(values.name == ''){
+        console.log('username:' + values.username);
+        console.log('name: ' + values.name);
+        if(values.name === ''){
             values.name = context.user.name
         }
-        if(values.username == ''){
+        if(values.username === ''){
             values.username = context.user.username
         }
+        setName(values.username);
+        setUN(values.username);
+        console.log('username:' + values.username);
+        console.log('name: ' + values.name);
         edit_user();
     }
     const changepfp = (e) =>{
@@ -82,7 +91,7 @@ function AccountSettingsPage(props) {
                 <div className="form-container">
                 <h4>Account Settings</h4>
                 <p>Personal Information</p>
-                <Form noValidate onSubmit={onSubmit}>
+                <Form noValidate>
                     <Form.Group controlId="name">
                         <Form.Label>Name</Form.Label>
                         <Form.Control 
@@ -117,7 +126,7 @@ function AccountSettingsPage(props) {
                     </Form.Group>
                     <Button>Change password</Button>
                     <p></p>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" onClick = {update_user_settings}>
                         Save changes
                     </Button>
                 </Form>
