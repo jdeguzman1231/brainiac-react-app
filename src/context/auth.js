@@ -1,6 +1,6 @@
 import React, {useReducer, createContext} from 'react'
 import jwtDecode from 'jwt-decode'
-
+import {useQuery} from '@apollo/client';
 const initialState = {
     user: null
 }
@@ -63,5 +63,6 @@ function AuthProvider(props){
         />
     )
 }
+
 
 export {AuthContext, AuthProvider}

@@ -15,9 +15,14 @@ function LoginPage(props) {
         email: '',
         password: ''
     })
-    const handleClose = () => validate(false);
+    const handleClose = () => {
+        
+        validate(false);
+    }
     const handleShow = () => validate(true);
-
+    const handleReset = () =>{
+        props.history.push('/resetPassword')
+    }
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(proxy, result) {
             console.log(result);
@@ -83,7 +88,7 @@ function LoginPage(props) {
                         Forgot your password?
                 </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose}> Forgot Password</Button>
+                        <Button variant="primary" onClick={handleReset}> Forgot Password</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

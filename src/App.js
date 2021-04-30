@@ -14,6 +14,7 @@ import PlatformSettingsPage from './pages/PlatformSettingsPage.js';
 import DesignPage from './pages/DesignPage';
 import PlayPage from './pages/PlayPage';
 import CreatedPlatforms from './pages/CreatedPlatforms';
+import ResetPassword from './pages/resetPassword';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -29,6 +30,7 @@ function App() {
       <Route exact path = '/' component = {HomePage}/>
       <Route exact path = '/explore' component = {ExplorePage}/>
       <Route exact path = '/login' component = {LoginPage}/>
+      <Route exact path = '/resetPassword' component = {ResetPassword}/>
       <Route exact path = '/signup' component = {SignUpPage}/>
       <Route exact path = '/account/:username' component = {AccountPage}/>
       <Route exact path = '/platform/:platformID' component = {PlatformPage}/>

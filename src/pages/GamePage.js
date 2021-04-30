@@ -23,6 +23,7 @@ function GamePage(props) {
     const platformID = parentPlatform;
     const { loading, data } = useQuery(FETCH_GAME_QUERY, {
         variables: { gameID, gameID },
+        fetchPolicy: 'cache-and-network'
     });
     const { user, logout } = useContext(AuthContext);
     if (user) {
@@ -104,8 +105,9 @@ function GamePage(props) {
     else {
         console.log(data)
         const game = data.getGame
-
+        console.log(user.username);
         if (user && user.username == game.creatorName) {
+            
             return (
                 <div className="game-page-container">
                     <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
