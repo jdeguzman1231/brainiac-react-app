@@ -8,6 +8,12 @@ import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 function PlatformPage(props) {
+
+    function refresh() {
+        window.location.reload();
+    }
+    
+    const [bookmarked, setBookmarked] = useState(false);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -18,11 +24,27 @@ function PlatformPage(props) {
     else {
         var creatorName = '';
     }
-    console.log(user)
+
     const pplatformID = props.match.params.platformID;
     var platformID = parseInt(pplatformID, 10);
     const parentPlatform = platformID
     const platformURL = '/platform/' + pplatformID;
+
+    const {loading: loadingg, data: userData} = useQuery(FETCH_USER_QUERY, {
+        variables: {username: creatorName}
+    });
+
+    var bookmarkedPlatforms = [];
+    if (loadingg) {
+
+    }
+    else {
+        if (userData != null) {
+            bookmarkedPlatforms = JSON.parse(JSON.stringify(userData.getUser.bookmarkedPlatforms));
+        }
+    }
+
+    const [bookmarkedPlats, setBookmarkedPlats] = useState(bookmarkedPlatforms);
 
     const { loading, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID: platformID },
@@ -47,8 +69,37 @@ function PlatformPage(props) {
         }
     })
     function bookmarkPlatform() {
+        
+        setBookmarkedPlats(bookmarkedPlats.push(platformID));
+        console.log(bookmarkedPlatforms);
+        console.log("bookmark");
+        setBookmarked(true);
         bookmark();
     }
+
+
+    const [unbookmark] = useMutation(UNBOOKMARK_PLATFORM, {
+        update(proxy, results) {
+            props.history.push(platformURL)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            username: creatorName,
+            platformID: platformID
+        }
+    })
+    function unbookmarkPlatform() {
+        var oldArray = JSON.parse(JSON.stringify(userData.getUser.bookmarkedPlatforms))
+        const index = oldArray.indexOf(platformID);
+        oldArray.splice(index, 1);
+        setBookmarkedPlats(oldArray);
+        setBookmarked(false);
+        unbookmark();
+        
+    }
+
     const [addGame] = useMutation(CREATE_GAME, {
         update: (proxy, { data }) => {
             console.log("new game id", data.createGame.gameID)
@@ -66,6 +117,7 @@ function PlatformPage(props) {
                     },
                     variables: {
                       platformID: platformID
+
                     }
                   });
             }
@@ -95,17 +147,31 @@ function PlatformPage(props) {
 
     if (loading) { return "loading" }
     else {
-        console.log(pdata)
+        // console.log(pdata)
         const platform = pdata.getPlatform
-        console.log(platform_settings);
+        // console.log(platform_settings);
+        // setBookmarkedPlats(bookmarkedPlatforms);
         var bookmarkButton;
+        if (!bookmarked) {
+            if (bookmarkedPlats.includes(platformID)) {
+                setBookmarked(true)
+            }
+        }
         if (creatorName == '') {
             bookmarkButton = '';
         }
         else {
-            bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+            if (bookmarked)
+            {
+                bookmarkButton = <Button onClick={unbookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+                Unbookmark
+                </Button>
+            }
+            else {
+                bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
                 Bookmark
-            </Button>
+                </Button>
+            }
         }
         if (user && user.username == platform.creatorName) {
             return (
@@ -140,9 +206,8 @@ function PlatformPage(props) {
                                         <Button onClick={handleClose}>No</Button>
                                     </Modal.Footer>
                                 </Modal>
-                                <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
-                                    Bookmark
-                                </Button>
+                                {bookmarkButton}
+                                
                             </Col>
                         </Row>
                     </Jumbotron>
@@ -197,6 +262,15 @@ function PlatformPage(props) {
     }
 }
 
+const FETCH_USER_QUERY = gql`
+    query($username: String!) {
+        getUser(username: $username) 
+        {
+            bookmarkedPlatforms
+        }
+    }
+`
+
 const FETCH_PLATFORM_QUERY = gql`
     query($platformID: Int!){
         getPlatform(platformID: $platformID){
@@ -214,6 +288,18 @@ const BOOKMARK_PLATFORM = gql`
         $platformID: Int!
     ) {
         bookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
+`;
+
+const UNBOOKMARK_PLATFORM = gql`
+    mutation unbookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        unbookmarkPlatform(
             username: $username
             platformID: $platformID
         )
