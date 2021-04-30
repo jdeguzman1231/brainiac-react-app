@@ -4,10 +4,11 @@ import { Container, Col, Row, Jumbotron, Button, Modal } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 function PlatformPage(props) {
+
     function refresh() {
         window.location.reload();
     }
@@ -17,11 +18,11 @@ function PlatformPage(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { user, logout } = useContext(AuthContext);
-    if(user){
+    if (user) {
         var creatorName = user.username;
     }
-    else{
-        var creatorName = '' ; 
+    else {
+        var creatorName = '';
     }
 
     const pplatformID = props.match.params.platformID;
@@ -76,6 +77,7 @@ function PlatformPage(props) {
         bookmark();
     }
 
+
     const [unbookmark] = useMutation(UNBOOKMARK_PLATFORM, {
         update(proxy, results) {
             props.history.push(platformURL)
@@ -98,33 +100,32 @@ function PlatformPage(props) {
         
     }
 
-    const [addGame, { loading: load, data: dataa }] = useMutation(CREATE_GAME,{
-       
-        update(cache,{ data: {addGame}}){
-            cache.modify({
-                fields:{
-                    games(existingGames = []){
-                        const newGameref= cache.writeFragment({
+    const [addGame] = useMutation(CREATE_GAME, {
+        update: (proxy, { data }) => {
+            console.log("new game id", data.createGame.gameID)
+            try {
+                const d = proxy.readQuery({ query: FETCH_PLATFORM_QUERY, variables: { platformID: platformID }, });
+                var array1 = [...d.getPlatform.games]
+                array1.push(data.createGame.gameID)
+                proxy.writeQuery({
+                    query: FETCH_PLATFORM_QUERY,
+                    data: { 
+                      getPlatform: {
+                        platformID: platformID,
+                        games: array1
+                      },
+                    },
+                    variables: {
+                      platformID: platformID
 
-
-                            data: addGame,
-                            fragment: gql`
-                                fragment NewGame on Game{
-                                    creatorName
-                                    parentPlatform
-                                }
-                            `
-                        });
-                        return [...existingGames, newGameref];
                     }
-                }
-            })
-        }
-
-      });
-
-   
-
+                  });
+            }
+            catch (error) {
+                console.error(error.networkError.result.errors);
+            }
+        },
+    })
     const [delPlatform] = useMutation(DELETE_PLATFORM, {
         update(proxy, result) {
             props.history.push("/account/" + creatorName)
@@ -213,7 +214,8 @@ function PlatformPage(props) {
                     <h3>Games:</h3>
                     <Button onClick={e => {
                         e.preventDefault();
-                        addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform } }); refresh();
+                        addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform } });
+                        // refresh();
                     }}>Add Game
                     </Button>
                     <hr></hr>
@@ -313,6 +315,7 @@ const CREATE_GAME = gql`
             creatorName: $creatorName
             parentPlatform: $parentPlatform
         ) {
+            gameID
             creatorName
             parentPlatform
         }
