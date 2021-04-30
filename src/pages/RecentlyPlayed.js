@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import {Row, Col, Container, Image, Button, Jumbotron} from 'react-bootstrap';
-import AccountPlatformCard from '../components/AccountPlatformCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
+import AccountGameCard from '../components/AccountGameCard';
 
 
 function RecentlyPlayed(props) {
@@ -25,12 +25,12 @@ function RecentlyPlayed(props) {
     return(
         <Container>
         <Jumbotron>
-            <h3>@{username}'s Recently Played Platforms</h3>
+            <h3>@{username}'s Played Games</h3>
         </Jumbotron>
         <Row style = {{paddingBottom: '10px'}}>
-                        {user.playedPlatforms.map((platformID) => (
+                        {user.playedPlatforms.map((gameID) => (
                         <Col >
-                            <AccountPlatformCard platformID={platformID} />
+                            <AccountGameCard gameID={gameID} />
                         </Col>
                         ))}
                     </Row>

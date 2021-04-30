@@ -5,6 +5,7 @@ import GameCard from '../components/GameCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
 import { useContext, useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 
 function PlatformPage(props) {
@@ -182,7 +183,7 @@ function PlatformPage(props) {
                                 <h1>{platform.name}</h1>
                                 <br></br>
                                 <p>{platform.description}</p>
-                                <p>created by {platform.creatorName}</p>
+                                <p>created by <Link to = {`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
                             </Col>
                         </Row>
                         <Row>
@@ -239,7 +240,7 @@ function PlatformPage(props) {
                         <h1>{platform.name}</h1>
                         <br></br>
                         <p>{platform.description}</p>
-                        <p>created by {platform.creatorName}</p>
+                        <p>created by <Link to = {`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
 
                         {bookmarkButton}
 

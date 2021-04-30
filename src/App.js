@@ -39,7 +39,7 @@ function App() {
       <Route exact path = '/account/:username/settings' component = {AccountSettingsPage} />
       <Route exact path = '/platform/:platformID/settings' component = {PlatformSettingsPage} />
       <Route exact path = '/createplatform' component = {CreatePlatformPage} />
-      <Route exact path = '/createdplatforms' component = {CreatedPlatforms} />
+      <Route exact path = '/account/:username/createdplatforms' component = {CreatedPlatforms} />
       <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID/start' component = {MultipleChoiceActivity} />

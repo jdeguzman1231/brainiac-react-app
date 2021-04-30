@@ -76,6 +76,24 @@ function GamePage(props) {
         delGame();
     }
 
+    const [play] = useMutation(PLAY_GAME, {
+        update(proxy, result) {
+            props.history.push(playLink)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors)
+        },
+        variables: {
+            username: creatorName,
+            platformID: gameID
+        }
+    }) 
+
+    function playGame() {
+        console.log("play game");
+        play();
+    }
+
     if (loading) { return "loading" }
     else {
         console.log(data)
@@ -114,7 +132,7 @@ function GamePage(props) {
                             <Form.Label>Game Title</Form.Label>
                             <Form.Control defaultValue={game.name} name="name" onChange={handleChange} size="lg" />
                         </Form.Group>
-                        <p>by {game.creatorName}</p>
+                        <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                         <hr></hr>
                         <Form.Group >
                             <Form.Label>Description</Form.Label>
@@ -126,7 +144,7 @@ function GamePage(props) {
                     <Button href = {designLink}>
                             Design Page
                     </Button>
-                    <Button href = {playLink}>
+                    <Button onClick = {playGame}>
                         Play Game
                     </Button>
                 </div>
@@ -144,12 +162,12 @@ function GamePage(props) {
                         />
                     </Figure>
                     <h2>{game.name}</h2>
-                    <p>by {game.creatorName}</p>
+                    <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                     <hr></hr>
                     <p>{game.description}</p>
                     <p>Tags:</p>
                     <p>{game.tags}</p>
-                    <Button href = {playLink}>
+                    <Button onClick = {playGame}>
                         Play Game
                     </Button>
                 </div>
@@ -200,6 +218,18 @@ export const DELETE_GAME = gql`
                 platformID: $platformID
             )
         }
+`;
+
+const PLAY_GAME = gql`
+    mutation addPlayedPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        addPlayedPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
 `;
 
 export default GamePage;
