@@ -7,8 +7,8 @@ import { AuthContext } from "../context/auth";
 
 
 function CreatedPlatforms(props) {
-    const { user, logout } = useContext(AuthContext);
-    var username = user.username
+    var username = props.match.params.username
+    console.log(username)
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
         variables: {
             username: username
