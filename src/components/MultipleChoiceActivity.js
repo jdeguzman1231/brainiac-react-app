@@ -105,7 +105,14 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-              You completed the game!
+              <h1>Congratulations</h1>
+              <h2>You have completed {game.getGame.name}</h2>
+              <Row>
+                <Button href="/">Go back to home page</Button>
+            </Row>
+            <Row>
+                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+            </Row>
             </Container>
           ) : (
               <Container>
@@ -183,8 +190,15 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-              You completed the game!
-            </Container>
+            <h1>Congratulations</h1>
+            <h2>You have completed {game.getGame.name}</h2>
+            <Row>
+                <Button href="/">Go back to home page</Button>
+            </Row>
+            <Row>
+                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+            </Row>
+          </Container>
           ) : (
               <Container>
                 {showScore ? (
@@ -257,8 +271,15 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-              You completed the game!
-            </Container>
+            <h1>Congratulations</h1>
+            <h2>You have completed {game.getGame.name}</h2>
+            <Row>
+                <Button href="/">Go back to home page</Button>
+            </Row>
+            <Row>
+                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+            </Row>
+          </Container>
           ) : (
               <Container>
                 {showScore ? (
@@ -418,8 +439,15 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-              You completed the game!
-            </Container>
+            <h1>Congratulations</h1>
+            <h2>You have completed {game.getGame.name}</h2>
+            <Row>
+                <Button href="/">Go back to home page</Button>
+            </Row>
+            <Row>
+                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+            </Row>
+          </Container>
           ) : (
               <Container>
                 {showScore ? (
