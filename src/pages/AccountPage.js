@@ -4,6 +4,7 @@ import {Row, Col, Container, Image, Button, Jumbotron} from 'react-bootstrap';
 import gql from 'graphql-tag';
 import {run as runHolder} from 'holderjs/holder'
 import AccountPlatformCard from '../components/AccountPlatformCard'
+import AccountGameCard from '../components/AccountGameCard'
 import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
 import {addTheme as add_theme} from 'holderjs/holder'
 import Avatar from "react-avatar-edit"
@@ -60,15 +61,15 @@ function AccountPage(props) {
                     <p>Recently Played:</p>
 
                     <Row style = {{paddingBottom: '10px'}}>
-                        {user.playedPlatforms.slice(0,3).map((platformID) => (
+                        {user.playedPlatforms.slice(0,3).map((gameID) => (
                         <Col >
-                            <AccountPlatformCard platformID={platformID} />
+                            <AccountGameCard gameID={gameID} />
                         </Col>
                         ))}
                     </Row>
                     <Row>
                         <Col style = {{paddingLeft: '90px'}}>
-                            <Button variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Platforms</Button>
+                            <Button variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Games</Button>
                         </Col>
                     </Row>
                     </Col>
