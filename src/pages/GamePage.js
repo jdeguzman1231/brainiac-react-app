@@ -6,7 +6,7 @@ import { AuthContext } from "../context/auth";
 import { useContext, useState, useEffect } from "react";
 import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
-import {run as runHolder} from 'holderjs/holder'
+import { run as runHolder } from 'holderjs/holder'
 
 
 function GamePage(props) {
@@ -38,9 +38,9 @@ function GamePage(props) {
         description: ''
     })
     const [updateGame] = useMutation(EDIT_GAME, {
-        // update(proxy, result) {
-        //     props.history.push()
-        // },
+        update(proxy, result) {
+            window.location.replace("/platform/" + platformID+"/game/"+gameID);
+        },
         onError(err) {
             console.log(err.networkError.result.errors)
         },
@@ -60,7 +60,31 @@ function GamePage(props) {
 
     const [delGame] = useMutation(DELETE_GAME, {
         update(proxy, result) {
-            props.history.push("/platform/" + platformID)
+            // props.history.push("/platform/" + platformID)
+            window.location.replace("/platform/" + platformID);
+            const d = proxy.readQuery({ query: FETCH_PLATFORM_QUERY, variables: { platformID: platformID }, });
+            var array1 = [...d.getPlatform.games]
+            var ind;
+            for (var i = 0; i < array1.length; i++) {
+                if (array1[i] == gameID) {
+                    ind = i
+                }
+            }
+            array1.splice(ind, 1)
+            console.log("here", d, array1)
+            proxy.writeQuery({
+                query: FETCH_PLATFORM_QUERY,
+                data: {
+                    getPlatform: {
+                        platformID: platformID,
+                        games: array1
+                    },
+                },
+                variables: {
+                    platformID: platformID
+                }
+            });
+            
         },
         onError(err) {
             console.log(err.networkError.result.errors)
@@ -71,28 +95,10 @@ function GamePage(props) {
         }
     })
 
-    function deleteGame() {
-        console.log("delete game");
-        delGame();
-    }
-
-    const [play] = useMutation(PLAY_GAME, {
-        update(proxy, result) {
-            props.history.push(playLink)
-        },
-        onError(err) {
-            console.log(err.networkError.result.errors)
-        },
-        variables: {
-            username: creatorName,
-            platformID: gameID
-        }
-    }) 
-
-    function playGame() {
-        console.log("play game");
-        play();
-    }
+    // function deleteGame() {
+    //     console.log("delete game");
+    //     delGame();
+    // }
 
     if (loading) { return "loading" }
     else {
@@ -104,7 +110,7 @@ function GamePage(props) {
                 <div className="game-page-container">
                     <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     <Figure>
-                        <Figure.Image className = 'layoutimg'
+                        <Figure.Image className='layoutimg'
                             width={870}
                             height={524}
                             src="holder.js/870x524"
@@ -121,18 +127,18 @@ function GamePage(props) {
                         <Modal.Footer>
                             <Button onClick={e => {
                                 e.preventDefault();
-                                deleteGame({ variables: { gameID: gameID, platformID: platformID } });
+                                delGame({ variables: { gameID: gameID, platformID: platformID } });
                             }}>Yes</Button>
                             <Button onClick={handleClose}>No</Button>
                         </Modal.Footer>
                     </Modal>
-                            
+
                     <Form onSubmit={onSubmit} noValidate>
                         <Form.Group>
                             <Form.Label>Game Title</Form.Label>
                             <Form.Control defaultValue={game.name} name="name" onChange={handleChange} size="lg" />
                         </Form.Group>
-                        <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
+                        <p>by {game.creatorName}</p>
                         <hr></hr>
                         <Form.Group >
                             <Form.Label>Description</Form.Label>
@@ -141,10 +147,10 @@ function GamePage(props) {
                         <Button type="submit">Save Changes</Button>
                     </Form>
 
-                    <Button href = {designLink}>
-                            Design Page
+                    <Button href={designLink}>
+                        Design Page
                     </Button>
-                    <Button onClick = {playGame}>
+                    <Button href={playLink}>
                         Play Game
                     </Button>
                 </div>
@@ -155,19 +161,19 @@ function GamePage(props) {
             return (
                 <div className="game-page-container">
                     <Figure>
-                        <Figure.Image className = 'layoutimg'
+                        <Figure.Image className='layoutimg'
                             width={870}
                             height={524}
                             src="holder.js/870x524"
                         />
                     </Figure>
                     <h2>{game.name}</h2>
-                    <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
+                    <p>by {game.creatorName}</p>
                     <hr></hr>
                     <p>{game.description}</p>
                     <p>Tags:</p>
                     <p>{game.tags}</p>
-                    <Button onClick = {playGame}>
+                    <Button href={playLink}>
                         Play Game
                     </Button>
                 </div>
@@ -220,16 +226,16 @@ export const DELETE_GAME = gql`
         }
 `;
 
-const PLAY_GAME = gql`
-    mutation addPlayedPlatform(
-        $username: String!
-        $platformID: Int!
-    ) {
-        addPlayedPlatform(
-            username: $username
-            platformID: $platformID
-        )
-    }
+
+const FETCH_PLATFORM_QUERY = gql`
+    query($platformID: Int!){
+        getPlatform(platformID: $platformID){
+            name
+            creatorName
+            description
+            games
+        }
+    }  
 `;
 
 export default GamePage;
