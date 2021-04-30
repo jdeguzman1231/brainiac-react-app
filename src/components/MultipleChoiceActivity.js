@@ -92,6 +92,20 @@ export default function MultipleChoiceActivity(props) {
       }
     }
 
+    const lastActivity = () => {
+        console.log(activities)
+        var prev = currentActivity - 1;
+        setScore(0);
+        setCurrentQuestion(0);
+        setShowScore(false);
+        if (prev < 0) {
+          setCurrentActivity(0);
+        }
+        else {
+          setCurrentActivity(prev);
+        }
+      }
+
     const retryActivity = () => {
       console.log(activities)
       setScore(0);
@@ -132,7 +146,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                          <Button>Last Activity</Button>
+                          <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <Container>
@@ -217,7 +231,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                          <Button>Last Activity</Button>
+                        <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
@@ -298,7 +312,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                          <Button>Last Activity</Button>
+                        <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <Container>
@@ -467,7 +481,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                          <Button>Last Activity</Button>
+                        <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <div class="matching-screen">
