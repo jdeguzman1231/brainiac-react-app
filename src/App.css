@@ -77,12 +77,11 @@ p {
     line-height: 120px;
     box-shadow: 0px 4px 4px rgba(206, 206, 206, 0.25);
     border-radius: 1px;
-    margin-top: 30px;
+    margin-top: 20px;
     background-color: #EFE7DB;
 }
 
 .matching-card:active {
-    border-style: solid;
     border-radius: 1px;
     border-width: 1px;
     box-shadow: 0px 4px 4px #2A2A2A;
@@ -95,8 +94,24 @@ p {
 }
 
 .correct-match {
-    background-color: #CFCFCF;
+    background-color: rgb(200, 214, 186);
 }
+
+.matching-screen {
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+.timer-container {
+    background: #fff;
+    border-radius: 0.5em;
+    color: #000;
+    margin: 0.5em;
+    padding: 0.5em;
+  }
+  .timer {
+    font-size: 1em;
+  }
 
 .App-logo {
     height: 40vmin;

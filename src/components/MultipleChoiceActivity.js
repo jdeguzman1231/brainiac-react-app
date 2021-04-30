@@ -328,6 +328,12 @@ export default function MultipleChoiceActivity(props) {
       let firstCard, secondCard;
       let firstColor, secondColor;
       let ind;
+      const timeCounter = document.querySelector(".timer");
+      let time;
+      let minutes = 0;
+      let seconds = 0;
+      let timeStart = false;
+      let timeTaken= "";
 
       function highlight(val) {
         var highlight;
@@ -338,8 +344,27 @@ export default function MultipleChoiceActivity(props) {
         }
         return highlight
       }
+      function timer() {
+        // Update the count every 1 second
+        time = setInterval(function () {
+          seconds++;
+          if (seconds === 60) {
+            minutes++;
+            seconds = 0;
+          }
+          const timeCounter = document.querySelector(".timer");
+          timeCounter.innerHTML =  minutes + " minutes " + seconds + " seconds";
+        }, 1000);
+      }
+      function stopTime() {
+        clearInterval(time);
+      }
 
       function clickCard(val) {
+        if (timeStart === false) {
+          timeStart = true;
+          timer();
+        }
 
         console.log("clicked", val)
 
@@ -371,6 +396,15 @@ export default function MultipleChoiceActivity(props) {
             secondColor.classList.remove('selected-match')
             firstColor.classList.add('correct-match')
             secondColor.classList.add('correct-match')
+            if (document.getElementsByClassName("correct-match").length == shuffled.length) {
+              console.log("game finished", "correct-match".length, shuffled.length);
+              stopTime();
+              setShowScore(true);
+              timeTaken=document.querySelector('.timer').innerHTML
+              console.log("time",timeTaken)
+              return(timeTaken)
+            }
+
           }
           else {
             console.log("no")
@@ -382,18 +416,69 @@ export default function MultipleChoiceActivity(props) {
 
       return (
         <Container>
-          <Row>{loading ? (<h1>Loading...</h1>) : (
-            shuffled.map((card) => (
-              <Col >
-                <div class="matching-card" onClick={() => clickCard(card)}>
-                  <p> {card} </p>
-                </div>
-              </Col>
-            ))
-          )}
-          </Row>
+          {endGame ? (
+            <Container>
+              You completed the game!
+            </Container>
+          ) : (
+              <Container>
+                {showScore ? (
+                  <Container>
+                    <h1>You have completed this Matching activity</h1>
+                    
+                    <h2>You finished in {timeTaken=document.querySelector('.timer').innerHTML}</h2>
+                    <h4>Would you like to go on to the next activity in the game?</h4>
+                    <Row>
+                      <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
+                    </Row>
+                    <Row>
+                      <Button onClick={() => retryActivity()}>Retry activity</Button>
+                    </Row>
+                  </Container>
+                ) : (
+                    <Container>
+                      <Row>
+                        <Col>
+                          <Button>Last Activity</Button>
+                        </Col>
+                        <Col xs={8}>
+                          <div class="matching-screen">
+                            <p>Timer:</p>
+                            <div class="timer-container">
+                              <span class="timer">0 minutes 0 seconds</span>
+                            </div>
+                            <Container>
+                              <Row>{loading ? (<h1>Loading...</h1>) : (
+                                shuffled.map((card) => (
+                                  <Col >
+                                    <div class="matching-card" onClick={() => clickCard(card)}>
+                                      <p> {card} </p>
+                                    </div>
+                                  </Col>
+                                ))
+                              )}
+                              </Row>
+                            </Container>
+                          </div>
+                        </Col>
+                        <Col>
+                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                        </Col>
+                      </Row>
+                    </Container>
+                  )}
+              </Container>
+            )
+          }
         </Container>
+
+
+
+
+
       )
+
+      // end of return
 
     }
 
