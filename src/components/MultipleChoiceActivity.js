@@ -79,7 +79,7 @@ export default function MultipleChoiceActivity(props) {
       }
       console.log(answer);
       console.log(selected);
-      
+
     };
 
     const handleNextQuestion = () => {
@@ -87,13 +87,17 @@ export default function MultipleChoiceActivity(props) {
       if (nextQuestion < questions.length) {
         setCurrentQuestion(nextQuestion);
         setShowAlert(false);
+        setAlert(false);
       } else {
         setShowScore(true);
         setShowAlert(false);
+        setAlert(false);
       }
     }
 
     const nextActivity = () => {
+      setShowAlert(false);
+      setAlert(false);
       console.log(activities)
       var next = currentActivity + 1;
       if (next < activities.length) {
@@ -176,14 +180,14 @@ export default function MultipleChoiceActivity(props) {
 
                           <Container>
                             {alert
-                              ? <Alert show ={showAlert} variant="success">Correct</Alert> 
-                              : <Alert show ={showAlert} variant="danger">Wrong answer</Alert> 
+                              ? <Alert show={showAlert} variant="success">Correct</Alert>
+                              : <Alert show={showAlert} variant="danger">Wrong answer</Alert>
                             }
                             <Col className="answer-section">
 
                               {questions[currentQuestion].slice(2, 6).map((option) => (
                                 <Row style={{ marginBottom: "10px" }}>
-                                  <Button
+                                  <Button variant="outline-dark" block
                                     onClick={() =>
                                       handleAnswerButtonClick(
                                         questions[currentQuestion][1],
@@ -195,12 +199,12 @@ export default function MultipleChoiceActivity(props) {
                                   </Button>
                                 </Row>
                               ))}
-                               {alert
-                              ? <Button show ={showAlert} onClick ={handleNextQuestion} variant="secondary">Next Question</Button>
-                              : <Button show ={showAlert} onClick ={handleNextQuestion} variant="secondary">Next Question</Button>
-                            }
+                              {alert
+                                ? <Button show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
+                                : <br></br>
+                              }
                             </Col>
-                            
+
                           </Container>
                         </Col>
                         <Col>
@@ -293,19 +297,19 @@ export default function MultipleChoiceActivity(props) {
 
     if (type === "fill") {
       const handleFillButton = (answer, input) => {
-        if (input === answer) {
+        if (input === answer && !showAlert) {
           setScore(score + 1);
+        }
+        if (input === answer) {
+          setAlert(true)
+          setShowAlert(true)
+        }
+        else {
+          setAlert(false)
+          setShowAlert(true)
         }
         console.log(answer);
         console.log(input);
-        const nextQuestion = currentQuestion + 1;
-        if (nextQuestion < questions.length) {
-          console.log(answer);
-          console.log(input);
-          setCurrentQuestion(nextQuestion);
-        } else {
-          setShowScore(true);
-        }
       }
       return (
         <Container>
@@ -351,6 +355,10 @@ export default function MultipleChoiceActivity(props) {
                           </Container>
 
                           <Container>
+                            {alert
+                              ? <Alert show={showAlert} variant="success">Correct</Alert>
+                              : <Alert show={showAlert} variant="danger">Wrong. The correct answer is {questions[currentQuestion][1]}</Alert>
+                            }
                             <Col className="answer-section">
                               <h2>{questions[currentQuestion][2]}</h2>
                               <Form.Group controlId="answer">
@@ -363,7 +371,12 @@ export default function MultipleChoiceActivity(props) {
                                 Submit Answer
                     </Button>
                             </Col>
+
                           </Container>
+                          {alert
+                            ? <Button show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
+                            : <br></br>
+                          }
                         </Col>
                         <Col>
                           <Button onClick={() => nextActivity()}>Next Activity</Button>
