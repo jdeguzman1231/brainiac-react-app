@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import { Container, Jumbotron, Button, Col, Row, Form } from "react-bootstrap";
+import { Container, Jumbotron, Button, Col, Row, Form, Alert } from "react-bootstrap";
 import ReactCardFlip from 'react-card-flip'
 export default function MultipleChoiceActivity(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -10,6 +10,8 @@ export default function MultipleChoiceActivity(props) {
   const [currentActivity, setCurrentActivity] = useState(0);
   const [endGame, setEndGame] = useState(false);
   const [flipped, setFlip] = useState(false);
+  const [alert, setAlert] = useState(false)
+  const [showAlert, setShowAlert] = useState(false);
   const ggameID = props.match.params.gameID;
   const gameID = parseInt(ggameID, 10);
   var game = {};
@@ -63,20 +65,33 @@ export default function MultipleChoiceActivity(props) {
     const questions = activityData.data;
 
     const handleAnswerButtonClick = (answer, selected) => {
-      if (selected === answer) {
+      // setShowAlert(true)
+      if (selected === answer && !showAlert) {
         setScore(score + 1);
+      }
+      if (selected === answer) {
+        setShowAlert(true)
+        setAlert(true)
+      }
+      else {
+        setAlert(false)
+        setShowAlert(true)
       }
       console.log(answer);
       console.log(selected);
+      
+    };
+
+    const handleNextQuestion = () => {
       const nextQuestion = currentQuestion + 1;
       if (nextQuestion < questions.length) {
-        console.log(answer);
-        console.log(selected);
         setCurrentQuestion(nextQuestion);
+        setShowAlert(false);
       } else {
         setShowScore(true);
+        setShowAlert(false);
       }
-    };
+    }
 
     const nextActivity = () => {
       console.log(activities)
@@ -93,24 +108,25 @@ export default function MultipleChoiceActivity(props) {
     }
 
     const lastActivity = () => {
-        console.log(activities)
-        var prev = currentActivity - 1;
-        setScore(0);
-        setCurrentQuestion(0);
-        setShowScore(false);
-        if (prev < 0) {
-          setCurrentActivity(0);
-        }
-        else {
-          setCurrentActivity(prev);
-        }
+      console.log(activities)
+      var prev = currentActivity - 1;
+      setScore(0);
+      setCurrentQuestion(0);
+      setShowScore(false);
+      if (prev < 0) {
+        setCurrentActivity(0);
       }
+      else {
+        setCurrentActivity(prev);
+      }
+    }
 
     const retryActivity = () => {
       console.log(activities)
       setScore(0);
       setCurrentQuestion(0);
       setShowScore(false);
+      setShowAlert(false);
     }
     const type = activityData.type;
     console.log(type);
@@ -123,10 +139,10 @@ export default function MultipleChoiceActivity(props) {
               <h2>You have completed {game.getGame.name}</h2>
               <Row>
                 <Button href="/">Go back to home page</Button>
-            </Row>
-            <Row>
+              </Row>
+              <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
-            </Row>
+              </Row>
             </Container>
           ) : (
               <Container>
@@ -159,7 +175,12 @@ export default function MultipleChoiceActivity(props) {
                           </Container>
 
                           <Container>
+                            {alert
+                              ? <Alert show ={showAlert} variant="success">Correct</Alert> 
+                              : <Alert show ={showAlert} variant="danger">Wrong answer</Alert> 
+                            }
                             <Col className="answer-section">
+
                               {questions[currentQuestion].slice(2, 6).map((option) => (
                                 <Row style={{ marginBottom: "10px" }}>
                                   <Button
@@ -174,7 +195,12 @@ export default function MultipleChoiceActivity(props) {
                                   </Button>
                                 </Row>
                               ))}
+                               {alert
+                              ? <Button show ={showAlert} onClick ={handleNextQuestion} variant="secondary">Next Question</Button>
+                              : <Button show ={showAlert} onClick ={handleNextQuestion} variant="secondary">Next Question</Button>
+                            }
                             </Col>
+                            
                           </Container>
                         </Col>
                         <Col>
@@ -204,15 +230,15 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-            <h1>Congratulations</h1>
-            <h2>You have completed {game.getGame.name}</h2>
-            <Row>
+              <h1>Congratulations</h1>
+              <h2>You have completed {game.getGame.name}</h2>
+              <Row>
                 <Button href="/">Go back to home page</Button>
-            </Row>
-            <Row>
+              </Row>
+              <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
-            </Row>
-          </Container>
+              </Row>
+            </Container>
           ) : (
               <Container>
                 {showScore ? (
@@ -231,7 +257,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                        <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
@@ -285,15 +311,15 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-            <h1>Congratulations</h1>
-            <h2>You have completed {game.getGame.name}</h2>
-            <Row>
+              <h1>Congratulations</h1>
+              <h2>You have completed {game.getGame.name}</h2>
+              <Row>
                 <Button href="/">Go back to home page</Button>
-            </Row>
-            <Row>
+              </Row>
+              <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
-            </Row>
-          </Container>
+              </Row>
+            </Container>
           ) : (
               <Container>
                 {showScore ? (
@@ -312,7 +338,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                        <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <Container>
@@ -368,7 +394,7 @@ export default function MultipleChoiceActivity(props) {
       let minutes = 0;
       let seconds = 0;
       let timeStart = false;
-      let timeTaken= "";
+      let timeTaken = "";
 
       function highlight(val) {
         var highlight;
@@ -388,7 +414,7 @@ export default function MultipleChoiceActivity(props) {
             seconds = 0;
           }
           const timeCounter = document.querySelector(".timer");
-          timeCounter.innerHTML =  minutes + " minutes " + seconds + " seconds";
+          timeCounter.innerHTML = minutes + " minutes " + seconds + " seconds";
         }, 1000);
       }
       function stopTime() {
@@ -435,9 +461,9 @@ export default function MultipleChoiceActivity(props) {
               console.log("game finished", "correct-match".length, shuffled.length);
               stopTime();
               setShowScore(true);
-              timeTaken=document.querySelector('.timer').innerHTML
-              console.log("time",timeTaken)
-              return(timeTaken)
+              timeTaken = document.querySelector('.timer').innerHTML
+              console.log("time", timeTaken)
+              return (timeTaken)
             }
 
           }
@@ -453,22 +479,22 @@ export default function MultipleChoiceActivity(props) {
         <Container>
           {endGame ? (
             <Container>
-            <h1>Congratulations</h1>
-            <h2>You have completed {game.getGame.name}</h2>
-            <Row>
+              <h1>Congratulations</h1>
+              <h2>You have completed {game.getGame.name}</h2>
+              <Row>
                 <Button href="/">Go back to home page</Button>
-            </Row>
-            <Row>
+              </Row>
+              <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
-            </Row>
-          </Container>
+              </Row>
+            </Container>
           ) : (
               <Container>
                 {showScore ? (
                   <Container>
                     <h1>You have completed this Matching activity</h1>
-                    
-                    <h2>You finished in {timeTaken=document.querySelector('.timer').innerHTML}</h2>
+
+                    <h2>You finished in {timeTaken = document.querySelector('.timer').innerHTML}</h2>
                     <h4>Would you like to go on to the next activity in the game?</h4>
                     <Row>
                       <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
@@ -481,7 +507,7 @@ export default function MultipleChoiceActivity(props) {
                     <Container>
                       <Row>
                         <Col>
-                        <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
                           <div class="matching-screen">
