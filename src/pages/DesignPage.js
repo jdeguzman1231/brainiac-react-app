@@ -53,11 +53,12 @@ function DesignPage(props) {
                 <h2>{game.name}</h2>
                 <h4>Activities</h4>
                 <Container>
-                        <Row style = {{paddingBottom: '10px'}}>
+                        <Row style = {{paddingBottom: '30px'}}>
                             {loading ? (<h1>Loading...</h1>) : (
-                            game.activities && game.activities.map((activityID) => (
-                                <Col >
-                                    <ActivityCard activityID={activityID} />
+                            game.activities && game.activities.map((activityID, key) => (
+                                <Col style = {{paddingBottom: '20px'}}>
+                                     <p>{key+1}</p>
+                                    <ActivityCard activityID={activityID}/>
                                 </Col>
                             ))
                         )}

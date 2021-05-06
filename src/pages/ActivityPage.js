@@ -1,42 +1,143 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ActivityCard from './../components/ActivityCard';
 import { useQuery, useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import {Container, Row, Col, Button, Card} from "react-bootstrap";
+import {Container, Row, Col, Button, Card, Modal, Form} from "react-bootstrap";
+import { useForm } from '../util/hooks';
 import QuestionCard from "./../components/QuestionCard";
+import { getVariableValues } from 'graphql/execution/values';
 
 function ActivityPage(props) {
+    const [show, setShow] = useState(false);
     const aactivityID = props.match.params.activityID;
+    const handleClose = () => setShow(false);
+    const openModal = () => setShow(true);
     const activityID = parseInt(aactivityID, 10);
     const { loading, data } = useQuery(FETCH_ACTIVITY_QUERY, {
         variables: { activityID: activityID },
     });
+    const { handleChange, onSubmit, values } = useForm(addCardCallback, {
+        email: '',
+        password: ''
+    })
+    const [addCard, {loading:load}] = useMutation(ADD_CARD, {
+        update(proxy, result) {
+            console.log(result)
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            card1: values.question,
+            card2: values.correct,
+            card3: values.option1,
+            card4: values.option2,
+            card5: values.option3,
+            card6: values.option4,
+            activityID: activityID
+        }
+    })
+    function addCardCallback() {
+        addCard();
+        setShow(false);
+    }
     console.log(activityID);
     if (loading) return "loading"
     else{
         var title;
         var len;
-        var correctAnswer;
+        var modal;
+        var start;
         const activity = data.getActivity
         const questions = activity.data
         if (activity.type === 'multiple') {
             // source = multiple
             title = "Multiple Choice"
             len = 6;
+            start = 2;
+            modal = 
+            <Form onSubmit = {onSubmit}>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Question" type = "text" name = "question"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Correct Answer" type = "text" name = "correct"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Option 1" type = "text" name = "option1"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Option 2" type = "text" name = "option2"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Option 3 (Optional)" type = "text" name = "option3"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Option 4 (Optional)" type = "text" name = "option4"/>
+                </Form.Group>
+                <Button variant="primary" type="submit" block>
+                        Add
+                </Button>
+           </Form>
         }
         else if (activity.type === 'fill') {
             // source = fill
             title = "Fill in the Blank"
             len = 4;
+            start = 2;
+            modal = 
+            <Form onSubmit = {onSubmit}>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Question" type = "text" name = "question"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Correct Answer" type = "text" name = "correct"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "In front of blank" type = "text" name = "option1"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Behind blank" type = "text" name = "option2"/>
+                </Form.Group>
+                <Button variant="primary" type="submit" block>
+                        Add
+                </Button>
+           </Form>
         }
         else if (activity.type === 'Flashcards') {
             // source = fill
             title = "Flashcards"
             len = 1;
+            start = 1;
+            modal = 
+            <Form onSubmit = {onSubmit}>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Front Side" type = "text" name = "question"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Back Side" type = "text" name = "correct"/>
+                </Form.Group>
+                <Button variant="primary" type="submit" block>
+                        Add
+                </Button>
+           </Form>
         }
         else if (activity.type === 'matching') {
             title = "Matching"
             len = 1;
+            start = 1;
+            modal = 
+            <Form onSubmit = {onSubmit}>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "First" type = "text" name = "question"/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control onChange = {handleChange} placeholder = "Second" type = "text" name = "correct"/>
+                </Form.Group>
+                <Button variant="primary" type="submit" block>
+                        Add
+                </Button>
+           </Form>
         }
         return (
             <Container>
@@ -48,7 +149,8 @@ function ActivityPage(props) {
                             <Card.Body>
                                 <p>{key+1}</p>
                                 <Card.Title>{question[0]}</Card.Title>
-                                {question.slice(1,len).map((quest) =>
+                                <p>Correct Answer: {question[1]}</p>
+                                {question.slice(start,len).map((quest) =>
                                     <p>{quest}</p>
                                 )}
                                 <Button>Edit</Button>
@@ -56,7 +158,16 @@ function ActivityPage(props) {
                             </Card>
                         ))}
                 </Row>
-                <Button>Add a question</Button>
+                <Button onClick = {openModal}>Add a question</Button>
+                <Modal show = {show} onHide = {handleClose}>
+                    <Modal.Header>
+                        <Modal.Title>Add question</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Input your {title} options below:
+                        {modal}
+                    </Modal.Body>
+                </Modal>
             </Container>
         )
     }
@@ -72,3 +183,25 @@ const FETCH_ACTIVITY_QUERY = gql`
         }
     }  
 `;
+
+const ADD_CARD = gql`
+    mutation addActivityCard(
+        $card1: String!
+        $card2: String!
+        $card3: String
+        $card4: String
+        $card5: String
+        $card6: String
+        $activityID: Int!
+    ) {
+        addActivityCard(
+            card1: $card1
+            card2: $card2
+            card3: $card3
+            card4: $card4
+            card5: $card5
+            card6: $card6
+            activityID: $activityID
+        )
+    }
+`
