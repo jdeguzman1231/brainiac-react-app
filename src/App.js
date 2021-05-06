@@ -22,6 +22,7 @@ import CreatePlatformPage from './pages/CreatePlatformPage';
 import BookmarkedPlatforms from './pages/BookmarkedPlatforms';
 import RecentlyPlayed from './pages/RecentlyPlayed';
 import MultipleChoiceActivity from './components/MultipleChoiceActivity';
+import ActivityPage from './pages/ActivityPage.js'
 function App() {
   return (
     <AuthProvider>
@@ -45,6 +46,7 @@ function App() {
       <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID/start' component = {MultipleChoiceActivity} />
+      <Route exact path = '/activity/:activityID' component = {ActivityPage} />
 
     </Router>
     </AuthProvider>

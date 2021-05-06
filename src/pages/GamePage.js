@@ -139,7 +139,7 @@ function GamePage(props) {
                             <Form.Label>Game Title</Form.Label>
                             <Form.Control defaultValue={game.name} name="name" onChange={handleChange} size="lg" />
                         </Form.Group>
-                        <p>by {game.creatorName}</p>
+                        <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                         <hr></hr>
                         <Form.Group >
                             <Form.Label>Description</Form.Label>
@@ -169,7 +169,7 @@ function GamePage(props) {
                         />
                     </Figure>
                     <h2>{game.name}</h2>
-                    <p>by {game.creatorName}</p>
+                    <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                     <hr></hr>
                     <p>{game.description}</p>
                     <p>Tags:</p>
