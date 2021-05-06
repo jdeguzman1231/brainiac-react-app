@@ -105,7 +105,6 @@ function GamePage(props) {
     else {
         console.log(data)
         const game = data.getGame
-        console.log(user.username);
         if (user && user.username == game.creatorName) {
             
             return (
