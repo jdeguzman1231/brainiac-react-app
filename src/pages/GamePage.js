@@ -28,7 +28,7 @@ function GamePage(props) {
         variables: { gameID, gameID },
         fetchPolicy: 'cache-and-network'
     });
-    const { data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
+    const { loading: load, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID, platformID }
     });
     const { user, logout } = useContext(AuthContext);
@@ -108,6 +108,7 @@ function GamePage(props) {
     // }
 
     if (loading) { return "loading" }
+    else if (load) {return "loading"}
     else {
         console.log(data)
         const game = data.getGame
