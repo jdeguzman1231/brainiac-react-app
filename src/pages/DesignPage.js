@@ -7,7 +7,7 @@ import {Container, Row, Col, Button, Modal, Dropdown, Form} from "react-bootstra
 
 function DesignPage(props) {
     const [show, setShow] = useState(false);
-    const [refresh, setRefresh] = useState(false);
+    const [deleted, setDeleted] = useState(0);
     const handleClose = () => setShow(false);
     const openModal = () => setShow(true);
     const ggameID = props.match.params.gameID;
@@ -76,7 +76,9 @@ function DesignPage(props) {
                             {loading ? (<h1>Loading...</h1>) : (
                             game.activities && game.activities.map((activityID, key) => (
                                 <Col style = {{paddingBottom: '20px'}}>
-                                     <p>{key+1}</p>
+                                    <Row>
+                                        <p>{key+1}</p>
+                                     </Row>
                                     <ActivityCard activityID={activityID}/>
                                 </Col>
                             ))

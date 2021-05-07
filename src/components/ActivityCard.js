@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/client';
-import {Card} from 'react-bootstrap';
+import {Card, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 // import fill from './../images/fill.png'
 // import multiple from './../images/multiple.png'
