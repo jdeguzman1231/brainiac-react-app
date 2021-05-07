@@ -19,8 +19,28 @@ function DesignPage(props) {
     })
 
     const [addActivity, {loading: load}] = useMutation(ADD_ACTIVITY, {
-        update(proxy, result) {
-            console.log(result)
+        update(proxy, { data }) {
+            console.log("new activity ID", data.addActivity.activityID)
+            try {
+                const d = proxy.readQuery({query: FETCH_GAME_QUERY, variables: {gameID: gameID}, });
+                var array1 = [...d.getGame.activities]
+                array1.push(data.addActivity.activityID)
+                proxy.writeQuery({
+                    query: FETCH_GAME_QUERY, 
+                    data: {
+                        getGame: {
+                            gameID: gameID,
+                            activties: array1
+                        },
+                    },
+                    variables: {
+                        gameID: gameID
+                    }
+                })
+            }
+            catch (error) {
+                console.error(error.networkError.result.errors);
+            }
         },
         onError(err) {
             console.log(err)
@@ -34,7 +54,6 @@ function DesignPage(props) {
     function addActivityCallback() {
         addActivity()
         setShow(false);
-        window.location.reload();
     }
 
     const { loading, data } = useQuery(FETCH_GAME_QUERY, {
@@ -124,6 +143,7 @@ const ADD_ACTIVITY = gql`
             type: $type
             gameID: $gameID
         ) {
+            activityID
             type
             data
         }

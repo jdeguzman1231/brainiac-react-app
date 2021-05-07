@@ -21,8 +21,29 @@ function ActivityPage(props) {
         password: ''
     })
     const [addCard, {loading:load}] = useMutation(ADD_CARD, {
-        update(proxy, result) {
-            console.log(result)
+        update(proxy, {data}) {
+            console.log("new ", data.addActivityCard.card)
+            try{
+                const d = proxy.readQuery({query: FETCH_ACTIVITY_QUERY, variables: {activityID: activityID}, });
+                var array1 = [...d.getActivity.data]
+                array1.push(data.addActivityCard.card)
+                proxy.writeQuery({
+                    query: FETCH_ACTIVITY_QUERY, 
+                    data: {
+                        getActivity: {
+                            activityID: activityID,
+                            data: array1
+                        },
+                    },
+                    variables: {
+                        activityID: activityID
+                    }
+                })
+
+            }
+            catch(error) {
+                console.error(error.networkError.result.errors)
+            }
         },
         onError(err) {
             console.log(err.networkError.result.errors);
