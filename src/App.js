@@ -15,6 +15,9 @@ import DesignPage from './pages/DesignPage';
 import PlayPage from './pages/PlayPage';
 import CreatedPlatforms from './pages/CreatedPlatforms';
 import ResetPassword from './pages/resetPassword';
+import SetPassword from './pages/SetPassword';
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -47,7 +50,8 @@ function App() {
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID/start' component = {MultipleChoiceActivity} />
       <Route exact path = '/activity/:activityID' component = {ActivityPage} />
-
+      <Route exact path = '/resetPassword/:email/:uid' component = {SetPassword}/>
+      
     </Router>
     </AuthProvider>
   );
