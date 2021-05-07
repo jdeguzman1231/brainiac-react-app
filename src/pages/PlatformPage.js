@@ -197,7 +197,7 @@ function PlatformPage(props) {
                                                 Edit Settings
                                         </Tooltip>
                                         }>
-                                        <Button variant="light" onClick={handleShow}><img width={30}
+                                        <Button variant="light" onClick={toSettings}><img width={30}
                                             height={30} src={cog}></img></Button>
                                     </OverlayTrigger>
 
