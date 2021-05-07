@@ -27,37 +27,38 @@ p {
 }
 
 .page-container {
-    margin-top: 40px;
-    padding-left: 40px;
-    padding-right: 40px;
-    margin: 0 auto;
+    width: 75%;
+    margin: auto;
 }
 
 .game-page-container {
-    padding-top: 50px;
-    padding-left: 120px;
-    padding-right: 100px;
-    margin: 0 auto;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    width: 75%;
+
 }
 
 .home-header {
-    padding-top: 40px;
-    padding-left: 80px;
+    padding-top: 50px;
+    width: 75%;
+    margin: auto;
 }
 
 .home-header h1 {
     line-height: 40px;
+    font-size: 45px;
 }
 
 .home-header p {
     line-height: 25px;
 }
 
-.home-header img {
+/* .home-header img {
     padding-left: 420px;
     margin-top: -250px;
     width: 850px;
-}
+} */
 
 .pagecard {
     font-family: "Lato";
@@ -70,15 +71,33 @@ p {
     color: white;
 }
 
+.btn-option{
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: "DM Sans";
+    font-size: 18px;
+    font-weight: 400;
+
+}
+
+.answer-section{
+    font-family: "DM Sans";
+    font-size: 18px;
+    font-weight: 400;
+    padding-bottom: 30px;
+}
+
 .matching-card {
     height: 175px;
     width: 150px;
     text-align: center;
     line-height: 120px;
     box-shadow: 0px 4px 4px rgba(206, 206, 206, 0.25);
-    border-radius: 1px;
+    border-radius: 4px;
     margin-top: 20px;
-    background-color: #EFE7DB;
+    font-family: "DM Sans";
+    font-size: 16px;
+    background-color: #F5FFFD;;
 }
 
 .matching-card:active {
@@ -97,11 +116,6 @@ p {
     background-color: rgb(200, 214, 186);
 }
 
-.matching-screen {
-    margin-top: 50px;
-    margin-bottom: 80px;
-}
-
 .timer-container {
     background: #fff;
     border-radius: 0.5em;
@@ -109,9 +123,32 @@ p {
     margin: 0.5em;
     padding: 0.5em;
   }
-  .timer {
+
+.timer {
     font-size: 1em;
-  }
+}
+
+.activity-progress-card{
+    width: 120px;
+    height: 26px;
+    background: rgba(0, 0, 0, 0.67);
+    backdrop-filter: blur(4px);
+    border-radius: 50px;
+    text-align: center;
+    color: white;
+    letter-spacing: 0.03em;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+.end-activity{
+    font-family: "DM Sans";
+    font-size: 25px;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+    padding-top: 100px;
+}
 
 .App-logo {
     height: 40vmin;

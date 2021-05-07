@@ -1,19 +1,21 @@
 
 import { useQuery, useMutation } from '@apollo/client'
-import { Container, Col, Row, Jumbotron, Button, Modal } from 'react-bootstrap'
+import { Container, Col, Row, Jumbotron, Button, Modal, Tooltip, OverlayTrigger, ButtonGroup } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
 import { useContext, useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
+import trashcan from '../images/trashcan.png'
+import cog from '../images/cog.png'
 
 function PlatformPage(props) {
 
     function refresh() {
         window.location.reload();
     }
-    
+
     const [bookmarked, setBookmarked] = useState(false);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -31,8 +33,8 @@ function PlatformPage(props) {
     const parentPlatform = platformID
     const platformURL = '/platform/' + pplatformID;
 
-    const {loading: loadingg, data: userData} = useQuery(FETCH_USER_QUERY, {
-        variables: {username: creatorName}
+    const { loading: loadingg, data: userData } = useQuery(FETCH_USER_QUERY, {
+        variables: { username: creatorName }
     });
 
     var bookmarkedPlatforms = [];
@@ -70,7 +72,7 @@ function PlatformPage(props) {
         }
     })
     function bookmarkPlatform() {
-        
+
         setBookmarkedPlats(bookmarkedPlats.push(platformID));
         console.log(bookmarkedPlatforms);
         console.log("bookmark");
@@ -98,7 +100,7 @@ function PlatformPage(props) {
         setBookmarkedPlats(oldArray);
         setBookmarked(false);
         unbookmark();
-        
+
     }
 
     const [addGame] = useMutation(CREATE_GAME, {
@@ -110,17 +112,17 @@ function PlatformPage(props) {
                 array1.push(data.createGame.gameID)
                 proxy.writeQuery({
                     query: FETCH_PLATFORM_QUERY,
-                    data: { 
-                      getPlatform: {
-                        platformID: platformID,
-                        games: array1
-                      },
+                    data: {
+                        getPlatform: {
+                            platformID: platformID,
+                            games: array1
+                        },
                     },
                     variables: {
-                      platformID: platformID
+                        platformID: platformID
 
                     }
-                  });
+                });
             }
             catch (error) {
                 console.error(error.networkError.result.errors);
@@ -162,36 +164,56 @@ function PlatformPage(props) {
             bookmarkButton = '';
         }
         else {
-            if (bookmarked)
-            {
+            if (bookmarked) {
                 bookmarkButton = <Button onClick={unbookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
-                Unbookmark
+                    Unbookmark
                 </Button>
             }
             else {
                 bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
-                Bookmark
+                    Bookmark
                 </Button>
             }
         }
         if (user && user.username == platform.creatorName) {
             return (
                 <div className="page-container">
-                    <Jumbotron>
+                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}>
                         <Row>
                             <Col>
                                 <h1>{platform.name}</h1>
                                 <br></br>
                                 <p>{platform.description}</p>
-                                <p>created by <Link to = {`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
+                                <p>created by <Link to={`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <Button onClick={toSettings} variant='secondary' style={{ marginLeft: '1000px', marginBottom: '10px' }}>
-                                    Settings
-                                </Button>
-                                <Button onClick={handleShow} variant='secondary' style={{ marginLeft: '1000px', marginBottom: '10px' }}>Delete Platform</Button>
+                                <ButtonGroup>
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        overlay={
+                                            <Tooltip>
+                                                Edit Settings
+                                        </Tooltip>
+                                        }>
+                                        <Button variant="light" onClick={handleShow}><img width={30}
+                                            height={30} src={cog}></img></Button>
+                                    </OverlayTrigger>
+
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        overlay={
+                                            <Tooltip>
+                                                Delete Platform
+                                        </Tooltip>
+                                        }>
+                                        <Button variant="light" onClick={handleShow}><img width={30}
+                                            height={30} src={trashcan}></img></Button>
+                                    </OverlayTrigger>
+                                </ButtonGroup>
+
+
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Confirm Delete</Modal.Title>
@@ -208,7 +230,7 @@ function PlatformPage(props) {
                                     </Modal.Footer>
                                 </Modal>
                                 {bookmarkButton}
-                                
+
                             </Col>
                         </Row>
                     </Jumbotron>
@@ -236,11 +258,11 @@ function PlatformPage(props) {
         else {
             return (
                 <div className="page-container">
-                    <Jumbotron>
+                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}>
                         <h1>{platform.name}</h1>
                         <br></br>
                         <p>{platform.description}</p>
-                        <p>created by <Link to = {`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
+                        <p>created by <Link to={`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
 
                         {bookmarkButton}
 

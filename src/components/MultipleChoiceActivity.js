@@ -151,15 +151,17 @@ export default function MultipleChoiceActivity(props) {
           ) : (
               <Container>
                 {showScore ? (
-                  <Container>
-                    <h1>You have completed this Multiple Choice activity</h1>
-                    <h2>You scored {score} out of {questions.length}</h2>
-                    <h4>Would you like to go on to the next activity in the game?</h4>
+                  <Container style={{ background: "rgba(49, 48, 48, 0.8)" }}>
+                    <div class="end-activity">
+                      Congratulations, you have completed Activity {currentActivity + 1} of {activities.length}
+                      <br></br>You scored {score} out of {questions.length}!
+                    </div>
+
                     <Row>
-                      <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
+                      <Button variant="light" onClick={() => nextActivity()} style={{ marginBottom: '10px', width: "20%", margin: "auto" }}>Next Activity</Button>
                     </Row>
                     <Row>
-                      <Button onClick={() => retryActivity()}>Retry activity</Button>
+                      <Button variant="light" onClick={() => retryActivity()}>Retry activity</Button>
                     </Row>
                   </Container>
                 ) : (
@@ -168,47 +170,54 @@ export default function MultipleChoiceActivity(props) {
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
-                        <Col xs={8}>
-                          <Container>
-                            <Jumbotron>
-                              <h4>
-                                Question {currentQuestion + 1}/{questions.length}
-                              </h4>
-                              <h2>{questions[currentQuestion][0]}</h2>
-                            </Jumbotron>
-                          </Container>
-
-                          <Container>
-                            {alert
-                              ? <Alert show={showAlert} variant="success">Correct</Alert>
-                              : <Alert show={showAlert} variant="danger">Wrong answer</Alert>
-                            }
-                            <Col className="answer-section">
-
-                              {questions[currentQuestion].slice(2, 6).map((option) => (
-                                <Row style={{ marginBottom: "10px" }}>
-                                  <Button variant="outline-dark" block
-                                    onClick={() =>
-                                      handleAnswerButtonClick(
-                                        questions[currentQuestion][1],
-                                        option
-                                      )
-                                    }
-                                  >
-                                    {option}
-                                  </Button>
-                                </Row>
-                              ))}
-                              {alert
-                                ? <Button show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
-                                : <br></br>
-                              }
-                            </Col>
-
-                          </Container>
-                        </Col>
                         <Col>
                           <Button onClick={() => nextActivity()}>Next Activity</Button>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={10}>
+                          {/* Outer Screen */}
+                          <Container style={{ height: "100%", background: 'radial-gradient(60.34% 81.2% at 50% 50%, #FDFF83 0%, rgba(255, 255, 255, 0) 100%), #C6DFBE' }}>
+                            <div class="activity-progress-card">
+                              <p>Activity {currentActivity + 1} of {activities.length} </p>
+                            </div>
+                            {/* Question Card */}
+                            <Container style={{ height: "80%", backgroundColor: "#FFF8E8", width: "70%", borderRadius: "30px" }}>
+                              <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
+                                {currentQuestion + 1}. {questions[currentQuestion][0]}
+                              </div>
+                              <Container style={{ paddingBottom: "25px" }}>
+                                {alert
+                                  ? <Alert show={showAlert} variant="success">Correct!</Alert>
+                                  : <Alert show={showAlert} variant="danger">Wrong answer. Try again.</Alert>
+                                }
+                                <Col className="answer-section">
+
+                                  {questions[currentQuestion].slice(2, 6).map((option) => (
+                                    <Row style={{ marginBottom: "10px" }}>
+                                      <Button variant="option" block
+                                        onClick={() =>
+                                          handleAnswerButtonClick(
+                                            questions[currentQuestion][1],
+                                            option
+                                          )
+                                        }
+                                      >
+                                        {option}
+                                      </Button>
+                                    </Row>
+
+                                  ))}
+                                  {alert
+                                    ? <Button style={{ fontSize: "14px", width: "50%", alignSelf: "center" }} show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
+                                    : <br></br>
+                                  }
+                                </Col>
+                              </Container>
+                            </Container>
+                            <div style={{ textAlign: "right" }}><p>{questions.length - currentQuestion - 1} questions left</p></div>
+
+                          </Container>
                         </Col>
                       </Row>
                     </Container>
@@ -216,6 +225,10 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
+          <h2>{game.getGame.name}</h2>
+          <p>by {game.getGame.creatorName}</p>
+          <hr></hr>
+          <p>{game.getGame.description}</p>
         </Container>
       )
     }
@@ -246,15 +259,16 @@ export default function MultipleChoiceActivity(props) {
           ) : (
               <Container>
                 {showScore ? (
-                  <Container>
-                    <h1>You have completed this Flashcard activity</h1>
-                    <h2>You scored {score} out of {questions.length}</h2>
-                    <h4>Would you like to go on to the next activity in the game?</h4>
+                  <Container style={{ background: "rgba(49, 48, 48, 0.8)" }}>
+                    <div class="end-activity">
+                      Congratulations, you have completed Activity {currentActivity + 1} of {activities.length}
+                  </div>
+
                     <Row>
-                      <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
+                      <Button variant="light" onClick={() => nextActivity()} style={{ marginBottom: '10px', width: "20%", margin: "auto" }}>Next Activity</Button>
                     </Row>
                     <Row>
-                      <Button onClick={() => retryActivity()}>Retry activity</Button>
+                      <Button variant="light" onClick={() => retryActivity()}>Retry activity</Button>
                     </Row>
                   </Container>
                 ) : (
@@ -264,23 +278,28 @@ export default function MultipleChoiceActivity(props) {
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col xs={8}>
-                          <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-                            <Container style={{ cursor: "pointer" }} onClick={handleFlip}>
-                              <Jumbotron>
-                                <h4>
-                                  Question:
-                    </h4>
-                                <h2>{questions[currentQuestion][0]}</h2>
-                                <h6>Click to see answer</h6>
+                          <Container style={{ height: "100%", background: "linear-gradient(180deg, rgba(255, 200, 200, 0) 0%, #FFEEDB 99.99%, rgba(255, 255, 255, 0.979167) 100%), #FDDBDB" }}>
+                            <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+                              <Jumbotron style={{ height: "70%", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)" }} onClick={handleFlip}>
+
+                                <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
+                                  {questions[currentQuestion][0]}
+                                </div>
+                                <div style={{ textAlign: "right" }}><p>Click to flip</p></div>
+
+
                               </Jumbotron>
-                            </Container>
-                            <Container style={{ cursor: "pointer" }} onClick={handleFlip}>
-                              <Jumbotron>
-                                <h4>Answer:</h4>
-                                <h2>{questions[currentQuestion][1]}</h2>
+
+                              <Jumbotron style={{ height: "70%", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)" }} onClick={handleFlip}>
+                                <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
+                                  {questions[currentQuestion][1]}
+                                </div>
+                                <div style={{ textAlign: "right" }}><p>Click to flip</p></div>
                               </Jumbotron>
-                            </Container>
-                          </ReactCardFlip>
+
+                            </ReactCardFlip>
+                          </Container>
+
                         </Col>
                         <Col>
                           <Button onClick={() => nextActivity()}>Next Activity</Button>
@@ -291,6 +310,10 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
+          <h2>{game.getGame.name}</h2>
+          <p>by {game.getGame.creatorName}</p>
+          <hr></hr>
+          <p>{game.getGame.description}</p>
         </Container>
       )
     }
@@ -310,6 +333,7 @@ export default function MultipleChoiceActivity(props) {
         }
         console.log(answer);
         console.log(input);
+
       }
       return (
         <Container>
@@ -327,15 +351,17 @@ export default function MultipleChoiceActivity(props) {
           ) : (
               <Container>
                 {showScore ? (
-                  <Container>
-                    <h1>You have completed this Fill in the Blank activity</h1>
-                    <h2>You scored {score} out of {questions.length}</h2>
-                    <h4>Would you like to go on to the next activity in the game?</h4>
+                  <Container style={{ background: "rgba(49, 48, 48, 0.8)" }}>
+                    <div class="end-activity">
+                      Congratulations, you have completed Activity {currentActivity + 1} of {activities.length}
+                      <br></br>You scored {score} out of {questions.length}!
+                  </div>
+
                     <Row>
-                      <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
+                      <Button variant="light" onClick={() => nextActivity()} style={{ marginBottom: '10px', width: "20%", margin: "auto" }}>Next Activity</Button>
                     </Row>
                     <Row>
-                      <Button onClick={() => retryActivity()}>Retry activity</Button>
+                      <Button variant="light" onClick={() => retryActivity()}>Retry activity</Button>
                     </Row>
                   </Container>
                 ) : (
@@ -344,49 +370,65 @@ export default function MultipleChoiceActivity(props) {
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
-                        <Col xs={8}>
-                          <Container>
-                            <Jumbotron>
-                              <h4>
-                                Question {currentQuestion + 1}/{questions.length}
-                              </h4>
-                              <h2>{questions[currentQuestion][0]}</h2>
-                            </Jumbotron>
-                          </Container>
-
-                          <Container>
-                            {alert
-                              ? <Alert show={showAlert} variant="success">Correct</Alert>
-                              : <Alert show={showAlert} variant="danger">Wrong. The correct answer is {questions[currentQuestion][1]}</Alert>
-                            }
-                            <Col className="answer-section">
-                              <h2>{questions[currentQuestion][2]}</h2>
-                              <Form.Group controlId="answer">
-                                <Form.Control type="text"
-                                  name="answer" />
-                              </Form.Group>
-                              <h2>{questions[currentQuestion][3]}</h2>
-                              <Button onClick={() => handleFillButton(questions[currentQuestion][1], document.getElementById("answer").value)}>
-                                {/* <Button> */}
-                                Submit Answer
-                    </Button>
-                            </Col>
-
-                          </Container>
-                          {alert
-                            ? <Button show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
-                            : <br></br>
-                          }
-                        </Col>
                         <Col>
                           <Button onClick={() => nextActivity()}>Next Activity</Button>
                         </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={10}>
+                          <Container style={{ height: "100%", background: "linear-gradient(180deg, #B19B9B 0%, rgba(255, 255, 255, 0) 100%), #8DA9C4" }}>
+                            <div class="activity-progress-card">
+                              <p>Activity {currentActivity + 1} of {activities.length} </p>
+                            </div>
+
+                            <Container style={{ background: "#EEF4ED", borderRadius: "30px", height: "80%", width: "70%", paddingBottom: "20px" }}>
+
+                              <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
+                                {currentQuestion + 1}. {questions[currentQuestion][0]}
+                              </div>
+                              {alert
+                                ? <Alert show={showAlert} variant="success">Correct</Alert>
+                                : <Alert show={showAlert} variant="danger">Wrong. The correct answer is {questions[currentQuestion][1]}</Alert>
+                              }
+                              <Col className="answer-section">
+                                {questions[currentQuestion][2]}
+                                <Form.Group controlId="answer">
+                                  <Form.Control type="text"
+                                    name="answer" />
+                                </Form.Group>
+                                {questions[currentQuestion][3]}
+                                <Row>
+                                  {alert
+                                    ? <br></br>
+                                    : <Button onClick={() => handleFillButton(questions[currentQuestion][1], document.getElementById("answer").value)}>Submit Answer</Button>
+                                  }
+
+                                </Row>
+                                {alert
+                                  ? <Button style={{ fontSize: "14px", width: "50%", alignSelf: "center" }} show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
+                                  : <br></br>
+                                }
+
+                              </Col>
+
+                            </Container>
+
+                            <div style={{ textAlign: "right" }}><p>{questions.length - currentQuestion - 1} questions left</p></div>
+                          </Container>
+
+
+                        </Col>
+
                       </Row>
                     </Container>
                   )}
               </Container>
             )
           }
+          <h2>{game.getGame.name}</h2>
+          <p>by {game.getGame.creatorName}</p>
+          <hr></hr>
+          <p>{game.getGame.description}</p>
         </Container>
       );
     }
@@ -441,7 +483,7 @@ export default function MultipleChoiceActivity(props) {
         }
 
         console.log("clicked", val)
-
+        // if first click
         if (!hasClicked) {
           hasClicked = true;
           firstCard = val;
@@ -449,6 +491,7 @@ export default function MultipleChoiceActivity(props) {
           firstColor.classList.add('selected-match')
           console.log(hasClicked, firstCard);
         }
+        // if second click
         else {
           hasClicked = false;
           secondCard = val;
@@ -464,12 +507,14 @@ export default function MultipleChoiceActivity(props) {
               }
             }
           }
+          //if correct match
           if (questions[ind].includes(secondCard) && firstCard != secondCard) {
             console.log("yay")
             firstColor.classList.remove('selected-match')
             secondColor.classList.remove('selected-match')
             firstColor.classList.add('correct-match')
             secondColor.classList.add('correct-match')
+            // if last match
             if (document.getElementsByClassName("correct-match").length == shuffled.length) {
               console.log("game finished", "correct-match".length, shuffled.length);
               stopTime();
@@ -480,6 +525,7 @@ export default function MultipleChoiceActivity(props) {
             }
 
           }
+          // not a match, unselect both
           else {
             console.log("no")
             firstColor.classList.remove('selected-match')
@@ -489,7 +535,7 @@ export default function MultipleChoiceActivity(props) {
       }
 
       return (
-        <Container>
+        <Container style={{ height: "70%" }}>
           {endGame ? (
             <Container>
               <h1>Congratulations</h1>
@@ -504,27 +550,28 @@ export default function MultipleChoiceActivity(props) {
           ) : (
               <Container>
                 {showScore ? (
-                  <Container>
-                    <h1>You have completed this Matching activity</h1>
-
-                    <h2>You finished in {timeTaken = document.querySelector('.timer').innerHTML}</h2>
-                    <h4>Would you like to go on to the next activity in the game?</h4>
-                    <Row>
-                      <Button onClick={() => nextActivity()} style={{ marginBottom: '10px' }}>Go on to next activity</Button>
-                    </Row>
-                    <Row>
-                      <Button onClick={() => retryActivity()}>Retry activity</Button>
-                    </Row>
-                  </Container>
+                  <Container style={{background: "rgba(49, 48, 48, 0.8)"}}>
+                  <div class="end-activity">
+                  Congratulations, you have completed Activity {currentActivity + 1} of {activities.length}
+                  <br></br>You finished in {timeTaken = document.querySelector('.timer').innerHTML}!
+                  </div>
+                  
+                  <Row>
+                    <Button variant="light" onClick={() => nextActivity()} style={{ marginBottom: '10px', width: "20%", margin: "auto" }}>Next Activity</Button>
+                  </Row>
+                  <Row>
+                    <Button variant="light" onClick={() => retryActivity()}>Retry activity</Button>
+                  </Row>
+                </Container>
                 ) : (
                     <Container>
                       <Row>
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
-                        <Col xs={8}>
-                          <div class="matching-screen">
-                            <p>Timer:</p>
+                        <Col xs={10}>
+                          <Container style={{ background: "#FAEEEE" , fontFamily:"DM Sans", paddingTop:"20px", paddingBottom:"40px"}}>
+                            <h5>Timer:</h5>
                             <div class="timer-container">
                               <span class="timer">0 minutes 0 seconds</span>
                             </div>
@@ -540,7 +587,10 @@ export default function MultipleChoiceActivity(props) {
                               )}
                               </Row>
                             </Container>
-                          </div>
+
+                          </Container>
+
+
                         </Col>
                         <Col>
                           <Button onClick={() => nextActivity()}>Next Activity</Button>
@@ -551,16 +601,12 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
+          <h2>{game.getGame.name}</h2>
+          <p>by {game.getGame.creatorName}</p>
+          <hr></hr>
+          <p>{game.getGame.description}</p>
         </Container>
-
-
-
-
-
       )
-
-      // end of return
-
     }
 
   }

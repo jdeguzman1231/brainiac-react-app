@@ -1,12 +1,15 @@
 import React from 'react';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
-import { Form, Button, Modal, Figure } from 'react-bootstrap';
+import { Form, Button, Modal, Figure, OverlayTrigger, Tooltip, Jumbotron, ButtonGroup } from 'react-bootstrap';
 import { AuthContext } from "../context/auth";
 import { useContext, useState, useEffect } from "react";
 import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
 import { run as runHolder } from 'holderjs/holder'
+import trashcan from '../images/trashcan.png'
+import save from '../images/save.png'
+import pencil from '../images/pencil.png'
 
 
 function GamePage(props) {
@@ -25,6 +28,9 @@ function GamePage(props) {
         variables: { gameID, gameID },
         fetchPolicy: 'cache-and-network'
     });
+    const { data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
+        variables: { platformID, platformID }
+    });
     const { user, logout } = useContext(AuthContext);
     if (user) {
         var creatorName = user.username;
@@ -40,7 +46,7 @@ function GamePage(props) {
     })
     const [updateGame] = useMutation(EDIT_GAME, {
         update(proxy, result) {
-            window.location.replace("/platform/" + platformID+"/game/"+gameID);
+            window.location.replace("/platform/" + platformID + "/game/" + gameID);
         },
         onError(err) {
             console.log(err.networkError.result.errors)
@@ -85,7 +91,7 @@ function GamePage(props) {
                     platformID: platformID
                 }
             });
-            
+
         },
         onError(err) {
             console.log(err.networkError.result.errors)
@@ -106,18 +112,50 @@ function GamePage(props) {
         console.log(data)
         const game = data.getGame
         if (user && user.username == game.creatorName) {
-            
             return (
                 <div className="game-page-container">
-                    <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
+                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
+                        <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
+                    </Jumbotron>
+
                     <Figure>
                         <Figure.Image className='layoutimg'
                             width={870}
                             height={524}
                             src="holder.js/870x524"
                         />
+                        <Button href={playLink}>
+                        Play Game
+                    </Button>
                     </Figure>
-                    <Button onClick={handleShow}>Delete Game</Button>
+                    <div>
+                        <ButtonGroup>
+                            <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        Delete Game
+                            </Tooltip>
+                                }>
+                                <Button variant="light" onClick={handleShow}><img width={30}
+                                    height={30} src={trashcan}></img></Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        Design Game
+                            </Tooltip>
+                                }>
+                                <Button variant="light" href={designLink}>
+                                    <img width={30}
+                                        height={30} src={pencil}></img>
+                                </Button>
+                            </OverlayTrigger>
+
+                        </ButtonGroup>
+
+                    </div>
+
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Confirm Delete</Modal.Title>
@@ -139,21 +177,22 @@ function GamePage(props) {
                             <Form.Label>Game Title</Form.Label>
                             <Form.Control defaultValue={game.name} name="name" onChange={handleChange} size="lg" />
                         </Form.Group>
-                        <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
+                        <p>by <Link to={`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                         <hr></hr>
                         <Form.Group >
                             <Form.Label>Description</Form.Label>
                             <Form.Control defaultValue={game.description} name="description" onChange={handleChange} />
                         </Form.Group>
-                        <Button type="submit">Save Changes</Button>
-                    </Form>
+                        <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                                <Tooltip>
+                                    Save Changes
+                            </Tooltip>
+                            }><Button variant="light " type="submit"><img width={25}
+                                height={25} src={save}></img>  Save Changes</Button></OverlayTrigger>
 
-                    <Button href={designLink}>
-                        Design Page
-                    </Button>
-                    <Button href={playLink}>
-                        Play Game
-                    </Button>
+                    </Form>
                 </div>
 
             )
@@ -161,6 +200,10 @@ function GamePage(props) {
         else {
             return (
                 <div className="game-page-container">
+                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
+                        <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
+                    </Jumbotron>
+
                     <Figure>
                         <Figure.Image className='layoutimg'
                             width={870}
@@ -169,7 +212,7 @@ function GamePage(props) {
                         />
                     </Figure>
                     <h2>{game.name}</h2>
-                    <p>by <Link to = {`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
+                    <p>by <Link to={`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                     <hr></hr>
                     <p>{game.description}</p>
                     <p>Tags:</p>

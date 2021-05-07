@@ -26,14 +26,14 @@ function HomePage(props) {
     const platforms = allPlatforms.slice(0, 6);
     return (
         <div>
-            <Jumbotron style={{ height: 400, background: 'radial-gradient(47.36% 200.23% at 21.49% 64.71%, #FFFEEE 0%, rgba(253, 251, 218, 0.0260417) 80.88%, rgba(255, 255, 255, 0) 100%), #BAD8D1' }}>
+            <Jumbotron style={{ height: 450, background: 'radial-gradient(47.36% 200.23% at 21.49% 64.71%, #FFFEEE 0%, rgba(253, 251, 218, 0.0260417) 80.88%, rgba(255, 255, 255, 0) 100%), #BAD8D1' }}>
                 <div class="home-header">
                     <h1>Build your own </h1>
                     <h1>learning tools</h1>
                     <p>Create and customize simple games for a <br></br>
                         learning experience catered to you</p>
-                    <p><img src={headerimg}></img></p>
-                    <Button style = {{marginTop: "-60px"}}onClick={handleRoute} variant="custom">Get Started</Button>
+                    {/* <p><img src={headerimg}></img></p> */}
+                    <Button onClick={handleRoute} variant="custom">Get Started</Button>
                 </div>
             </Jumbotron>
             <Jumbotron style={{ background: 'radial-gradient(57.56% 81.11% at 85.97% 42.44%, #BEE9FC 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(63.97% 63.97% at 23.26% 36.03%, #F4DCC6 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(46.04% 86.57% at 50% 90.25%, #DDEBCB 0%, rgba(255, 255, 255, 0) 100%), #FDFDF0' }}>
