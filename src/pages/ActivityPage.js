@@ -9,6 +9,9 @@ import { getVariableValues } from 'graphql/execution/values';
 
 function ActivityPage(props) {
     const [show, setShow] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    const openDelete = () => setShowDelete(true);
+    const handleCloseDelete = () => setShowDelete(false);
     const aactivityID = props.match.params.activityID;
     const handleClose = () => setShow(false);
     const openModal = () => setShow(true);
@@ -161,9 +164,18 @@ function ActivityPage(props) {
            </Form>
         }
         return (
-            <Container>
-                Activity Page
-                <p>Type: {title}</p>
+            <Container style = {{paddingTop: '20px'}}>
+                <Row>
+                    <Col>
+                        <h4>Activity Page</h4>
+                        <p>Type: {title}</p>
+                    </Col>
+                    <Col>
+                    <Row style = {{paddingTop: '10px', paddingLeft: '400px'}}>
+                        <Button onClick = {openDelete} variant="light">Delete This Activity</Button>
+                    </Row>
+                    </Col>
+                </Row>
                 <Row style = {{paddingBottom: '10px'}}>
                         {questions.map((question, key) => (
                             <Card style = {{ width: '22rem' }}>
@@ -174,12 +186,34 @@ function ActivityPage(props) {
                                 {question.slice(start,len).map((quest) =>
                                     <p>{quest}</p>
                                 )}
-                                <Button>Edit</Button>
+                                <Row>
+                                    <Col>
+                                        <Button variant = "light">Edit</Button>
+                                    </Col>
+                                    <Col style = {{paddingLeft: '145px'}}>
+                                        <Button variant = "dark">Delete</Button>
+                                    </Col>
+                                </Row>
                             </Card.Body>
                             </Card>
                         ))}
                 </Row>
                 <Button onClick = {openModal}>Add a question</Button>
+                <Modal show = {showDelete} onHide = {handleCloseDelete}>
+                    <Modal.Header>
+                        <Modal.Title>Are you sure you want to delete this activity?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Row>
+                            <Col>
+                                <Button>Yes</Button>
+                            </Col>
+                            <Col>
+                                <Button onClick = {handleCloseDelete}>No</Button>
+                            </Col>
+                        </Row>
+                    </Modal.Body>
+                </Modal>
                 <Modal show = {show} onHide = {handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add question</Modal.Title>
