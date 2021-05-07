@@ -77,7 +77,7 @@ function ExplorePage() {
             )
         }
         return (
-            <div class="page-container">
+            <div>
                 <div class="explore">
                 <Jumbotron style={{background: 'radial-gradient(36.69% 153.15% at 50% 50%, #FFFEEE 0%, rgba(255, 255, 255, 0) 100%), #D1E9E3'}}> 
                     <h1 class ="title" style = {{textAlign: 'center'}}>Explore Games</h1>
