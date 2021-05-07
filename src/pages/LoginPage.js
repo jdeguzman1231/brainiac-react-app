@@ -77,7 +77,7 @@ function LoginPage(props) {
                 </Button>
                     <p style={{ marginTop: '30px', textAlign: 'center' }}>Don't have an account? <a href="/signup">Sign up</a></p>
                 </Form>
-                <Button block variant='link'>
+                <Button block onClick = {handleReset} variant='link'>
                     Forgot your password?
             </Button>
                 <Modal show={valid} onHide={handleClose}>

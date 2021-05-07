@@ -9,7 +9,7 @@ import bg from '../images/bg.png'
 function SignUpPage(props) {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
-
+    
     const { handleChange, onSubmit, values } = useForm(signupUser, {
         username: '',
         email: '',

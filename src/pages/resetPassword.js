@@ -25,7 +25,7 @@ function ResetPassword(props){
         if(!user){
             setReply({show:true, msg: 'That username is not registered!'})
         }
-        const url = `http://localhost:3000/resetPassword/${user.email}`;
+        const url = `${window.location.href}/${user.email}/${cred.USER_ID}`;
         let emailForm = {
             to: user.email,
             subject: 'Reset Password',
