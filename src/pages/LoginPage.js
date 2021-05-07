@@ -45,7 +45,7 @@ function LoginPage(props) {
 
 
     return (
-        <div style={{ backgroundImage: `url(${bg})`, backgroundSize: 900, backgroundRepeat: "no-repeat", backgroundPosition: "50% 70%" }}>
+        <div style={{ backgroundImage: `url(${bg})`, backgroundSize: "65%", backgroundRepeat: "no-repeat", backgroundPosition: "50% 70%" }}>
             <div className="form-container" style={{paddingTop: 120}}>
                 <h1>Welcome Back,</h1>
                 <p>log in to continue</p>

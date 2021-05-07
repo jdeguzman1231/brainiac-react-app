@@ -118,16 +118,16 @@ function GamePage(props) {
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
 
-                    <Figure>
-                        <Figure.Image className='layoutimg'
-                            width={870}
-                            height={524}
-                            src="holder.js/870x524"
-                        />
-                        <Button href={playLink}>
-                        Play Game
-                    </Button>
-                    </Figure>
+                    <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
+                        <Figure class="game-screen" >
+
+                            <Figure.Image className='layoutimg'
+                                width={870}
+                                height={524}
+                                src="holder.js/870x524"
+                            />
+
+                        </Figure> </Button>
                     <div>
                         <ButtonGroup>
                             <OverlayTrigger
@@ -203,14 +203,16 @@ function GamePage(props) {
                     <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
+                    <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
+                        <Figure class="game-screen" >
 
-                    <Figure>
-                        <Figure.Image className='layoutimg'
-                            width={870}
-                            height={524}
-                            src="holder.js/870x524"
-                        />
-                    </Figure>
+                            <Figure.Image className='layoutimg'
+                                width={870}
+                                height={524}
+                                src="holder.js/870x524"
+                            />
+
+                        </Figure> </Button>
                     <h2>{game.name}</h2>
                     <p>by <Link to={`/account/${game.creatorName}`}>{game.creatorName}</Link></p>
                     <hr></hr>

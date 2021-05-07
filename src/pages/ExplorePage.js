@@ -8,9 +8,9 @@ import {FETCH_PLATFORMS_QUERY} from '../graphql/queries'
 import {useForm} from '../util/hooks';
 function ExplorePage() {
     const [form, setSearch] = useState({search: '', pvg: 0, category: 0})
-    const [page, setPage] = useState(6);
+    const [page, setPage] = useState(8);
     const [platforms, setPlatforms] = useState([]);
-    const pages = Math.floor(platforms.length / 6) + 1;
+    const pages = Math.floor(platforms.length / 8) + 1;
     console.log(useQuery(FETCH_PLATFORMS_QUERY));
     const { loading, data } = useQuery(FETCH_PLATFORMS_QUERY);
     useEffect(() =>{
@@ -50,28 +50,28 @@ function ExplorePage() {
            var id = e.target.id;
            switch (id) {
                case "first":
-                   setPage(6);
+                   setPage(8);
                    break;
                 case "last":
-                    setPage(pages * 6);
+                    setPage(pages * 8);
                     break;
                 case "prev":
-                    setPage(page - 6);
+                    setPage(page - 8);
                     break;
                 case "next":
                     console.log(page);
-                    setPage(page + 6);
+                    setPage(page + 8);
                     break;
                default:
                    var newPage = parseInt(id);
-                   setPage(newPage * 6);
+                   setPage(newPage * 8);
                    break;
            }
        }
         var items = []
         for (var i = 1; i <= pages; i++){
             items.push(
-                <Pagination.Item onClick = {switchPage} id = {i.toString()} key = {i} active = {(i * 6) == page}>
+                <Pagination.Item onClick = {switchPage} id = {i.toString()} key = {i} active = {(i * 8) == page}>
                     {i}
                 </Pagination.Item>
             )
@@ -103,7 +103,7 @@ function ExplorePage() {
   
                 <Container>
                     <Row>{loading ? (<h1>Loading...</h1>) : (
-                        platforms && platforms.slice(page-6,page).map((platform) => (
+                        platforms && platforms.slice(page-8,page).map((platform) => (
                             <Col >
                                 <PlatformCard platform={platform} />
                             </Col>
@@ -112,11 +112,11 @@ function ExplorePage() {
                     </Row>
                 </Container>
                 <Pagination style = {{marginBottom: '150px', marginTop: "50px", justifyContent: "center"}}>
-                    <Pagination.First  id = "first" disabled = {page == 6} onClick = {switchPage}/>
-                    <Pagination.Prev id = "prev" disabled = {page == 6} onClick = {switchPage}/>
+                    <Pagination.First  id = "first" disabled = {page == 8} onClick = {switchPage}/>
+                    <Pagination.Prev id = "prev" disabled = {page == 8} onClick = {switchPage}/>
                     {items}
-                    <Pagination.Next  id = "next" disabled = {page == (pages * 6)} onClick = {switchPage}/>
-                    <Pagination.Last id = "last" disabled = {page == (pages * 6)} onClick = {switchPage} />
+                    <Pagination.Next  id = "next" disabled = {page == (pages * 8)} onClick = {switchPage}/>
+                    <Pagination.Last id = "last" disabled = {page == (pages * 8)} onClick = {switchPage} />
                 </Pagination>
       
                 </div>

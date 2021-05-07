@@ -23,7 +23,7 @@ function HomePage(props) {
     }
     const allPlatforms = data.getPlatforms;
 
-    const platforms = allPlatforms.slice(0, 6);
+    const platforms = allPlatforms.slice(0, 8);
     return (
         <div>
             <Jumbotron style={{ height: 450, background: 'radial-gradient(47.36% 200.23% at 21.49% 64.71%, #FFFEEE 0%, rgba(253, 251, 218, 0.0260417) 80.88%, rgba(255, 255, 255, 0) 100%), #BAD8D1' }}>

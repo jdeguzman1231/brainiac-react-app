@@ -39,7 +39,7 @@ function SignUpPage(props) {
     }
 
     return (
-        <div style={{ backgroundImage: `url(${bg})`, backgroundSize: 900, backgroundRepeat: "no-repeat", backgroundPosition: "50% 70%"}}>
+        <div style={{ backgroundImage: `url(${bg})`, backgroundSize: "65%", backgroundRepeat: "no-repeat", backgroundPosition: "50% 70%"}}>
             <div className="form-container">
                 <h1>Create an Account,</h1>
                 <p>sign up to continue</p>

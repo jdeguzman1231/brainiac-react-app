@@ -22,7 +22,7 @@ function GameCard(id) {
         const parentPlatform = game.parentPlatform
         return (
             <div class="pagecard">
-                <Card style={{ width: '16rem' }}>
+                <Card style={{ width: '15rem' }}>
                     <Card.Img className='layoutimg' variant="top" src="holder.js/100px180?random=yes" thumbnail />
                     <Card.Body>
                         <Card.Title>{game.name}</Card.Title>

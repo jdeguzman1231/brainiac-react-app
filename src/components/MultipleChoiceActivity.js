@@ -149,9 +149,9 @@ export default function MultipleChoiceActivity(props) {
               </Row>
             </Container>
           ) : (
-              <Container>
+              <Container style={{paddingBottom:"20px"}}>
                 {showScore ? (
-                  <Container style={{ background: "rgba(49, 48, 48, 0.8)" }}>
+                  <Container style={{ width: "80%", background: "rgba(49, 48, 48, 0.8)" }}>
                     <div class="end-activity">
                       Congratulations, you have completed Activity {currentActivity + 1} of {activities.length}
                       <br></br>You scored {score} out of {questions.length}!
@@ -165,7 +165,7 @@ export default function MultipleChoiceActivity(props) {
                     </Row>
                   </Container>
                 ) : (
-                    <Container>
+                    <Container style={{paddingBottom:"20px"}}>
                       <Row>
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
@@ -175,9 +175,9 @@ export default function MultipleChoiceActivity(props) {
                         </Col>
                       </Row>
                       <Row>
-                        <Col xs={10}>
+                        <Col>
                           {/* Outer Screen */}
-                          <Container style={{ height: "100%", background: 'radial-gradient(60.34% 81.2% at 50% 50%, #FDFF83 0%, rgba(255, 255, 255, 0) 100%), #C6DFBE' }}>
+                          <Container style={{width: "80%", background: 'radial-gradient(60.34% 81.2% at 50% 50%, #FDFF83 0%, rgba(255, 255, 255, 0) 100%), #C6DFBE' }}>
                             <div class="activity-progress-card">
                               <p>Activity {currentActivity + 1} of {activities.length} </p>
                             </div>
@@ -209,7 +209,7 @@ export default function MultipleChoiceActivity(props) {
 
                                   ))}
                                   {alert
-                                    ? <Button style={{ fontSize: "14px", width: "50%", alignSelf: "center" }} show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
+                                    ? <Button style={{ fontSize: "14px", width:"100%", margin:"auto" }} show={showAlert} onClick={handleNextQuestion} variant="secondary">Next Question</Button>
                                     : <br></br>
                                   }
                                 </Col>
@@ -272,15 +272,20 @@ export default function MultipleChoiceActivity(props) {
                     </Row>
                   </Container>
                 ) : (
-                    <Container>
+                    <Container style={{paddingBottom:"20px"}}>
                       <Row>
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
-                        <Col xs={8}>
-                          <Container style={{ height: "100%", background: "linear-gradient(180deg, rgba(255, 200, 200, 0) 0%, #FFEEDB 99.99%, rgba(255, 255, 255, 0.979167) 100%), #FDDBDB" }}>
+                        <Col>
+                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <div style={{ width:"80% ",padding: "60px", background: "linear-gradient(180deg, rgba(255, 200, 200, 0) 0%, #FFEEDB 99.99%, rgba(255, 255, 255, 0.979167) 100%), #FDDBDB" }}>
                             <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-                              <Jumbotron style={{ height: "70%", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)" }} onClick={handleFlip}>
+                              <div style={{padding: "100px", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)", margin: "auto"}} onClick={handleFlip}>
 
                                 <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
                                   {questions[currentQuestion][0]}
@@ -288,22 +293,20 @@ export default function MultipleChoiceActivity(props) {
                                 <div style={{ textAlign: "right" }}><p>Click to flip</p></div>
 
 
-                              </Jumbotron>
+                              </div>
 
-                              <Jumbotron style={{ height: "70%", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)" }} onClick={handleFlip}>
+                              <div style={{ padding: "100px", cursor: "pointer", background: "#FFFFFF", width: "80%", borderRadius: "15px", backdropFilter: "blur(4px)", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.08)", margin: "auto"}} onClick={handleFlip}>
                                 <div style={{ textAlign: "center", fontSize: "25px", paddingTop: "25px", paddingBottom: "10px" }}>
                                   {questions[currentQuestion][1]}
                                 </div>
                                 <div style={{ textAlign: "right" }}><p>Click to flip</p></div>
-                              </Jumbotron>
+                              </div>
 
                             </ReactCardFlip>
-                          </Container>
+                          </div>
 
                         </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
-                        </Col>
+                      
                       </Row>
                     </Container>
                   )}
@@ -365,7 +368,7 @@ export default function MultipleChoiceActivity(props) {
                     </Row>
                   </Container>
                 ) : (
-                    <Container>
+                    <Container style={{paddingBottom:"20px"}}>
                       <Row>
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
@@ -375,8 +378,8 @@ export default function MultipleChoiceActivity(props) {
                         </Col>
                       </Row>
                       <Row>
-                        <Col xs={10}>
-                          <Container style={{ height: "100%", background: "linear-gradient(180deg, #B19B9B 0%, rgba(255, 255, 255, 0) 100%), #8DA9C4" }}>
+                        <Col>
+                          <div style={{ width:"80%", paddingTop:"30px", paddingBottom:"30px", background: "linear-gradient(180deg, #B19B9B 0%, rgba(255, 255, 255, 0) 100%), #8DA9C4" }}>
                             <div class="activity-progress-card">
                               <p>Activity {currentActivity + 1} of {activities.length} </p>
                             </div>
@@ -414,7 +417,7 @@ export default function MultipleChoiceActivity(props) {
                             </Container>
 
                             <div style={{ textAlign: "right" }}><p>{questions.length - currentQuestion - 1} questions left</p></div>
-                          </Container>
+                          </div>
 
 
                         </Col>
@@ -548,7 +551,7 @@ export default function MultipleChoiceActivity(props) {
               </Row>
             </Container>
           ) : (
-              <Container>
+              <Container style={{paddingBottom:"20px"}}>
                 {showScore ? (
                   <Container style={{background: "rgba(49, 48, 48, 0.8)"}}>
                   <div class="end-activity">
@@ -564,13 +567,18 @@ export default function MultipleChoiceActivity(props) {
                   </Row>
                 </Container>
                 ) : (
-                    <Container>
+                    <Container style={{paddingBottom:"20px"}}>
                       <Row>
                         <Col>
                           <Button onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
-                        <Col xs={10}>
-                          <Container style={{ background: "#FAEEEE" , fontFamily:"DM Sans", paddingTop:"20px", paddingBottom:"40px"}}>
+                        <Col>
+                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                        </Col>
+                      </Row>
+                      <Row>
+                        
+                          <Container style={{ background: "linear-gradient(180deg, #FBEDD7 0%, rgba(255, 255, 255, 0) 100%), #FAEEEE" , fontFamily:"DM Sans", paddingTop:"20px", paddingBottom:"40px"}}>
                             <h5>Timer:</h5>
                             <div class="timer-container">
                               <span class="timer">0 minutes 0 seconds</span>
@@ -591,10 +599,8 @@ export default function MultipleChoiceActivity(props) {
                           </Container>
 
 
-                        </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
-                        </Col>
+                        
+                        
                       </Row>
                     </Container>
                   )}
