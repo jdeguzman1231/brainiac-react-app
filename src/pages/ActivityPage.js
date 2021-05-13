@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ActivityCard from './../components/ActivityCard';
 import { useQuery, useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import {Container, Row, Col, Button, Card, Modal, Form} from "react-bootstrap";
+import { Container, Row, Col, Button, Card, Modal, Form } from "react-bootstrap";
 import { useForm } from '../util/hooks';
 import QuestionCard from "./../components/QuestionCard";
 import { getVariableValues } from 'graphql/execution/values';
@@ -13,9 +13,13 @@ function ActivityPage(props) {
     const openDelete = () => setShowDelete(true);
     const handleCloseDelete = () => setShowDelete(false);
     const aactivityID = props.match.params.activityID;
+    const ggameID = props.match.params.gameID;
+    const pplatformID = props.match.params.parentPlatform;
     const handleClose = () => setShow(false);
     const openModal = () => setShow(true);
     const activityID = parseInt(aactivityID, 10);
+    const gameID = parseInt(ggameID, 10);
+    const platformID = parseInt(pplatformID, 10);
     const { loading, data } = useQuery(FETCH_ACTIVITY_QUERY, {
         variables: { activityID: activityID },
     });
@@ -23,28 +27,31 @@ function ActivityPage(props) {
         email: '',
         password: ''
     })
-    const [addCard, {loading:load}] = useMutation(ADD_CARD, {
-        update(proxy, {data}) {
+    const [addCard, { loading: load }] = useMutation(ADD_CARD, {
+        update(proxy, { data }) {
             console.log("new ", data.addActivityCard.card)
-            try{
-                const d = proxy.readQuery({query: FETCH_ACTIVITY_QUERY, variables: {activityID: activityID}, });
+            try {
+                const d = proxy.readQuery({ query: FETCH_ACTIVITY_QUERY, variables: { activityID: activityID }, });
                 var array1 = [...d.getActivity.data]
                 array1.push(data.addActivityCard.card)
                 proxy.writeQuery({
-                    query: FETCH_ACTIVITY_QUERY, 
+                    query: FETCH_ACTIVITY_QUERY,
                     data: {
                         getActivity: {
                             activityID: activityID,
-                            data: array1
+                            data: array1,
+                            parentPlatform: platformID,
+                            parentGame: gameID
                         },
                     },
                     variables: {
-                        activityID: activityID
+                        activityID: activityID,
+                        parentPlatform: platformID,
+                        parentGame: gameID
                     }
                 })
-
             }
-            catch(error) {
+            catch (error) {
                 console.error(error.networkError.result.errors)
             }
         },
@@ -61,13 +68,51 @@ function ActivityPage(props) {
             activityID: activityID
         }
     })
+    // delete activity
+    const [deleteActivity] = useMutation(DELETE_ACTIVITY, {
+        update(proxy, result) {
+            console.log("Deleted activity")
+            window.location.replace("/platform/" + platformID + "/game/" + gameID + "/design");
+            const d = proxy.readQuery({ query: FETCH_GAME_QUERY, variables: { gameID: gameID }, });
+            var array1 = [...d.getGame.activities]
+            var ind;
+            for (var i = 0; i < array1.length; i++) {
+                if (array1[i] == activityID) {
+                    ind = i
+                }
+            }
+            array1.splice(ind, 1)
+            console.log("here", d, array1)
+            proxy.writeQuery({
+                query: FETCH_GAME_QUERY,
+                data: {
+                    getGame: {
+                        gameID: gameID,
+                        activities: array1
+                    },
+                },
+                variables: {
+                    gameID: gameID
+                }
+            });
+        },
+        onError(err) {
+            console.log("uh")
+        },
+        variables: {
+            activityID: activityID,
+            gameID: gameID
+        }
+    })
+
     function addCardCallback() {
         addCard();
         setShow(false);
     }
-    console.log(activityID);
+
+
     if (loading) return "loading"
-    else{
+    else {
         var title;
         var len;
         var modal;
@@ -79,142 +124,145 @@ function ActivityPage(props) {
             title = "Multiple Choice"
             len = 6;
             start = 2;
-            modal = 
-            <Form onSubmit = {onSubmit}>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Question" type = "text" name = "question"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Correct Answer" type = "text" name = "correct"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Option 1" type = "text" name = "option1"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Option 2" type = "text" name = "option2"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Option 3 (Optional)" type = "text" name = "option3"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Option 4 (Optional)" type = "text" name = "option4"/>
-                </Form.Group>
-                <Button variant="primary" type="submit" block>
+            modal =
+                <Form onSubmit={onSubmit}>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Question" type="text" name="question" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Correct Answer" type="text" name="correct" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Option 1" type="text" name="option1" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Option 2" type="text" name="option2" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Option 3 (Optional)" type="text" name="option3" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Option 4 (Optional)" type="text" name="option4" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit" block>
                         Add
                 </Button>
-           </Form>
+                </Form>
         }
         else if (activity.type === 'fill') {
             // source = fill
             title = "Fill in the Blank"
             len = 4;
             start = 2;
-            modal = 
-            <Form onSubmit = {onSubmit}>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Question" type = "text" name = "question"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Correct Answer" type = "text" name = "correct"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "In front of blank" type = "text" name = "option1"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Behind blank" type = "text" name = "option2"/>
-                </Form.Group>
-                <Button variant="primary" type="submit" block>
+            modal =
+                <Form onSubmit={onSubmit}>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Question" type="text" name="question" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Correct Answer" type="text" name="correct" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="In front of blank" type="text" name="option1" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Behind blank" type="text" name="option2" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit" block>
                         Add
                 </Button>
-           </Form>
+                </Form>
         }
         else if (activity.type === 'Flashcards') {
             // source = fill
             title = "Flashcards"
             len = 1;
             start = 1;
-            modal = 
-            <Form onSubmit = {onSubmit}>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Front Side" type = "text" name = "question"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Back Side" type = "text" name = "correct"/>
-                </Form.Group>
-                <Button variant="primary" type="submit" block>
+            modal =
+                <Form onSubmit={onSubmit}>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Front Side" type="text" name="question" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Back Side" type="text" name="correct" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit" block>
                         Add
                 </Button>
-           </Form>
+                </Form>
         }
         else if (activity.type === 'matching') {
             title = "Matching"
             len = 1;
             start = 1;
-            modal = 
-            <Form onSubmit = {onSubmit}>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "First" type = "text" name = "question"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Control onChange = {handleChange} placeholder = "Second" type = "text" name = "correct"/>
-                </Form.Group>
-                <Button variant="primary" type="submit" block>
+            modal =
+                <Form onSubmit={onSubmit}>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="First" type="text" name="question" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control onChange={handleChange} placeholder="Second" type="text" name="correct" />
+                    </Form.Group>
+                    <Button variant="primary" type="submit" block>
                         Add
                 </Button>
-           </Form>
+                </Form>
         }
         return (
-            <Container style = {{paddingTop: '20px'}}>
+            <Container style={{ paddingTop: '20px' }}>
                 <Row>
                     <Col>
                         <h4>Activity Page</h4>
                         <p>Type: {title}</p>
                     </Col>
                     <Col>
-                    <Row style = {{paddingTop: '10px', paddingLeft: '400px'}}>
-                        <Button onClick = {openDelete} variant="light">Delete This Activity</Button>
-                    </Row>
+                        <Row style={{ paddingTop: '10px', paddingLeft: '400px' }}>
+                            <Button onClick={openDelete} variant="light">Delete This Activity</Button>
+                        </Row>
                     </Col>
                 </Row>
-                <Row style = {{paddingBottom: '10px'}}>
-                        {questions.map((question, key) => (
-                            <Card style = {{ width: '22rem' }}>
+                <Row style={{ paddingBottom: '10px' }}>
+                    {questions.map((question, key) => (
+                        <Card style={{ width: '22rem' }}>
                             <Card.Body>
-                                <p>{key+1}</p>
+                                <p>{key + 1}</p>
                                 <Card.Title>{question[0]}</Card.Title>
                                 <p>Correct Answer: {question[1]}</p>
-                                {question.slice(start,len).map((quest) =>
+                                {question.slice(start, len).map((quest) =>
                                     <p>{quest}</p>
                                 )}
                                 <Row>
                                     <Col>
-                                        <Button variant = "light">Edit</Button>
+                                        <Button variant="light">Edit</Button>
                                     </Col>
-                                    <Col style = {{paddingLeft: '145px'}}>
-                                        <Button variant = "dark">Delete</Button>
+                                    <Col style={{ paddingLeft: '145px' }}>
+                                        <Button variant="dark">Delete</Button>
                                     </Col>
                                 </Row>
                             </Card.Body>
-                            </Card>
-                        ))}
+                        </Card>
+                    ))}
                 </Row>
-                <Button onClick = {openModal}>Add a question</Button>
-                <Modal show = {showDelete} onHide = {handleCloseDelete}>
+                <Button onClick={openModal}>Add a question</Button>
+                <Modal show={showDelete} onHide={handleCloseDelete}>
                     <Modal.Header>
                         <Modal.Title>Are you sure you want to delete this activity?</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
                             <Col>
-                                <Button>Yes</Button>
+                                <Button onClick={e => {
+                                    e.preventDefault();
+                                    deleteActivity({ variables: { activityID: activityID, gameID: gameID } });
+                                }}>Yes</Button>
                             </Col>
                             <Col>
-                                <Button onClick = {handleCloseDelete}>No</Button>
+                                <Button onClick={handleCloseDelete}>No</Button>
                             </Col>
                         </Row>
                     </Modal.Body>
                 </Modal>
-                <Modal show = {show} onHide = {handleClose}>
+                <Modal show={show} onHide={handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add question</Modal.Title>
                     </Modal.Header>
@@ -235,8 +283,23 @@ const FETCH_ACTIVITY_QUERY = gql`
         getActivity(activityID: $activityID){
             type
             data
+            parentPlatform
+            parentGame
         }
     }  
+`;
+
+const FETCH_GAME_QUERY = gql`
+    query($gameID: Int!){
+        getGame(gameID: $gameID){
+            name
+            creatorName
+            description
+            parentPlatform
+            tags
+            activities
+        }
+    }
 `;
 
 const ADD_CARD = gql`
@@ -260,3 +323,15 @@ const ADD_CARD = gql`
         )
     }
 `
+
+export const DELETE_ACTIVITY = gql`
+    mutation removeActivity(
+        $activityID: Int!
+        $gameID: Int!
+        ){
+           removeActivity(
+                activityID: $activityID
+                gameID: $gameID
+            )
+        }
+`;

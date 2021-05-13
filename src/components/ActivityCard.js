@@ -1,11 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/client';
-import {Card, Button} from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 // import fill from './../images/fill.png'
 // import multiple from './../images/multiple.png'
-function ActivityCard(id){
+function ActivityCard(id) {
     const activityID = parseInt(id['activityID'], 10);
     const { loading, data } = useQuery(FETCH_ACTIVITY_QUERY, {
         variables: { activityID: activityID },
@@ -13,8 +13,9 @@ function ActivityCard(id){
     console.log(activityID);
     if (loading) { return "loading" }
     else {
-        console.log(data)
         const activity = data.getActivity
+        const gameID = activity.parentGame
+        const platformID = activity.parentPlatform
         var source;
         var title;
         if (activity.type === 'multiple') {
@@ -37,7 +38,7 @@ function ActivityCard(id){
                 <Card.Img variant="top" src={source} />
                 <Card.Body>
                     <Card.Title>{title}</Card.Title>
-                    <Link to={`/activity/${activityID}`}>edit</Link>
+                    <Link to={`/platform/${platformID}/game/${gameID}/design/activity/${activityID}`}>edit</Link>
                 </Card.Body>
             </Card>
         )
@@ -51,8 +52,8 @@ const FETCH_ACTIVITY_QUERY = gql`
         getActivity(activityID: $activityID){
             type
             data
+            parentPlatform
+            parentGame
         }
     }  
 `;
-
-

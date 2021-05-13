@@ -11,11 +11,14 @@ function DesignPage(props) {
     const handleClose = () => setShow(false);
     const openModal = () => setShow(true);
     const ggameID = props.match.params.gameID;
+    const pplatformID = props.match.params.parentPlatform;
     const gameID = parseInt(ggameID, 10);
+    const platformID = parseInt(pplatformID, 10);
 
     const { handleChange, onSubmit, values } = useForm(addActivityCallback, {
         type: '',
-        gameID: gameID
+        gameID: gameID,
+        platformID: platformID
     })
 
     const [addActivity, {loading: load}] = useMutation(ADD_ACTIVITY, {
@@ -47,7 +50,8 @@ function DesignPage(props) {
         },
         variables: {
             type: values.type,
-            gameID: gameID
+            gameID: gameID,
+            platformID: platformID
         }
     })
 
@@ -140,10 +144,12 @@ const ADD_ACTIVITY = gql`
     mutation addActivity(
         $type: String!
         $gameID: Int!
+        $platformID: Int!
     ) {
         addActivity(
             type: $type
             gameID: $gameID
+            platformID: $platformID
         ) {
             activityID
             type

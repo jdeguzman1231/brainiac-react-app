@@ -49,7 +49,7 @@ function App() {
       <Route exact path = '/bookmarkedplatforms' component = {BookmarkedPlatforms} />
       <Route exact path = '/playedplatforms' component = {RecentlyPlayed} />
       <Route exact path = '/platform/:parentPlatform/game/:gameID/start' component = {MultipleChoiceActivity} />
-      <Route exact path = '/activity/:activityID' component = {ActivityPage} />
+      <Route exact path = '/platform/:parentPlatform/game/:gameID/design/activity/:activityID' component = {ActivityPage} />
       <Route exact path = '/resetPassword/:email/:uid' component = {SetPassword}/>
       
     </Router>
