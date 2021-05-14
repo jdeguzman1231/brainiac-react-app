@@ -5,6 +5,7 @@ export const cred = {
     USER_ID: "user_VzwWDiJXKbfZn05d3Pg3x",
     ACCESS_TOKEN: "5fdb5f9eb594efe4cf19196ba02b5a92",
     TEMPLATE_ID: "template_txkx6tb"
+    
 }
 
 

@@ -29,6 +29,7 @@ query($username: String!) {
         createdPlatforms
         playedPlatforms
         bookmarkedPlatforms
+        profilePicture
     }
 }
 `;

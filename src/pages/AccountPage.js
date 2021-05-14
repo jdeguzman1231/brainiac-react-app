@@ -6,10 +6,11 @@ import {run as runHolder} from 'holderjs/holder'
 import AccountPlatformCard from '../components/AccountPlatformCard'
 import AccountGameCard from '../components/AccountGameCard'
 import { AuthContext } from "../context/auth";
-import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
+import {FETCH_PLATFORM_QUERY, FETCH_USER_QUERY} from '../graphql/queries'
 import {addTheme as add_theme} from 'holderjs/holder'
 import Avatar from "react-avatar-edit"
 function AccountPage(props) {
+    const [pfp, setpfp] = useState("holder.js/100px165?text=\n")
     var username = props.match.params.username
     const {loading, data} = useQuery(FETCH_USER_QUERY, {
         variables: {
@@ -43,6 +44,10 @@ function AccountPage(props) {
         userText = (
             <p> User Found</p>
         )
+    }
+    if(user.profilePicture != "" && pfp == "holder.js/100px165?text=\n"){
+        console.log(user.profilePicture)
+        setpfp(user.profilePicture)
     }
     var display;
     if (loggedInUser == username) {
@@ -139,7 +144,7 @@ function AccountPage(props) {
             <Col xs = {4}>
                 <Row >
   
-                    <Image style = {{marginLeft: '30px'}} src = "holder.js/200x200?theme=sky&text=\n"roundedCircle/>
+                    <Image fluid style = {{width: '250px' ,marginLeft: '30px'}} src = {pfp} roundedCircle/>
                 
                 </Row>
                 <Row  style = {{marginTop: '15px', marginLeft: '80px'}}>
@@ -160,17 +165,3 @@ function AccountPage(props) {
 }
 
 export default AccountPage;
-
-const FETCH_USER_QUERY = gql`
-    query($username: String!) {
-        getUser(username: $username) 
-        {
-            username
-            email
-            name
-            createdPlatforms
-            playedPlatforms
-            bookmarkedPlatforms
-        }
-    }
-`
