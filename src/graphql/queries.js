@@ -7,6 +7,7 @@ query($platformID: Int!){
         creatorName
         description
         games
+        photo
     }
 }  
 `;
@@ -14,7 +15,7 @@ export const FETCH_PLATFORMS_QUERY = gql`
 
     {
     getPlatforms{
-        platformID name creatorName description
+        platformID name creatorName description photo
     }
 }   
 `;
@@ -43,4 +44,40 @@ export const FETCH_USERS_QUERY = gql`
         
     }
 }
+`;
+
+export const BOOKMARK_PLATFORM = gql`
+    mutation bookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        bookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
+`;
+
+export const UNBOOKMARK_PLATFORM = gql`
+    mutation unbookmarkPlatform(
+        $username: String!
+        $platformID: Int!
+    ) {
+        unbookmarkPlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
+`;
+
+export const DELETE_PLATFORM = gql`
+mutation deletePlatform(
+    $username: String!
+    $platformID: Int!
+    ){
+       deletePlatform(
+            username: $username
+            platformID: $platformID
+        )
+    }
 `;
