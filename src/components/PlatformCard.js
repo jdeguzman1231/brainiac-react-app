@@ -15,7 +15,7 @@ function PlatformCard({ platform: { platformID, name, creatorName, description, 
         <div class="pagecard">
         <Card style={{ width: '15rem'}}>
             {hasIMG ? (
-                <Card.Img height = {180} width = {100} variant="top" src={photo} thumbnail/>
+                <Card.Img height = {180} width = {180} variant="top" src={photo} thumbnail/>
             ) : (
                 <Card.Img variant="top" src="holder.js/100px180?random=yes" thumbnail/>
             )}
