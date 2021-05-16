@@ -1,6 +1,6 @@
 
 import { useQuery, useMutation } from '@apollo/client'
-import { Container, Col, Row, Jumbotron, Button, Modal, Tooltip, OverlayTrigger, ButtonGroup } from 'react-bootstrap'
+import { Container, Col, Row, Jumbotron, Button, Modal, Tooltip, OverlayTrigger, ButtonGroup, Form } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 import trashcan from '../images/trashcan.png'
 import cog from '../images/cog.png'
-
+import {FETCH_PLATFORM_QUERY, BOOKMARK_PLATFORM, UNBOOKMARK_PLATFORM, DELETE_PLATFORM} from '../graphql/queries'
 function PlatformPage(props) {
 
     function refresh() {
@@ -211,8 +211,8 @@ function PlatformPage(props) {
                                         <Button variant="light" onClick={handleShow}><img width={30}
                                             height={30} src={trashcan}></img></Button>
                                     </OverlayTrigger>
-                                </ButtonGroup>
 
+                                </ButtonGroup>
 
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
@@ -294,40 +294,7 @@ const FETCH_USER_QUERY = gql`
     }
 `
 
-const FETCH_PLATFORM_QUERY = gql`
-    query($platformID: Int!){
-        getPlatform(platformID: $platformID){
-            name
-            creatorName
-            description
-            games
-        }
-    }  
-`;
 
-const BOOKMARK_PLATFORM = gql`
-    mutation bookmarkPlatform(
-        $username: String!
-        $platformID: Int!
-    ) {
-        bookmarkPlatform(
-            username: $username
-            platformID: $platformID
-        )
-    }
-`;
-
-const UNBOOKMARK_PLATFORM = gql`
-    mutation unbookmarkPlatform(
-        $username: String!
-        $platformID: Int!
-    ) {
-        unbookmarkPlatform(
-            username: $username
-            platformID: $platformID
-        )
-    }
-`;
 
 const CREATE_GAME = gql`
     mutation createGame(
@@ -346,16 +313,6 @@ const CREATE_GAME = gql`
 `
 
 
-const DELETE_PLATFORM = gql`
-    mutation deletePlatform(
-        $username: String!
-        $platformID: Int!
-        ){
-           deletePlatform(
-                username: $username
-                platformID: $platformID
-            )
-        }
-`;
+
 
 export default PlatformPage;

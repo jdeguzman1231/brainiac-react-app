@@ -12,9 +12,13 @@ function AccountSettingsPage(props) {
     const [pfp, setpfp] = useState("holder.js/200x200?theme=sky&text=\n");
     const [newname, setName] = useState('');
     const [newusername, setUN] = useState('');
-    useEffect(() =>{
-        runHolder("temp");
+    const [load, setLoad] = useState(false)
+
+    useEffect(() => {
+           
+        runHolder('temp')
     })
+
     const context = useContext(AuthContext)
     var username = props.match.params.username
     console.log(useQuery(FETCH_USER_QUERY, {
@@ -46,7 +50,8 @@ function AccountSettingsPage(props) {
         variables:{
             name: newname,
             username: newusername,
-            email: values.email
+            email: values.email,
+            profilePicture: values.profilePicture
         }
     })
     function a(){}
@@ -60,14 +65,34 @@ function AccountSettingsPage(props) {
         if(values.username === ''){
             values.username = context.user.username
         }
+        if(pfp == "holder.js/200x200?theme=sky&text=\n"){
+            values.profilePicture = ''
+        }
+        if(pfp != "holder.js/200x200?theme=sky&text=\n"){
+            values.profilePicture = pfp
+        }
         setName(values.username);
         setUN(values.username);
         console.log('username:' + values.username);
         console.log('name: ' + values.name);
         edit_user();
     }
-    const changepfp = (e) =>{
-        setpfp(URL.createObjectURL(e.target.files[0]));
+    const changepfp = async e =>{
+        console.log(e.target.files[0])
+        const pic = new FormData()
+        pic.append('file', e.target.files[0])
+        pic.append('upload_preset', 'brainiac_img')
+        setLoad(true)
+        const res = await fetch('https://api.cloudinary.com/v1_1/dkgfsmwvg/image/upload',
+            {
+                method: 'POST',
+                body: pic
+            }
+        )
+        const picfile = await res.json()
+        console.log(picfile.secure_url)
+        setpfp(picfile.secure_url);
+        setLoad(false)
     }
     if (loading) {return "loading"}
     else {
@@ -81,10 +106,12 @@ function AccountSettingsPage(props) {
     if (!user) {
         userText = <p>Loading user...</p>
     } else {
-
         userText = (
             <p> User Found</p>
         )
+    }
+    if(user.profilePicture != "" && pfp == "holder.js/200x200?theme=sky&text=\n"){
+        setpfp(user.profilePicture)
     }
     return (
             <div>
@@ -117,8 +144,10 @@ function AccountSettingsPage(props) {
                         name = "email"/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Profile Picture</Form.Label>
-                        <Image src = {pfp} roundedCircle></Image>
+                        <Form.Label location='top'>Profile Picture</Form.Label>
+                        {load ? (
+                            <h2>Loading...</h2>
+                        ): (<Image fluid src = {pfp} roundedCircle></Image>)}
                         <Form.File id = "formcheck-api-regular">
                             <Form.File.Label>Choose file</Form.File.Label>
                             <Form.File.Input onChange = {changepfp}/>
@@ -147,8 +176,9 @@ const EDIT_USER = gql`
         $username: String!
         $name: String!
         $email: String!
+        $profilePicture: String!
     ) {
-        saveChanges(username: $username, email: $email, name: $name)
+        saveChanges(username: $username, email: $email, name: $name, profilePicture: $profilePicture)
 
     }
 `;

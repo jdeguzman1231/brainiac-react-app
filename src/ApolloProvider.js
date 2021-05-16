@@ -8,10 +8,9 @@ import {ApolloProvider} from '@apollo/client'
 const httpLink = createHttpLink({
 
     uri: 'https://brainiac-game-app.herokuapp.com/graphql'
-    // uri: 'http://localhost:5000/graphql'
+    //uri: 'http://localhost:5000/graphql'
 
 })
-
 const client = new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache()

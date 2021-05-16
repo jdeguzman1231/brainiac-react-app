@@ -24,6 +24,7 @@ function ResetPassword(props){
         const user = users.find(({email}) => email === values.email);
         if(!user){
             setReply({show:true, msg: 'That username is not registered!'})
+            return;
         }
         const url = `${window.location.href}/${user.email}/${cred.USER_ID}`;
         let emailForm = {
@@ -31,6 +32,7 @@ function ResetPassword(props){
             subject: 'Reset Password',
             html: `<a href = ${url}>${url}</a>`
         }
+        
         emailjs.send(cred.SERVICE_ID, cred.TEMPLATE_ID, emailForm).then(function (response) {
             console.log('SUCCESS!', response.status, response.text);},function (error){console.log('ERROR...', error)})
         setReply({show:true, msg: 'Check your inbox for your reset password link'})

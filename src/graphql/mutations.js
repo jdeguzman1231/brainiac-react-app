@@ -7,8 +7,10 @@ export const EDIT_PLATFORM = gql`
         $name: String!
         $description: String!
         $private: Boolean!
+        $photo: String!
         ){
-            editPlatform(platformID: $platformID, creatorName: $creatorName, name: $name, description: $description, private: $private)
+            editPlatform(platformID: $platformID, creatorName: $creatorName, name: $name, description: $description, private: $private
+                photo: $photo)
               
             
                 

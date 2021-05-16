@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
-
-function AccountPlatformCard(id) {
+import {run as runHolder} from 'holderjs/holder'
+import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
+    function AccountPlatformCard(id) {
+    useEffect(() => {
+        runHolder('temp')
+    })
+    var hasIMG = false
     const platformID = parseInt(id['platformID'], 10);
     console.log("platformID");
     console.log(platformID);
@@ -15,9 +20,16 @@ function AccountPlatformCard(id) {
     else {
         console.log(data)
         const platform = data.getPlatform
+        if(platform.photo != ''){
+            hasIMG = true
+        }
         return (
             <Card style={{ width: '13rem' }}>
-                <Card.Img variant="top" src="holder.js/100px180" />
+                {hasIMG ? (
+                    <Card.Img variant="top" src={platform.photo}  height = {180} width = {180}/>
+                ) : (
+                    <Card.Img variant="top" src="holder.js/100px180" />
+                )}
                 <Card.Body>
                     <Card.Title>{platform.name}</Card.Title>
                     <Link to={`/platform/${platformID}`}>play</Link>
@@ -30,15 +42,6 @@ function AccountPlatformCard(id) {
     }
 }
 
-const FETCH_PLATFORM_QUERY = gql`
-    query($platformID: Int!){
-        getPlatform(platformID: $platformID){
-            name
-            creatorName
-            description
-            games
-        }
-    }  
-`;
+
 
 export default AccountPlatformCard;
