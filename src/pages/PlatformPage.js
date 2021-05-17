@@ -152,6 +152,22 @@ function PlatformPage(props) {
     else {
         // console.log(pdata)
         const platform = pdata.getPlatform
+        const tags = platform.tags
+        var ptags = []
+        console.log(tags.length)
+        console.log(tags)
+        for(var i = 0; i < tags.length; i++){
+            if(i == tags.length -1){
+                ptags.push(
+                    <Link>{tags[i]}</Link>
+                )
+            }
+            else{
+                ptags.push(
+                    <Link>{tags[i]}/</Link>
+                )
+            }
+        }
         // console.log(platform_settings);
         // setBookmarkedPlats(bookmarkedPlatforms);
         var bookmarkButton;
@@ -232,6 +248,12 @@ function PlatformPage(props) {
                                 {bookmarkButton}
 
                             </Col>
+                        </Row>
+                        <Row>
+                            <p>Tags:</p>
+                        </Row>
+                        <Row>
+                            <p>{ptags}</p>
                         </Row>
                     </Jumbotron>
                     <h3>Games:</h3>

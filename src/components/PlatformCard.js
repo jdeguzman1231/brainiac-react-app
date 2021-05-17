@@ -3,23 +3,23 @@ import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import {run as runHolder} from 'holderjs/holder'
 function PlatformCard({ platform: { platformID, name, creatorName, description, photo } }) {
-    var hasIMG = false
-    if(photo != ''){
-        console.log(photo)
-        hasIMG = true
-    }
+    let curphoto
+
     useEffect(() => {
         runHolder('layoutimg')
-    })
+        
+    }, [])
+   
+    if(photo != ''){
+        curphoto = photo
+    }
+    else{
+        curphoto = 'holder.js/100px180?random=yes'
+    }
     return (
         <div class="pagecard">
         <Card style={{ width: '15rem'}}>
-            {hasIMG ? (
-                <Card.Img height = {180} width = {180} variant="top" src={photo} thumbnail/>
-            ) : (
-                <Card.Img variant="top" src="holder.js/100px180?random=yes" thumbnail/>
-            )}
-                
+            <Card.Img height = {180} width = {180} variant="top" src={curphoto} thumbnail/> 
             <Card.Body>
                 <Link to={`/platform/${platformID}`}>
                     <Card.Title>{name}</Card.Title>
