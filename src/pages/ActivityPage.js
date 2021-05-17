@@ -10,8 +10,11 @@ import { getVariableValues } from 'graphql/execution/values';
 function ActivityPage(props) {
     const [show, setShow] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
+    const [showDeleteQ, setShowDeleteQ] = useState(false);
     const openDelete = () => setShowDelete(true);
     const handleCloseDelete = () => setShowDelete(false);
+    const openDeleteQ = () => setShowDeleteQ(true);
+    const handleCloseDeleteQ = () => setShowDeleteQ(false);
     const aactivityID = props.match.params.activityID;
     const ggameID = props.match.params.gameID;
     const pplatformID = props.match.params.parentPlatform;
@@ -20,6 +23,9 @@ function ActivityPage(props) {
     const activityID = parseInt(aactivityID, 10);
     const gameID = parseInt(ggameID, 10);
     const platformID = parseInt(pplatformID, 10);
+    const [index, setIndex] = useState(0);
+    // var index;
+
     const { loading, data } = useQuery(FETCH_ACTIVITY_QUERY, {
         variables: { activityID: activityID },
     });
@@ -104,6 +110,48 @@ function ActivityPage(props) {
             gameID: gameID
         }
     })
+
+    // delete question
+    const [deleteQuestion] = useMutation(DELETE_QUESTION, {
+        update(proxy, result) {
+            console.log("Deleted question")
+            const d = proxy.readQuery({ query: FETCH_ACTIVITY_QUERY, variables: { activityID: activityID }, });
+            var array1 = [...d.getActivity.data]
+            var ind;
+            for (var i = 0; i < array1.length; i++) {
+                if (array1[i] == index) {
+                    ind = i
+                }
+            }
+            array1.splice(ind, 1)
+            console.log("here", d, array1)
+            proxy.writeQuery({
+                query: FETCH_ACTIVITY_QUERY,
+                data: {
+                    getActivity: {
+                        activityID: activityID,
+                        data: array1
+                    },
+                },
+                variables: {
+                    activityID: activityID
+                }
+            });
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            activityID: activityID,
+            index: index
+        }
+    })
+
+    function delQuestion() {
+        setShowDeleteQ(false)
+        console.log("in del", index)
+        deleteQuestion({ variables: { activityID: activityID, index: index } });
+    }
 
     function addCardCallback() {
         addCard();
@@ -236,9 +284,31 @@ function ActivityPage(props) {
                                         <Button variant="light">Edit</Button>
                                     </Col>
                                     <Col style={{ paddingLeft: '145px' }}>
-                                        <Button variant="dark">Delete</Button>
+                                        <Button onClick={() => {
+                                            setIndex(key);
+                                            openDeleteQ();
+                                            console.log("key", key)
+                                        }}>Delete</Button>
                                     </Col>
                                 </Row>
+                                <Modal show={showDeleteQ} onHide={handleCloseDeleteQ}>
+                                    <Modal.Header>
+                                        <Modal.Title>Are you sure you want to delete this question?</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Row>
+                                            <Col>
+                                                <Button onClick={e => {
+                                                    e.preventDefault();
+                                                    delQuestion();
+                                                }}>Yes</Button>
+                                            </Col>
+                                            <Col>
+                                                <Button onClick={handleCloseDeleteQ}>No</Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </Modal>
                             </Card.Body>
                         </Card>
                     ))}
@@ -335,3 +405,16 @@ export const DELETE_ACTIVITY = gql`
             )
         }
 `;
+
+export const DELETE_QUESTION = gql`
+    mutation removeActivityCard(
+        $activityID: Int!
+        $index: Int!
+        ){
+           removeActivityCard(
+                activityID: $activityID
+                index: $index   
+            )
+        }
+`;
+
