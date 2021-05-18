@@ -8,6 +8,7 @@ export const randcolor = ['https://res.cloudinary.com/dkgfsmwvg/image/upload/v16
 , 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306503/brainiac_data/green_mqvreq.jpg', 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306491/brainiac_data/gradred_twzgla.jpg'
 , 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306488/brainiac_data/blue_eb35na.jpg' ]
 
+export const default_profile_picture = 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621309258/brainiac_data/pfpdef_qaxfzp.jpg'
 export const FETCH_PLATFORM_QUERY = gql`
 query($platformID: Int!){
     getPlatform(platformID: $platformID){
@@ -50,7 +51,6 @@ export const FETCH_USERS_QUERY = gql`
         email
         username
         name
-        
     }
 }
 `;

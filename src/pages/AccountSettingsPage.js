@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import {FETCH_USER_QUERY} from '../graphql/queries';
 import { AuthContext } from '../context/auth'
 import {run as runHolder} from 'holderjs/holder'
-
+import {EDIT_USER} from '../graphql/mutations'
 function AccountSettingsPage(props) {
     const [pfp, setpfp] = useState("holder.js/200x200?theme=sky&text=\n");
     const [newname, setName] = useState('');
@@ -171,14 +171,3 @@ export default AccountSettingsPage;
 
 
 
-const EDIT_USER = gql`
-    mutation SaveChanges(
-        $username: String!
-        $name: String!
-        $email: String!
-        $profilePicture: String!
-    ) {
-        saveChanges(username: $username, email: $email, name: $name, profilePicture: $profilePicture)
-
-    }
-`;

@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { useForm } from '../util/hooks';
 import { AuthContext } from '../context/auth'
 import bg from '../images/bg.png'
+import {REGISTER_USER} from '../graphql/mutations'
 
 function SignUpPage(props) {
     const context = useContext(AuthContext);
@@ -31,6 +32,7 @@ function SignUpPage(props) {
             email: values.email,
             name: values.name,
             password: values.password
+            
         }
     })
 
@@ -100,25 +102,6 @@ function SignUpPage(props) {
     );
 }
 
-const REGISTER_USER = gql`
-    mutation createUser(
-        $username: String!
-        $email: String!
-        $name: String!
-        $password: String!
-    ) {
-        createUser(
-            username: $username
-            email: $email
-            name: $name
-            password: $password
-        ) {
-            username
-            email
-            name
-            token
-        }
-    }
-`
+
 
 export default SignUpPage;
