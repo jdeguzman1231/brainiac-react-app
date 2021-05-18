@@ -1,5 +1,9 @@
 import {gql} from '@apollo/client'
 
+
+export const tagnames = ['Astronomy', 'Computer Science', 'English', 'Geology', 'Geography','History', 'Language',
+'Math', 'Movies', 'Science', 'Sports']
+
 export const FETCH_PLATFORM_QUERY = gql`
 query($platformID: Int!){
     getPlatform(platformID: $platformID){
@@ -8,6 +12,7 @@ query($platformID: Int!){
         description
         games
         photo
+        tags
     }
 }  
 `;
@@ -15,7 +20,7 @@ export const FETCH_PLATFORMS_QUERY = gql`
 
     {
     getPlatforms{
-        platformID name creatorName description photo
+        platformID name creatorName description photo, tags
     }
 }   
 `;

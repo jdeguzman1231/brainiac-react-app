@@ -1,13 +1,14 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import gql from 'graphql-tag';
-import {Container, Col, Image, FormGroup, Form, Button} from 'react-bootstrap';
+import {Container, Row, ToggleButtonGroup, ToggleButton, Form, Button} from 'react-bootstrap';
 import {useMutation, useQuery} from '@apollo/client';
 import  { useForm } from '../util/hooks';
 import { AuthContext } from '../context/auth'
 import {EDIT_PLATFORM} from '../graphql/mutations';
-
+import {tagnames, FETCH_PLATFORM_QUERY} from '../graphql/queries'
 
 function PlatformSettingsPage(props){
+    const[tags, setTags] = useState([])
     const[current_photo, setPhoto] = useState('');
     const[fileobj, setFile] = useState(null) 
     const[load, setLoad] = useState(false)
@@ -22,46 +23,25 @@ function PlatformSettingsPage(props){
          variables: { platformID: platformID }
     });
     const platform = pdata.getPlatform
-
     const returnurl = '/platform/' + pplatformID;
+    useEffect(() =>{
+        if(tags.length == 0){
+            setTags(platform.tags)
+        }
+    }, [])
     const [ errors, setErrors ] = useState({});
-    const { handleChange, onSubmit, values } = useForm(editPlatform, {
+    const { handleChange, onSubmit, values } = useForm(a, {
         name: '',
         description: '',
         private: true,
     }) 
  
-    
     const [update_platform] = useMutation(EDIT_PLATFORM,{
-        update(cache) {
-            console.log(cache);
-            cache.modify({
-                fields:{
-                    platforms(existingPlatforms = [], {readFIeld}){
-                        const platform_ref = cache.writeFragment({
-                            data:{
-                                platformID: platformID,
-                                creatorName: platform.creatorName,
-                                name: values.name,
-                                description: values.description,
-                                private: values.private,
-                                photo: current_photo
-                            },
-                            fragment: gql`
-                                fragment platformFields on Platform{
-                                    name
-                                    description
-                                    private
-                                    photo
-                                }
-                            `
-                        });
-                        return [existingPlatforms, platform_ref];
-                    }
-                }
-            })
+        update(cache){
+            console.log(cache)
             props.history.push(returnurl)
-        },
+        
+         },
         onError(err) {
             console.log(err)
         },
@@ -71,10 +51,38 @@ function PlatformSettingsPage(props){
             name: values.name,
             description: values.description,
             private: values.private,
-            photo: current_photo
+            photo: current_photo,
+            tags: tags
         }
     })
+    
+    const addTag = (e) => {
+        if(e.target.value != undefined){
+            console.log(tags)
+            var selected = tagnames[e.target.value]
+            var newarray = []
+            if(tags.includes(selected) == true){
+                console.log(selected)
+                newarray = tags.filter(tag => tag != selected)
+                setTags(newarray)
+            }
+            else{
+               if(tags.length == 0){
+                   newarray = [selected]
+                   setTags(newarray)
+               }
+               else{
+                    tags.forEach(x => newarray.push(x))
+                    newarray.push(selected)
+                    setTags(newarray)
+               }
+                
+            }
 
+            console.log(tags)
+        }
+        
+    }
     const changePhoto = (e) =>{
         console.log(e.target.files[0])
         setFile(e.target.files[0])
@@ -86,6 +94,7 @@ function PlatformSettingsPage(props){
         console.log(fileobj)
         file.append('file', fileobj)
         file.append('upload_preset', 'brainiac_img')
+        setLoad(true)
         const res = await fetch('https://api.cloudinary.com/v1_1/dkgfsmwvg/image/upload',
             {
                 method: 'POST',
@@ -95,41 +104,84 @@ function PlatformSettingsPage(props){
   
         const picfile = await res.json()
         const link = picfile.secure_url
+        console.log(link)
         setPhoto(link)
         console.log('end')
+        update_platform({variables: {
+            platformID: platformID,
+            creatorName: platform.creatorName,
+            name: values.name,
+            description: values.description,
+            private: values.private,
+            photo: link,
+            tags: tags
+        }})
     }
-    
-    function editPlatform(){
+    function a(){}
+   const editPlatform = () => {
         console.log(current_photo)
-        if(values.name == ''){
+        console.log('callback')
+        console.log('name: ' + values.name);
+        console.log('description:' + values.description);
+        if(values.name === ''){
             values.name = platform.name
+            console.log(platform.name)
         }
-        if(values.description == ''){
+        if(values.description === ''){
             values.description = platform.description
+            console.log(platform.description)
         }
+        console.log('final value: ')
+        console.log(values)
+        console.log(current_photo)
         if(fileobj == null){
-            console.log(current_photo)
-            setPhoto(platform.photo)
-            update_platform()
-
+            update_platform({variables: {
+                platformID: platformID,
+                creatorName: platform.creatorName,
+                name: values.name,
+                description: values.description,
+                private: values.private,
+                photo: platform.photo,
+                tags: tags
+            }})
         }
         else{
-            console.log(current_photo)
             upload_photo()
-
         }
-        console.log(current_photo)
     }
-    console.log(fileobj)
-    console.log(current_photo)
-    if(fileobj != null && current_photo != ''){
-        update_platform()
-    }
+   
     if(load){
         return(
             <div>
                 <h1 textAlign = 'center'>Loading...</h1>
             </div>
+        )
+    }else{
+    var defaults = []
+    for(var i = 0; i < platform.tags.length; i++){
+        var tag = platform.tags[i]
+        if(tagnames.includes(tag) == true){
+            var index = tagnames.indexOf(tag)
+            defaults.push(index)
+        }
+    }
+ 
+    console.log(platform.tags)
+    console.log(tags)
+    //if(tags.length != platform.tags.length){
+      //  setTags(platform.tags)
+   // }
+    var items = []
+    var items2 = []
+    var rowlen = Math.floor(tagnames.length / 2)
+    for(var i = 0; i < rowlen; i++){
+        items.push(
+            <ToggleButton onClick = {addTag} style = {{whiteSpace:'nowrap', justifyContent: 'center'}} value = {i} variant = 'outline-primary'>{tagnames[i]}</ToggleButton>
+        )
+    }
+    for(var i = rowlen; i < tagnames.length; i++){
+        items2.push(
+            <ToggleButton onClick = {addTag} style = {{whiteSpace:'nowrap', justifyContent: 'center'}}value = {i} variant = 'outline-primary'>{tagnames[i]}</ToggleButton>
         )
     }
     return(
@@ -137,7 +189,7 @@ function PlatformSettingsPage(props){
             <h1 style={{textAlign:'center'}}>Platform Settings</h1>
             <h1 style={{textAlign:'center'}}>{platform.creatorName}'s platform</h1>
             <Container>
-                <Form onSubmit={onSubmit}>
+                <Form >
                 <Form.Group controlId = "name">
                         <Form.Label>Platform Name</Form.Label>
                         <Form.Control name = "name" type = "text"  onChange = {handleChange} defaultValue = {platform.name}>
@@ -159,31 +211,34 @@ function PlatformSettingsPage(props){
                             </Form.File>
                         </Form.Group>
                         )}
+                    <Form.Label>Tags</Form.Label>
+                    <Container fluid style = {{marginBottom: '30px'}}>
+                        <Row>
+                        <ToggleButtonGroup defaultValue = {defaults} type = 'checkbox'>
+                            {items}
+                        </ToggleButtonGroup>
+                        </Row>
+                        <Row>
+                        <ToggleButtonGroup defaultValue = {defaults} type = 'checkbox'>
+                            {items2}
+                        </ToggleButtonGroup>
+                        </Row>
+                    </Container>
                     <Form.Group controlId = "private">
                         <Form.Label>Privacy</Form.Label>
                         <Form.Check name = "private" id = "private"type="switch" defaultValue = {platform.private}></Form.Check>
                     </Form.Group>
-                    <Button type="submit" class="btn btn-primary">
+                    <Button onClick = {editPlatform} class="btn btn-primary">
                         Submit
                     </Button>
                 </Form>
             </Container>
         </div>
         );
-    
+    }
 }
 
 
-const FETCH_PLATFORM_QUERY = gql`
-    query($platformID: Int!){
-        getPlatform(platformID: $platformID){
-            name
-            creatorName
-            description
-            games
-            photo
-        }
-    }  
-`;
+
 
 export default PlatformSettingsPage;

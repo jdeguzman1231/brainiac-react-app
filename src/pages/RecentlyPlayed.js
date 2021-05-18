@@ -22,6 +22,8 @@ function RecentlyPlayed(props) {
     else {
         console.log(data)
         const user = data.getUser
+        const recentList = user.playedPlatforms
+        console.log(recentList)
     return(
         <Container>
         <Jumbotron>

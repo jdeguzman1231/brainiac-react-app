@@ -15,6 +15,7 @@ import {FETCH_PLATFORM_QUERY} from '../graphql/queries'
     console.log(platformID);
     const { loading, data } = useQuery(FETCH_PLATFORM_QUERY, {
         variables: { platformID: platformID },
+        fetchPolicy: 'cache-and-network'
     });
     if (loading) { return "loading" }
     else {
