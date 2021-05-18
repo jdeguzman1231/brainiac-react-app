@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom'
 function ActivityCard(id) {
     const activityID = parseInt(id['activityID'], 10);
     const { loading, data } = useQuery(FETCH_ACTIVITY_QUERY, {
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
         variables: { activityID: activityID },
     });
     console.log(activityID);
