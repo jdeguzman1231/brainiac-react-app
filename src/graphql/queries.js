@@ -36,6 +36,7 @@ query($username: String!) {
         playedPlatforms
         bookmarkedPlatforms
         profilePicture
+        color
     }
 }
 `;
