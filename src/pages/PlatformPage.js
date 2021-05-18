@@ -287,7 +287,12 @@ function PlatformPage(props) {
                         <p>created by <Link to={`/account/${platform.creatorName}`}>{platform.creatorName}</Link></p>
 
                         {bookmarkButton}
-
+                        <Row>
+                            <p>Tags:</p>
+                        </Row>
+                        <Row>
+                            <p>{ptags}</p>
+                        </Row>
                     </Jumbotron>
                     <h3>Games:</h3>
                     <hr></hr>

@@ -6,15 +6,15 @@ import { Container, Col, Row, Jumbotron, Form, Button, Pagination, Card} from 'r
 import { stripIgnoredCharacters } from 'graphql';
 import {FETCH_PLATFORMS_QUERY, tagnames} from '../graphql/queries'
 import {useForm} from '../util/hooks';
+import {run as runHolder} from 'holderjs/holder'
 function ExplorePage() {
     const [form, setSearch] = useState({search: '', pvg: 0, category: 0})
     const [page, setPage] = useState(8);
     const [platforms, setPlatforms] = useState([]);
-    const pages = Math.floor(platforms.length / 8) + 1;
+    const pages = Math.ceil(platforms.length / 8);
     console.log(useQuery(FETCH_PLATFORMS_QUERY));
     const { loading, data } = useQuery(FETCH_PLATFORMS_QUERY);
     useEffect(() =>{
-
         if(!loading && form.search == ''){
             setPlatforms(data.getPlatforms);
         }
@@ -83,6 +83,7 @@ function ExplorePage() {
                    setPage(newPage * 8);
                    break;
            }
+           
        }
         var items = []
         for (var i = 1; i <= pages; i++){

@@ -24,17 +24,20 @@ export const CREATE_PLATFORM = gql`
         $creatorName: String!
         $description: String!
         $tags: [String]
+        $photo: String!
     ) {
         createPlatform(
             name: $name
             creatorName: $creatorName
             description: $description
             tags: $tags
+            photo: $photo
         ) {
             name
             creatorName
             description
             tags
+            photo
         }
     }
 `;
