@@ -18,6 +18,8 @@ query($platformID: Int!){
         games
         photo
         tags
+        color1
+        color2
     }
 }  
 `;

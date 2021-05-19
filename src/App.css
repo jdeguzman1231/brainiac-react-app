@@ -43,7 +43,7 @@ p {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 50px;
+    width: 100%;
 }
 .game-screen:before{
     position:absolute;
@@ -61,39 +61,98 @@ p {
 .game-screen:hover:before{
     color: #eee;
 }
-.home-header {
-    padding-top: 50px;
-    width: 75%;
-    margin: auto;
+
+.header {
+    display: grid;
+    background-image: url(./images/headerimg.svg);
+    background-size: cover;
+    /* background: radial-gradient(75.61% 75.61% at 47.39% 32.75%, #FFFFD9 0%, rgba(255, 255, 255, 0) 100%), #86D0BE; */
+    height: 100%;
+  }
+  
+  .content {
+    grid-area: 1 / 1;
+  }
+
+.content{
+    width: 60%;
+    background:rgba(255,255,255, 0.7);
 }
 
-.home-header h1 {
-    line-height: 40px;
-    font-size: 45px;
+.exploreDesc{
+    background:rgba(255,255,255, .9);
+    width: 30%;
+    margin: 0 auto;
+    border-radius: 30px;
+    padding: .5%;
 }
-
-.home-header p {
-    line-height: 25px;
-}
-
-/* .home-header img {
-    padding-left: 420px;
-    margin-top: -250px;
-    width: 850px;
-} */
 
 .pagecard {
     font-family: "Lato";
     padding-bottom: 20px;
+}
+
+.signUpButton{
+    background: white;
+    border-radius: 39px;
 
 }
+
+.signUpButton:hover{
+    transition: all 500ms ease;
+    border-radius: 10px;
+}
+
+.seeMoreButton{
+    background:white;
+    color: black;
+    border-radius: 39px;
+    border: 1px solid black;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-family:'Nunito';
+    font-size: 105%;
+}
+
+.seeMoreButton:hover{
+    transition: all 500ms ease;
+    background:#1c1b1b;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+.navbar-light .navbar-nav .nav-link {
+    color:rgb(49, 49, 49);
+}
+
+.createNavButton{
+    background: white;
+    color: rgb(85, 141, 85);
+    border-radius: 15px;
+    font-size:92%;
+    border: .2px solid rgb(83, 143, 83);
+}
+
+.createNavButton:hover{
+    background-color: white;
+    transition: all 500ms ease;
+    border-radius: 5px;
+}
+
 
 .btn-custom {
-    font-family: "Lato";
-    background: #141414;
+    font-family: "Nunito";
+    background: white;
+    border-radius: 39px;
+    color: black;
+}
+.btn-custom:hover {
+    font-family: "Nunito";
+    background: #1D1C1C;
     border-radius: 10px;
     color: white;
+    transition: all 500ms ease;
 }
+
 
 .btn-option{
     background: #FFFFFF;
