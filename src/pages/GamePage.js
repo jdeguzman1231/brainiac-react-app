@@ -39,7 +39,7 @@ function GamePage(props) {
         var creatorName = '';
     }
     const designLink = gameID + "/design"
-    const playLink = gameID + "/play"
+    const playLink = gameID + "/start"
     const { handleChange, onSubmit, values } = useForm(editGame, {
         name: '',
         description: ''
