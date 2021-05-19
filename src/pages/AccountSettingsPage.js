@@ -72,7 +72,7 @@ function AccountSettingsPage(props) {
         if(pfp != "holder.js/200x200?theme=sky&text=\n"){
             values.profilePicture = pfp
         }
-        setName(values.username);
+        setName(values.name);
         setUN(values.username);
         console.log('username:' + values.username);
         console.log('name: ' + values.name);
