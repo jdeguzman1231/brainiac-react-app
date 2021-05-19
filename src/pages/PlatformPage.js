@@ -1,10 +1,11 @@
 
 import { useQuery, useMutation } from '@apollo/client'
-import { Container, Col, Row, Jumbotron, Button, Modal, Tooltip, OverlayTrigger, ButtonGroup, Form } from 'react-bootstrap'
+import { Container, Col, Row, Jumbotron, Button, Modal, Tooltip, OverlayTrigger, ButtonGroup, Form, Dropdown } from 'react-bootstrap'
 import GameCard from '../components/GameCard'
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
 import { useContext, useState, useEffect } from "react";
+import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 import trashcan from '../images/trashcan.png'
@@ -18,8 +19,16 @@ function PlatformPage(props) {
 
     const [bookmarked, setBookmarked] = useState(false);
     const [show, setShow] = useState(false);
+    const [colors, setColors] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const showColors = () => setColors(true);
+    const hideColors = () => setColors(false);
+    const { handleChange, onSubmit, values } = useForm(updateColorCallback, {
+        platformID: '',
+        color2: '',
+        color1: ''
+    }) 
     const { user, logout } = useContext(AuthContext);
     if (user) {
         var creatorName = user.username;
@@ -53,6 +62,26 @@ function PlatformPage(props) {
         variables: { platformID: platformID },
         fetchPolicy: 'cache-and-network'
     });
+
+    const [updateColor, {loading: load}] = useMutation(EDIT_COLORS, {
+        update(cache) {
+            console.log(cache)
+            window.location.reload();
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors);
+        },
+        variables: {
+            color1: values.color1,
+            color2: values.color2,
+            platformID: platformID
+        }
+    })
+
+    function updateColorCallback() {
+        updateColor()
+        setShow(false);
+    }
 
 
     const platform_settings = '/platform/' + pplatformID + '/settings';
@@ -181,20 +210,23 @@ function PlatformPage(props) {
         }
         else {
             if (bookmarked) {
-                bookmarkButton = <Button onClick={unbookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+                bookmarkButton = <Button onClick={unbookmarkPlatform} variant='secondary' style={{ float: 'right'}}>
                     Unbookmark
                 </Button>
             }
             else {
-                bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ marginLeft: '1000px' }}>
+                bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ float: 'right' }}>
                     Bookmark
                 </Button>
             }
         }
         if (user && user.username == platform.creatorName) {
+            const color1 = platform.color1
+            const color2 = platform.color2
+            var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
             return (
                 <div className="page-container">
-                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}>
+                    <Jumbotron style={{background: background}}>                         
                         <Row>
                             <Col>
                                 <h1>{platform.name}</h1>
@@ -245,6 +277,53 @@ function PlatformPage(props) {
                                         <Button onClick={handleClose}>No</Button>
                                     </Modal.Footer>
                                 </Modal>
+
+                                <Modal show = {colors} onHide = {hideColors}>
+                                    <Modal.Header>
+                                        <Modal.Title>Add Activity</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        Select Two Colors
+                                        <Dropdown>
+                                            <Form onSubmit = {onSubmit}>
+                                            <Form.Group>
+                                                <Form.Control as="select" name = "color1" onChange={handleChange}>
+                                                        <option>Choose Color 1</option>
+                                                        <option value = "#f8c3b9">Red</option>
+                                                        <option value = "#f6d3af">Orange</option>
+                                                        <option value = "#fbeba5">Yellow</option>
+                                                        <option value = "#b5efce">Green</option>
+                                                        <option value = "#b7dcf4">Blue</option>
+                                                        <option value = "#ddc6e7">Purple</option>
+                                                        <option value = "#e8eaec">Gray</option>
+                                                        <option value = "#ffd1dc">Pink</option>
+                                                </Form.Control>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Control as="select" name = "color2" onChange={handleChange}>
+                                                        <option>Choose Color 2</option>
+                                                        <option value = "#f8c3b9">Red</option>
+                                                        <option value = "#f6d3af">Orange</option>
+                                                        <option value = "#fbeba5">Yellow</option>
+                                                        <option value = "#b5efce">Green</option>
+                                                        <option value = "#b7dcf4">Blue</option>
+                                                        <option value = "#ddc6e7">Purple</option>
+                                                        <option value = "#e8eaec">Gray</option>
+                                                        <option value = "#ffd1dc">Pink</option>
+                                                </Form.Control>
+                                            </Form.Group>
+                                            <Button variant="primary" type="submit" block>
+                                                    Change
+                                            </Button>
+                                            </Form>
+                                        </Dropdown>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button onClick = {hideColors}> Cancel </Button>
+                                    </Modal.Footer>
+                                </Modal>
+
+                                <Button style = {{float: "right"}} variant='secondary' onClick = {showColors}>Edit Colors</Button>
                                 {bookmarkButton}
 
                             </Col>
@@ -278,9 +357,12 @@ function PlatformPage(props) {
             )
         }
         else {
+            const color1 = platform.color1
+            const color2 = platform.color2
+            var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
             return (
                 <div className="page-container">
-                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}>
+                    <Jumbotron style={{background: background}}> 
                         <h1>{platform.name}</h1>
                         <br></br>
                         <p>{platform.description}</p>
@@ -313,6 +395,20 @@ const FETCH_USER_QUERY = gql`
         {
             bookmarkedPlatforms
         }
+    }
+`
+
+const EDIT_COLORS = gql`
+    mutation editPlatformColors(
+        $platformID: Int!
+        $color1: String
+        $color2: String
+    ) {
+        editPlatformColors(
+            platformID: $platformID
+            color1: $color1
+            color2: $color2
+        )
     }
 `
 
