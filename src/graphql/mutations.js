@@ -74,3 +74,23 @@ export const REGISTER_USER = gql`
     }
 `
 ;
+export const EDIT_GAME = gql`
+    mutation editGame(
+        $gameID: Int!
+        $parentPlatform: Int!
+        $name: String!
+        $description: String!
+        $creatorName: String!
+        $pictures: [String]
+        ){
+            editGame(
+                gameID: $gameID
+                parentPlatform: $parentPlatform
+                creatorName: $creatorName
+                name: $name
+                description: $description
+                pictures: $pictures
+            )
+        
+        }
+`;

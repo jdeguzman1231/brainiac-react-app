@@ -27,7 +27,7 @@ export const FETCH_PLATFORMS_QUERY = gql`
 
     {
     getPlatforms{
-        platformID name creatorName description photo, tags
+        platformID name creatorName description photo, tags, games
     }
 }   
 `;
@@ -43,6 +43,7 @@ query($username: String!) {
         playedPlatforms
         bookmarkedPlatforms
         profilePicture
+        color
     }
 }
 `;
@@ -91,4 +92,16 @@ mutation deletePlatform(
             platformID: $platformID
         )
     }
+`;
+export const FETCH_GAME_QUERY = gql`
+query($gameID: Int!){
+    getGame(gameID: $gameID){
+        name
+        creatorName
+        description
+        parentPlatform
+        tags
+        pictures
+    }
+}
 `;

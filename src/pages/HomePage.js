@@ -24,7 +24,8 @@ function HomePage(props) {
         return loading;
     }
     const allPlatforms = data.getPlatforms;
-
+    console.log(allPlatforms)
+   
     const platforms = allPlatforms.slice(0, 8);
     return (
         <div style={{ height: '100%', width: '100%', position: 'absolute' }}>
