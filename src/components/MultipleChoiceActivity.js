@@ -166,7 +166,7 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row style = {{paddingBottom: "20px"}}>
+                      <Row style = {{paddingBottom: "20px", paddingTop: "10px"}}>
                         <Col>
                           <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
@@ -273,7 +273,7 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row style = {{paddingBottom: "20px"}}>
+                      <Row style = {{paddingBottom: "20px", paddingTop: "10px"}}>
                         <Col>
                           <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
@@ -369,7 +369,7 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row style = {{paddingBottom: "20px"}}>
+                      <Row style = {{paddingBottom: "20px", paddingTop: "10px"}}>
                         <Col>
                           <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
@@ -568,7 +568,7 @@ export default function MultipleChoiceActivity(props) {
                 </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row style = {{paddingBottom: "20px"}}>
+                      <Row style = {{paddingBottom: "20px", paddingTop: "10px"}}>
                         <Col>
                           <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
