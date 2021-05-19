@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useState, setState, useRef, useEffect} from "react";
+import React, { useContext, useState, setState, useRef, useEffect } from "react";
 import {
   Navbar,
   Nav,
@@ -21,20 +21,20 @@ function Menu() {
   });
   console.log(user);
   const [navBackground, setNavBackground] = useState(false)
-    const navRef = useRef()
-    navRef.current = navBackground
-    useEffect(() => {
-      const handleScroll = () => {
-        const show = window.scrollY > 50
-        if (navRef.current !== show) {
-          setNavBackground(show)
-        }
+  const navRef = useRef()
+  navRef.current = navBackground
+  useEffect(() => {
+    const handleScroll = () => {
+      const show = window.scrollY > 50
+      if (navRef.current !== show) {
+        setNavBackground(show)
       }
-      document.addEventListener('scroll', handleScroll)
-      return () => {
-        document.removeEventListener('scroll', handleScroll)
-      }
-    }, [])
+    }
+    document.addEventListener('scroll', handleScroll)
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   var currentPath = window.location.pathname;
   console.log("current", currentPath)
@@ -67,43 +67,43 @@ function Menu() {
     }
     console.log(link)
     console.log(settingsLink)
-    if(currentPath=="/"){
+    if (currentPath == "/") {
       navBar = (
-        <Navbar expand="lg" fixed="top" style={{ transition: '.8s ease',backgroundColor: navBackground ? 'white' : 'transparent'}}>
-        <Navbar.Brand href="/"> <img width={30}
-          height={30} src={icon}></img></Navbar.Brand>
-        <Navbar.Brand href="/">Brainiac</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" style={{fontFamily:"DM Sans"}}>
-          <Nav className="mr-auto">
-            <Nav.Link href="/explore">Explore</Nav.Link>
-          </Nav>
-          <Nav className="mr-sm-2" >
-          <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link> 
+        <Navbar expand="lg" fixed="top" style={{ transition: '.8s ease', backgroundColor: navBackground ? 'white' : 'transparent' }}>
+          <Navbar.Brand href="/"> <img width={30}
+            height={30} src={icon}></img></Navbar.Brand>
+          <Navbar.Brand href="/">Brainiac</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" style={{ fontFamily: "DM Sans" }}>
+            <Nav className="mr-auto">
+              <Nav.Link href="/explore">Explore</Nav.Link>
+            </Nav>
+            <Nav className="mr-sm-2" >
+              <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link>
 
-          <Nav.Link href={link}>&nbsp;&nbsp;Profile</Nav.Link>
-            <Nav.Link href={settingsLink}>Settings</Nav.Link>
-            <Nav.Link onClick={logout} href="/">Log Out</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+              <Nav.Link href={link}>&nbsp;&nbsp;Profile</Nav.Link>
+              <Nav.Link href={settingsLink}>Settings</Nav.Link>
+              <Nav.Link onClick={logout} href="/">Log Out</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
 
       );
 
     }
-    else{
+    else {
       navBar = (
         <Navbar expand="lg">
           <Navbar.Brand href="/"> <img width={30}
             height={30} src={icon}></img></Navbar.Brand>
           <Navbar.Brand href="/">Brainiac</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" style={{fontFamily:"DM Sans"}}>
+          <Navbar.Collapse id="basic-navbar-nav" style={{ fontFamily: "DM Sans" }}>
             <Nav className="mr-auto">
               <Nav.Link href="/explore">Explore</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2" >
-            <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link> 
+              <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link>
               <Nav.Link href={link}>&nbsp;&nbsp;Profile</Nav.Link>
               <Nav.Link href={settingsLink}>Settings</Nav.Link>
               <Nav.Link onClick={logout} href="/">Log Out</Nav.Link>
@@ -111,44 +111,44 @@ function Menu() {
           </Navbar.Collapse>
         </Navbar>
       );
-      
-      
-    }
 
-   
-  } else{
-    if(currentPath=="/"){
-       navBar = (
-      <Navbar expand="lg" fixed="top" style={{transition: '.8s ease',backgroundColor: navBackground ? 'white' : 'transparent'}}>
-        <Navbar.Brand href="/"> <img width={30}
-          height={30} src={icon}></img></Navbar.Brand>
-        <Navbar.Brand href="/">Brainiac</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" style={{fontFamily:"DM Sans"}}>
-          <Nav className="mr-auto">
-            <Nav.Link href="/explore">Explore</Nav.Link>
-
-          </Nav>
-          <Nav className="justify-content-end" >
-            <Nav.Link href="/login">Log In&nbsp;&nbsp;</Nav.Link>
-            <Nav.Link className="signUpButton" href="/signup">&nbsp;&nbsp;&nbsp;Sign Up&nbsp;&nbsp;&nbsp;</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    );
 
     }
-    else{
+
+
+  } else {
+    if (currentPath == "/") {
+      navBar = (
+        <Navbar expand="lg" fixed="top" style={{ transition: '.8s ease', backgroundColor: navBackground ? 'white' : 'transparent' }}>
+          <Navbar.Brand href="/"> <img width={30}
+            height={30} src={icon}></img></Navbar.Brand>
+          <Navbar.Brand href="/">Brainiac</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" style={{ fontFamily: "DM Sans" }}>
+            <Nav className="mr-auto">
+              <Nav.Link href="/explore">Explore</Nav.Link>
+
+            </Nav>
+            <Nav className="justify-content-end" >
+              <Nav.Link href="/login">Log In&nbsp;&nbsp;</Nav.Link>
+              <Nav.Link className="signUpButton" href="/signup">&nbsp;&nbsp;&nbsp;Sign Up&nbsp;&nbsp;&nbsp;</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      );
+
+    }
+    else {
       navBar = (
         <Navbar expand="lg" >
           <Navbar.Brand href="/"> <img width={30}
             height={30} src={icon}></img></Navbar.Brand>
           <Navbar.Brand href="/">Brainiac</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" style={{fontFamily:"DM Sans"}}>
+          <Navbar.Collapse id="basic-navbar-nav" style={{ fontFamily: "DM Sans" }}>
             <Nav className="mr-auto">
               <Nav.Link href="/explore">Explore</Nav.Link>
-  
+
             </Nav>
             <Nav className="mr-sm-2" >
               <Nav.Link href="/login">Log In</Nav.Link>
@@ -157,9 +157,9 @@ function Menu() {
           </Navbar.Collapse>
         </Navbar>
       );
-      
+
     }
-   
+
 
   }
 

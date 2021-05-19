@@ -323,7 +323,7 @@ function PlatformPage(props) {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
+                            <Col style={{marginLeft:"6%"}}>
                                 <p>{ptags}</p>
                             </Col>
                             <Col>
@@ -401,7 +401,7 @@ function PlatformPage(props) {
                         <Row style={{marginLeft:"4%"}}>
                             <p>Tags:</p>
                         </Row>
-                        <Row>
+                        <Row style={{marginLeft:"6%"}}>
                             <p>{ptags}</p>
                         </Row>
                     </Jumbotron>

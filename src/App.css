@@ -113,6 +113,14 @@ p {
     margin: 0 auto;
     border-radius: 30px;
     padding: .5%;
+    transition: 0.3s;
+}
+
+.exploreDesc:hover{
+    transition: 0.3s;
+    width: 32%;
+    font-style: italic;
+    border-radius: 4px;
 }
 
 .pagecard {
@@ -149,7 +157,7 @@ p {
     border: 1px solid black;
 }
 .navbar-light .navbar-nav .nav-link {
-    color:rgb(49, 49, 49);
+    color:rgb(49, 49, 49);    
 }
 
 .createNavButton{

@@ -35,7 +35,7 @@ function HomePage(props) {
             
             <div class="header">
                 <div class="content">
-                    <div style={{
+                    <div class="floating" style={{
                         fontFamily: 'DM Sans',
                         fontSize: '320%',
                         width: '50%',
