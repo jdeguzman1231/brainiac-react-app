@@ -65,11 +65,12 @@ function AccountPage(props) {
             </Row>
             <Row>
                 <Col style = {{paddingLeft: '90px'}}>
-                    <Button variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Games</Button>
+                    <Button style={{fontSize:"95%"}} variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Games</Button>
                 </Col>
             </Row>
             </Col>
         </Row>
+        <hr></hr>
         <Row style = {{paddingBottom: '60px'}}>
             <Col>
             <p>Bookmarked:</p>
@@ -83,11 +84,12 @@ function AccountPage(props) {
             </Row>
             <Row>
                 <Col style = {{paddingLeft: '90px'}}>
-                    <Button variant = "outline-dark" size='lg' href='/bookmarkedplatforms'>View Bookmarked Platforms</Button>
+                    <Button style={{fontSize:"95%"}} variant = "outline-dark" size='lg' href='/bookmarkedplatforms'>View Bookmarked Platforms</Button>
                 </Col>
             </Row>
             </Col>
         </Row>
+        <hr></hr>
         <Row style = {{paddingBottom: '60px'}}>
             <Col>
             <p>Your platforms</p>
@@ -101,10 +103,10 @@ function AccountPage(props) {
             </Row>
             <Row>
                 <Col style = {{paddingLeft: '90px'}}>
-                    <Button variant = "outline-dark" size='lg' href='/createplatform'>Create New Platform</Button>
+                    <Button className="createNavButton" style={{borderRadius:"5px",fontSize:"95%", color:"rgb(85, 141, 85)",borderColor:"rgb(85, 141, 85)", background:"white"}} size='lg' href='/createplatform'>Create New Platform</Button>
                 </Col>
                 <Col>
-                    <Button variant = "outline-dark" size='lg' href={`${username}/createdplatforms`}>View Your Platforms</Button>
+                    <Button style={{fontSize:"95%"}} variant = "outline-dark" size='lg' href={`${username}/createdplatforms`}>View Your Platforms</Button>
                 </Col>
             </Row>
             
@@ -127,7 +129,7 @@ function AccountPage(props) {
             </Row>
             <Row>
                 <Col>
-                    <Button variant = "outline-dark" size='lg' href={`${username}/createdplatforms`}>View @{username}'s Created Platforms</Button>
+                    <Button style={{fontSize:"95%"}} variant = "outline-dark" size='lg' href={`${username}/createdplatforms`}>View @{username}'s Created Platforms</Button>
                 </Col>
             </Row>
             
@@ -150,7 +152,7 @@ function AccountPage(props) {
                 <Row  style = {{marginTop: '15px', marginLeft: '80px'}}>
                     <h3>{user.name}</h3>
                 </Row>
-                <Row style = {{marginLeft: '50px'}}>
+                <Row style = {{marginLeft: '22%'}}>
                     <Col xs = {6}><p>@{user.username}</p></Col>
                     <Col></Col>
                 </Row>

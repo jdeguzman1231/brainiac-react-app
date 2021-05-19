@@ -1,12 +1,13 @@
 import React, {useContext, useEffect ,useState} from 'react';
 import PlatformCard from '../components/PlatformCard'
-import {Form, Button, Image} from 'react-bootstrap';
+import {Jumbotron, Form, Button, Image} from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useForm } from '../util/hooks';
 import gql from 'graphql-tag';
 import {FETCH_USER_QUERY} from '../graphql/queries';
 import { AuthContext } from '../context/auth'
 import {run as runHolder} from 'holderjs/holder'
+import icon from '../images/brainiac-icon.png';
 import {EDIT_USER} from '../graphql/mutations'
 function AccountSettingsPage(props) {
     const [pfp, setpfp] = useState("holder.js/200x200?theme=sky&text=\n");
@@ -115,10 +116,10 @@ function AccountSettingsPage(props) {
     }
     return (
             <div>
-                <div className="form-container">
-                <h4>Account Settings</h4>
+                <div className="page-container" style={{paddingTop:"4%", width: "60%", paddingBottom:"5%"}}>
+                <h2>Account Settings</h2>
                 <p>Personal Information</p>
-                <Form noValidate>
+                <Form noValidate style={{width:"50%", marginLeft:"25%"}}>
                     <Form.Group controlId="name">
                         <Form.Label>Name</Form.Label>
                         <Form.Control 
@@ -147,19 +148,24 @@ function AccountSettingsPage(props) {
                         <Form.Label location='top'>Profile Picture</Form.Label>
                         {load ? (
                             <h2>Loading...</h2>
-                        ): (<Image fluid src = {pfp} roundedCircle></Image>)}
+                        ): (<Image fluid src = {pfp} style={{marginLeft:"5%",width:"50%"}} roundedCircle></Image>)}
                         <Form.File id = "formcheck-api-regular">
                             <Form.File.Label>Choose file</Form.File.Label>
                             <Form.File.Input onChange = {changepfp}/>
                         </Form.File>
                     </Form.Group>
-                    <Button>Change password</Button>
+                    <Button style={{borderColor:'transparent', backgroundColor:"white", color:"black"}}>Change Password</Button>
                     <p></p>
                     <Button variant="primary" onClick = {update_user_settings}>
-                        Save changes
+                        Save Changes
                     </Button>
                 </Form>
             </div>
+            <Jumbotron style={{ background: '#FCFBFB' }}>
+                <img width={20}
+                    height={20} src={icon}></img> Brainiac
+                <div style={{fontSize:'70%', paddingLeft:".5%", display:"inline-block"}}>© 2021</div>
+            </Jumbotron>
             </div>
         );
     }
