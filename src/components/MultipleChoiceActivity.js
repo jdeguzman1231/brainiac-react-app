@@ -157,7 +157,7 @@ export default function MultipleChoiceActivity(props) {
               You have completed {game.getGame.name} 
               <br></br>
               <Row>
-                <Button href="/">Go back to home page</Button>
+                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
               </Row>
               <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
@@ -208,7 +208,7 @@ export default function MultipleChoiceActivity(props) {
                                 }
                                 <Col className="answer-section">
 
-                                  {questions[currentQuestion].slice(1,6).map((option) => (
+                                  {questions[currentQuestion].slice(2,6).map((option) => (
                                     <Row style={{ marginBottom: "10px" }}>
                                       <Button variant="option" block
                                         onClick={() =>
@@ -267,7 +267,7 @@ export default function MultipleChoiceActivity(props) {
               You have completed {game.getGame.name}
               <br></br>
               <Row>
-                <Button href="/">Go back to home page</Button>
+                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
               </Row>
               <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
@@ -371,7 +371,7 @@ export default function MultipleChoiceActivity(props) {
               You have completed {game.getGame.name}
               <br></br>
               <Row>
-                <Button href="/">Go back to home page</Button>
+                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
               </Row>
               <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
@@ -573,7 +573,7 @@ export default function MultipleChoiceActivity(props) {
               You have completed {game.getGame.name}
               <br></br>
               <Row>
-                <Button href="/">Go back to home page</Button>
+                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
               </Row>
               <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>

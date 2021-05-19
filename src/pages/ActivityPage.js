@@ -284,14 +284,11 @@ function ActivityPage(props) {
                                 )}
                                 <Row>
                                     <Col>
-                                        <Button variant="light">Edit</Button>
-                                    </Col>
-                                    <Col style={{ paddingLeft: '145px' }}>
                                         <Button onClick={() => {
                                             setIndex(key);
                                             openDeleteQ();
                                             console.log("key", key)
-                                        }}>Delete</Button>
+                                        }} style = {{float: "right"}}>Delete</Button>
                                     </Col>
                                 </Row>
                                 <Modal show={showDeleteQ} onHide={handleCloseDeleteQ}>
@@ -316,7 +313,14 @@ function ActivityPage(props) {
                         </Card>
                     ))}
                 </Row>
-                <Button onClick={openModal}>Add a question</Button>
+                <Row style = {{marginBottom: "50px"}}>
+                    <Col>
+                        <Button onClick={openModal}>Add a question</Button>
+                    </Col>
+                    <Col>
+                        <Button onClick={openModal} style = {{float: "right"}} variant = "light">Back</Button>
+                    </Col>
+                </Row>
                 <Modal show={showDelete} onHide={handleCloseDelete}>
                     <Modal.Header>
                         <Modal.Title>Are you sure you want to delete this activity?</Modal.Title>

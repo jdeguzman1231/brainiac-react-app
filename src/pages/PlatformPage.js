@@ -221,12 +221,12 @@ function PlatformPage(props) {
         }
         else {
             if (bookmarked) {
-                bookmarkButton = <Button onClick={unbookmarkPlatform} variant='secondary' style={{ float: 'right'}}>
+                bookmarkButton = <Button onClick={unbookmarkPlatform} variant='light' style={{ float: 'right'}}>
                     Unbookmark
                 </Button>
             }
             else {
-                bookmarkButton = <Button onClick={bookmarkPlatform} variant='secondary' style={{ float: 'right' }}>
+                bookmarkButton = <Button onClick={bookmarkPlatform} variant='light' style={{ float: 'right' }}>
                     Bookmark
                 </Button>
             }
@@ -237,7 +237,12 @@ function PlatformPage(props) {
             var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
             return (
                 <div className="page-container">
-                    <Jumbotron style={{background: background}}>                         
+                    <Jumbotron style={{background: background}}>   
+                        <Row>
+                            <Col>
+                                <Button style = {{float: "right"}} variant='outline-light' onClick = {showColors}>Edit Colors</Button>
+                            </Col>
+                        </Row>                      
                         <Row>
                             <Col>
                                 <h1>{platform.name}</h1>
@@ -333,17 +338,19 @@ function PlatformPage(props) {
                                         <Button onClick = {hideColors}> Cancel </Button>
                                     </Modal.Footer>
                                 </Modal>
-
-                                <Button style = {{float: "right"}} variant='secondary' onClick = {showColors}>Edit Colors</Button>
-                                {bookmarkButton}
-
+                                    
                             </Col>
                         </Row>
                         <Row>
                             <p>Tags:</p>
                         </Row>
                         <Row>
+                            <Col>
                             <p>{ptags}</p>
+                            </Col>
+                            <Col>
+                                {bookmarkButton}
+                            </Col>
                         </Row>
                     </Jumbotron>
                     <h3>Games:</h3>
