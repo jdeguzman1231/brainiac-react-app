@@ -36,6 +36,9 @@ function GamePage(props) {
         fetchPolicy: 'cache-and-network'
     });
     const { loading: load, data: pdata } = useQuery(FETCH_PLATFORM_QUERY, {
+        onError(err) {
+            console.log(err.networkError.result.errors)
+        },
         variables: { platformID, platformID }
     });
     const { user, logout } = useContext(AuthContext);
@@ -49,7 +52,8 @@ function GamePage(props) {
     const playLink = gameID + "/start"
     const { handleChange, onSubmit, values } = useForm(editGame, {
         name: '',
-        description: ''
+        description: '',
+        pictures: ''
     })
     const [updateGame] = useMutation(EDIT_GAME, {
         update(proxy, result) {
@@ -63,7 +67,8 @@ function GamePage(props) {
             parentPlatform: parentPlatform,
             name: values.name,
             creatorName: creatorName,
-            description: values.description
+            description: values.description,
+            pictures: values.pictures
         }
     })
 
@@ -80,14 +85,8 @@ function GamePage(props) {
         if(values.description == ''){
             values.description = namedesc.description
         }
-        updateGame({variables: {
-            gameID: gameID,
-            parentPlatform: parentPlatform,
-            name: values.name,
-            creatorName: creatorName,
-            description: values.description,
-            pictures: newarray
-        }});
+        values.pictures = newarray
+        updateGame();
     }
     const btnclick = (e) => {
         choosePic.current.click()
@@ -151,13 +150,13 @@ function GamePage(props) {
         setLoad(false)
     }
 
-    const color1 = pdata.getPlatform.color1
-    const color2 = pdata.getPlatform.color2
-    var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
 
-    if (loading) { return "loading" }
-    else if (load) {return "loading"}
-
+    if (load) { return "loading" }
+    else if (loading) {return "loading"}
+    else{
+        const color1 = pdata.getPlatform.color1
+        const color2 = pdata.getPlatform.color2
+        var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
         const game = data.getGame
         console.log(game.pictures[0])
         console.log(game.name)
@@ -309,6 +308,7 @@ function GamePage(props) {
             )
         }
     }
+}
 
 
 
@@ -335,10 +335,13 @@ const FETCH_PLATFORM_QUERY = gql`
             creatorName
             description
             games
+            photo
+            tags
             color1
             color2
         }
     }  
 `;
+
 
 export default GamePage;

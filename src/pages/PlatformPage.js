@@ -351,13 +351,6 @@ function PlatformPage(props) {
                         e.preventDefault();
                         
                         addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform } });
-                        for(var i = 0; i < platform.games.length; i++){
-                            if(platform.games[i].pictures.length == 0){
-                                setphoto({variables: {gameID: platform.games[i].gameID,
-                                parentPlatform: parentPlatform, name: platform.games[i].name, 
-                            creatorName: platform.games[i].creatorName, description: platform.games[i].description}})
-                            }
-                        }
                         // refresh();
                     }}>Add Game
                     </Button>
