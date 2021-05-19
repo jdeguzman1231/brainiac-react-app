@@ -6,7 +6,7 @@ import { useForm } from '../util/hooks';
 import gql from 'graphql-tag';
 import { AuthContext } from "../context/auth";
 import {CREATE_PLATFORM} from "../graphql/mutations"
-import {tagnames} from '../graphql/queries'
+import {tagnames, randcolor} from '../graphql/queries'
 function CreatePlatformPage(props) {
     const[tags, setTags] = useState([])
     const { user, logout } = useContext(AuthContext);
@@ -16,11 +16,14 @@ function CreatePlatformPage(props) {
         creatorName: user.username,
         description: ''
     })
-
+    var ind = Math.floor(Math.random() * 5)
+    const defimg = randcolor[ind]
     
 
     const [addPlatform, {loading}] = useMutation(CREATE_PLATFORM, {
         update(proxy, result) {
+            console.log(result)
+            console.log(proxy)
             props.history.push('/account/'+user.username)
         },
         onError(err) {
@@ -34,7 +37,9 @@ function CreatePlatformPage(props) {
             name: values.name,
             creatorName: values.creatorName,
             description: values.description,
-            tags: tags
+            tags: tags,
+            photo: defimg
+            
         }
     })
     

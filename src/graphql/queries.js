@@ -4,6 +4,11 @@ import {gql} from '@apollo/client'
 export const tagnames = ['Astronomy', 'Computer Science', 'English', 'Geology', 'Geography','History', 'Language',
 'Math', 'Movies', 'Science', 'Sports']
 
+export const randcolor = ['https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306511/brainiac_data/pink_fjftyr.png', 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306508/brainiac_data/orange_rrsst1.jpg'
+, 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306503/brainiac_data/green_mqvreq.jpg', 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306491/brainiac_data/gradred_twzgla.jpg'
+, 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621306488/brainiac_data/blue_eb35na.jpg' ]
+
+export const default_profile_picture = 'https://res.cloudinary.com/dkgfsmwvg/image/upload/v1621309258/brainiac_data/pfpdef_qaxfzp.jpg'
 export const FETCH_PLATFORM_QUERY = gql`
 query($platformID: Int!){
     getPlatform(platformID: $platformID){
@@ -38,7 +43,6 @@ query($username: String!) {
         playedPlatforms
         bookmarkedPlatforms
         profilePicture
-        color
     }
 }
 `;
@@ -49,7 +53,6 @@ export const FETCH_USERS_QUERY = gql`
         email
         username
         name
-        
     }
 }
 `;

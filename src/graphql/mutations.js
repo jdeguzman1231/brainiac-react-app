@@ -24,17 +24,53 @@ export const CREATE_PLATFORM = gql`
         $creatorName: String!
         $description: String!
         $tags: [String]
+        $photo: String!
     ) {
         createPlatform(
             name: $name
             creatorName: $creatorName
             description: $description
             tags: $tags
+            photo: $photo
         ) {
             name
             creatorName
             description
             tags
+            photo
         }
     }
 `;
+export const EDIT_USER = gql`
+    mutation SaveChanges(
+        $username: String!
+        $name: String!
+        $email: String!
+        $profilePicture: String!
+    ) {
+        saveChanges(username: $username, email: $email, name: $name, profilePicture: $profilePicture)
+
+    }
+`;
+
+export const REGISTER_USER = gql`
+    mutation createUser(
+        $username: String!
+        $email: String!
+        $name: String!
+        $password: String!
+    ) {
+        createUser(
+            username: $username
+            email: $email
+            name: $name
+            password: $password
+        ) {
+            username
+            email
+            name
+            token
+        }
+    }
+`
+;

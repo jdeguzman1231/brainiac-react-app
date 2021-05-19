@@ -12,11 +12,10 @@ function ExplorePage() {
     const [form, setSearch] = useState({ search: '', pvg: 0, category: 0 })
     const [page, setPage] = useState(8);
     const [platforms, setPlatforms] = useState([]);
-    const pages = Math.floor(platforms.length / 8) + 1;
+    const pages = Math.ceil(platforms.length / 8);
     console.log(useQuery(FETCH_PLATFORMS_QUERY));
     const { loading, data } = useQuery(FETCH_PLATFORMS_QUERY);
     useEffect(() => {
-
         if (!loading && form.search == '') {
             setPlatforms(data.getPlatforms);
         }
@@ -60,30 +59,48 @@ function ExplorePage() {
 
     }
 
-    const switchPage = (e) => {
-        e.preventDefault();
-        console.log(e.target.id);
-        console.log(pages);
-        console.log(page);
-        var id = e.target.id;
-        switch (id) {
-            case "first":
-                setPage(8);
-                break;
-            case "last":
-                setPage(pages * 8);
-                break;
-            case "prev":
-                setPage(page - 8);
-                break;
-            case "next":
-                console.log(page);
-                setPage(page + 8);
-                break;
-            default:
-                var newPage = parseInt(id);
-                setPage(newPage * 8);
-                break;
+       const switchPage = (e) =>{
+           e.preventDefault();
+           console.log(e.target.id);
+           console.log(pages);
+            console.log(page);
+           var id = e.target.id;
+           switch (id) {
+               case "first":
+                   setPage(8);
+                   break;
+                case "last":
+                    setPage(pages * 8);
+                    break;
+                case "prev":
+                    setPage(page - 8);
+                    break;
+                case "next":
+                    console.log(page);
+                    setPage(page + 8);
+                    break;
+               default:
+                   var newPage = parseInt(id);
+                   setPage(newPage * 8);
+                   break;
+           }
+           
+       }
+        var items = []
+        for (var i = 1; i <= pages; i++){
+            items.push(
+                <Pagination.Item onClick = {switchPage} id = {i.toString()} key = {i} active = {(i * 8) == page}>
+                    {i}
+                </Pagination.Item>
+            )
+        }
+        var tags = []
+        for(var i = 0; i< tagnames.length; i++){
+            tags.push(
+                <option value = {(i+1).toString()}>{tagnames[i]}</option>
+
+
+  
         }
     }
     var items = []
