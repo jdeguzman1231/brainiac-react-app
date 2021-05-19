@@ -1,6 +1,6 @@
 import React, {useContext, useEffect ,useState} from 'react';
 import PlatformCard from '../components/PlatformCard'
-import {Jumbotron, Form, Button, Image} from 'react-bootstrap';
+import {Jumbotron, Form, Button, Image, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { useForm } from '../util/hooks';
 import gql from 'graphql-tag';
@@ -42,7 +42,7 @@ function AccountSettingsPage(props) {
     const [edit_user] = useMutation(EDIT_USER, {
         update(cache){
            console.log(cache)
-            window.location.href = '/'
+            window.location.href = '/account/' + username
        
         },
         onError(err) {
@@ -154,11 +154,18 @@ function AccountSettingsPage(props) {
                             <Form.File.Input onChange = {changepfp}/>
                         </Form.File>
                     </Form.Group>
-                    <Button style={{borderColor:'transparent', backgroundColor:"white", color:"black"}}>Change Password</Button>
-                    <p></p>
-                    <Button variant="primary" onClick = {update_user_settings}>
-                        Save Changes
-                    </Button>
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={
+                            <Tooltip>
+                                Double Click to save your changes!
+                        </Tooltip>
+                        }>
+                        <Button variant="primary" onClick = {update_user_settings}>
+                            Save Changes
+                        </Button>
+                    </OverlayTrigger>
+                    
                 </Form>
             </div>
             <Jumbotron style={{ background: '#FCFBFB' }}>
