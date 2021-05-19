@@ -166,12 +166,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style = {{paddingBottom: "20px"}}>
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button variant="light" style = {{float: "right"}} onClick={() => nextActivity()}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -273,12 +273,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style = {{paddingBottom: "20px"}}>
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button variant="light" style = {{float: "right"}} onClick={() => nextActivity()}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -369,12 +369,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style = {{paddingBottom: "20px"}}>
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button variant="light" style = {{float: "right"}} onClick={() => nextActivity()}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -568,12 +568,12 @@ export default function MultipleChoiceActivity(props) {
                 </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style = {{paddingBottom: "20px"}}>
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
+                          <Button variant="light" style = {{float: "left"}}onClick={() => lastActivity()}>Last Activity</Button>
                         </Col>
                         <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button variant="light" style = {{float: "right"}} onClick={() => nextActivity()}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
