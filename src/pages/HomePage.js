@@ -5,7 +5,9 @@ import { AuthContext } from "../context/auth";
 import { useQuery } from '@apollo/client'
 import { FETCH_PLATFORMS_QUERY } from '../graphql/queries'
 import { isReference } from '@apollo/client';
-import headerimg from '../images/headerimg.png'
+import headerimg from '../images/headerimg.svg'
+import icon from '../images/brainiac-icon.png';
+
 
 function HomePage(props) {
     const { user } = useContext(AuthContext)
@@ -25,22 +27,34 @@ function HomePage(props) {
 
     const platforms = allPlatforms.slice(0, 8);
     return (
-        <div>
-            <Jumbotron style={{ height: 450, background: 'radial-gradient(47.36% 200.23% at 21.49% 64.71%, #FFFEEE 0%, rgba(253, 251, 218, 0.0260417) 80.88%, rgba(255, 255, 255, 0) 100%), #BAD8D1' }}>
-                <div class="home-header">
-                    <h1>Build your own </h1>
-                    <h1>learning tools</h1>
-                    <p>Create and customize simple games for a <br></br>
-                        learning experience catered to you</p>
-                    {/* <p><img src={headerimg}></img></p> */}
-                    <Button onClick={handleRoute} variant="custom">Get Started</Button>
+        <div style={{ height: '100%', width: '100%', position: 'absolute' }}>
+            <div class="header">
+                <div class="content">
+                    <div style={{
+                        fontFamily: 'DM Sans',
+                        fontSize: '320%',
+                        width: '50%',
+                        lineHeight: '120%',
+                        marginLeft: '20%',
+                        marginTop: '25%'
+                    }}>
+                        Build your own learning tools
+                        </div>
+                    <div style={{ fontSize: '110%', marginLeft: '20%', marginTop: '2%' }}><p>Create and customize simple games for a <br></br>
+                        learning experience catered to you</p></div>
+                    <Button style={{ marginLeft: '20%', fontSize:'95%', paddingLeft:'2%',  paddingRight:'2%'}} onClick={handleRoute} variant="custom">Get Started</Button>
                 </div>
-            </Jumbotron>
-            <Jumbotron style={{ background: 'radial-gradient(57.56% 81.11% at 85.97% 42.44%, #BEE9FC 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(63.97% 63.97% at 23.26% 36.03%, #F4DCC6 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(46.04% 86.57% at 50% 90.25%, #DDEBCB 0%, rgba(255, 255, 255, 0) 100%), #FDFDF0' }}>
+            </div>
+
+            <Jumbotron style={{ marginTop: '10px', background: 'radial-gradient(57.56% 81.11% at 85.97% 42.44%, #BEE9FC 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(63.97% 63.97% at 23.26% 36.03%, #F4DCC6 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(46.04% 86.57% at 50% 90.25%, #DDEBCB 0%, rgba(255, 255, 255, 0) 100%), #FDFDF0' }}>
                 <div class="explore">
-                    <h1 style={{ textAlign: "center" }}>Explore Games</h1>
-                    <p style={{ textAlign: "center" }}>Play games created by other users</p>
-                    <Container>
+                    <div style={{
+                        textAlign: "center", fontFamily: 'DM Sans',
+                        fontSize: '300%',
+                    }}>Explore Games</div>
+                    <div style={{ textAlign: "center", paddingBottom: '30px' }}>Play games created by other Brainiac users</div>
+                    <Container style={{ borderRadius: '11px', paddingLeft: "2%", paddingRight: "2%", paddingBottom: "2%", background: 'rgba(255,255,255, 0.3)', backdropFilter: 'blur(5px)' }}>
+                        <Row style={{ padding: '2%' }}></Row>
                         <Row>
                             {platforms.map((platform) => (
                                 <Col>
@@ -49,9 +63,15 @@ function HomePage(props) {
                             ))}
                         </Row>
                     </Container>
-                    <Button style={{ marginLeft: '45%', marginTop: '30px' }} href='/explore' variant="outline-dark">See More</Button>
+                    <Button style={{ fontFamily:'Nunito', fontSize: '110%', marginLeft: '45%', marginTop: '30px' }} href='/explore' variant="outline-dark">See More</Button>
                 </div>
 
+            </Jumbotron>
+            <Jumbotron style={{ background: '#FCFBFB' }}>
+                <img width={20}
+                    height={20} src={icon}></img> Brainiac
+            
+                <div style={{fontSize:'50%'}}>© 2021</div>
             </Jumbotron>
         </div>
     );
