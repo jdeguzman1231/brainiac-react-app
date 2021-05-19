@@ -42,7 +42,7 @@ function PlatformPage(props) {
 
     }
     else {
-        if (userData != null) {
+        if (userData.getUser != null) {
             bookmarkedPlatforms = JSON.parse(JSON.stringify(userData.getUser.bookmarkedPlatforms));
         }
     }
