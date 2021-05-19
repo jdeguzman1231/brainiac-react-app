@@ -187,7 +187,7 @@ function AccountPage(props) {
                     <Form.Group>
                         <Form.Control onChange={handleChange} as="select" name = "color">
                                 <option>Choose Color</option>
-                                <option value = "#f8c3b9">Red</option>
+                                <option value = "#ee6969">Red</option>
                                 <option value = "#f6d3af">Orange</option>
                                 <option value = "#fbeba5">Yellow</option>
                                 <option value = "#b5efce">Green</option>

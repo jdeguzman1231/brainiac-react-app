@@ -166,12 +166,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style={{paddingBottom:"20px"}}>    
+                        <Col>    
+                          <Button onClick={() => lastActivity()} style = {{float: "left"}}>Last Activity</Button>
+                        </Col>   
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
-                        </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button onClick={() => nextActivity()} style = {{float: "right"}}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -194,6 +194,7 @@ export default function MultipleChoiceActivity(props) {
                                 <Col className="answer-section">
 
                                   {questions[currentQuestion].slice(2, 6).map((option) => (
+                        
                                     <Row style={{ marginBottom: "10px" }}>
                                       <Button variant="option" block
                                         onClick={() =>
@@ -273,12 +274,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style={{paddingBottom:"20px"}}>    
+                        <Col>    
+                          <Button onClick={() => lastActivity()} style = {{float: "left"}}>Last Activity</Button>
+                        </Col>   
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
-                        </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button onClick={() => nextActivity()} style = {{float: "right"}}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -369,12 +370,12 @@ export default function MultipleChoiceActivity(props) {
                   </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style={{paddingBottom:"20px"}}>    
+                        <Col>    
+                          <Button onClick={() => lastActivity()} style = {{float: "left"}}>Last Activity</Button>
+                        </Col>   
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
-                        </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button onClick={() => nextActivity()} style = {{float: "right"}}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
@@ -568,12 +569,12 @@ export default function MultipleChoiceActivity(props) {
                 </Container>
                 ) : (
                     <Container style={{paddingBottom:"20px"}}>
-                      <Row>
+                      <Row style={{paddingBottom:"20px"}}>    
+                        <Col>    
+                          <Button onClick={() => lastActivity()} style = {{float: "left"}}>Last Activity</Button>
+                        </Col>   
                         <Col>
-                          <Button onClick={() => lastActivity()}>Last Activity</Button>
-                        </Col>
-                        <Col>
-                          <Button onClick={() => nextActivity()}>Next Activity</Button>
+                          <Button onClick={() => nextActivity()} style = {{float: "right"}}>Next Activity</Button>
                         </Col>
                       </Row>
                       <Row>
