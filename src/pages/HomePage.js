@@ -52,8 +52,8 @@ function HomePage(props) {
                         textAlign: "center", fontFamily: 'DM Sans',
                         fontSize: '300%',
                     }}>Explore Games</div>
-                    <div style={{ textAlign: "center", paddingBottom: '30px' }}>Play games created by other Brainiac users</div>
-                    <Container style={{ borderRadius: '11px', paddingLeft: "2%", paddingRight: "2%", paddingBottom: "2%", background: 'rgba(255,255,255, 0.3)', backdropFilter: 'blur(5px)' }}>
+                    <div className= "exploreDesc " style={{ textAlign: "center"}}>play games created by other Brainiac users 👩‍💻</div>
+                    <Container style={{ borderRadius: '11px', marginTop:"3%",paddingLeft: "2.3%", paddingRight: "2.3%", paddingBottom: "2%", background: 'rgba(255,255,255, 0.3)', backdropFilter: 'blur(5px)' }}>
                         <Row style={{ padding: '2%' }}></Row>
                         <Row>
                             {platforms.map((platform) => (
@@ -63,15 +63,14 @@ function HomePage(props) {
                             ))}
                         </Row>
                     </Container>
-                    <Button style={{ fontFamily:'Nunito', fontSize: '110%', marginLeft: '45%', marginTop: '30px' }} href='/explore' variant="outline-dark">See More</Button>
+                    <Button className="seeMoreButton" style={{ marginLeft: '45%', marginTop: '30px' }} href='/explore' >See More</Button>
                 </div>
 
             </Jumbotron>
             <Jumbotron style={{ background: '#FCFBFB' }}>
                 <img width={20}
                     height={20} src={icon}></img> Brainiac
-            
-                <div style={{fontSize:'50%'}}>© 2021</div>
+                <div style={{fontSize:'70%', paddingLeft:".5%", display:"inline-block"}}>© 2021</div>
             </Jumbotron>
         </div>
     );

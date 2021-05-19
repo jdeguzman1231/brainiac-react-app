@@ -79,6 +79,14 @@ p {
     background:rgba(255,255,255, 0.7);
 }
 
+.exploreDesc{
+    background:rgba(255,255,255, .9);
+    width: 30%;
+    margin: 0 auto;
+    border-radius: 30px;
+    padding: .5%;
+}
+
 .pagecard {
     font-family: "Lato";
     padding-bottom: 20px;
@@ -93,6 +101,24 @@ p {
 .signUpButton:hover{
     transition: all 500ms ease;
     border-radius: 10px;
+}
+
+.seeMoreButton{
+    background:white;
+    color: black;
+    border-radius: 39px;
+    border: 1px solid black;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-family:'Nunito';
+    font-size: 105%;
+}
+
+.seeMoreButton:hover{
+    transition: all 500ms ease;
+    background:#1c1b1b;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 .navbar-light .navbar-nav .nav-link {
     color:rgb(49, 49, 49);
