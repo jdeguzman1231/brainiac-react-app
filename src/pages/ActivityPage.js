@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ActivityCard from './../components/ActivityCard';
 import { useQuery, useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Container, Row, Col, Button, Card, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Card, Modal, Form, Jumbotron, Link } from "react-bootstrap";
 import { useForm } from '../util/hooks';
 import QuestionCard from "./../components/QuestionCard";
 import { getVariableValues } from 'graphql/execution/values';
@@ -257,7 +257,10 @@ function ActivityPage(props) {
                 </Form>
         }
         return (
-            <Container style={{ paddingTop: '20px' }}>
+            <div>
+                <Jumbotron>
+                </Jumbotron>
+                <Container style={{ paddingTop: '20px' }}>
                 <Row>
                     <Col>
                         <h4>Activity Page</h4>
@@ -342,6 +345,8 @@ function ActivityPage(props) {
                     </Modal.Body>
                 </Modal>
             </Container>
+            </div>
+            
         )
     }
 }
