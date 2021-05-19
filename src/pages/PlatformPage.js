@@ -11,6 +11,8 @@ import { useHistory } from "react-router-dom";
 import trashcan from '../images/trashcan.png'
 import cog from '../images/cog.png'
 import {FETCH_PLATFORM_QUERY, BOOKMARK_PLATFORM, UNBOOKMARK_PLATFORM, DELETE_PLATFORM} from '../graphql/queries'
+import {EDIT_GAME} from '../graphql/mutations'
+
 function PlatformPage(props) {
 
     function refresh() {
@@ -108,8 +110,16 @@ function PlatformPage(props) {
         setBookmarked(true);
         bookmark();
     }
-
-
+    
+    const [setphoto] = useMutation(EDIT_GAME, {
+        update(proxy, result) {
+            window.location.reload();
+        },
+        onError(err) {
+            console.log(err.networkError.result.errors)
+        },
+        
+    })
     const [unbookmark] = useMutation(UNBOOKMARK_PLATFORM, {
         update(proxy, results) {
             props.history.push(platformURL)
@@ -156,6 +166,7 @@ function PlatformPage(props) {
             catch (error) {
                 console.error(error.networkError.result.errors);
             }
+            
         },
     })
     const [delPlatform] = useMutation(DELETE_PLATFORM, {
@@ -338,7 +349,15 @@ function PlatformPage(props) {
                     <h3>Games:</h3>
                     <Button onClick={e => {
                         e.preventDefault();
+                        
                         addGame({ variables: { creatorName: creatorName, parentPlatform: parentPlatform } });
+                        for(var i = 0; i < platform.games.length; i++){
+                            if(platform.games[i].pictures.length == 0){
+                                setphoto({variables: {gameID: platform.games[i].gameID,
+                                parentPlatform: parentPlatform, name: platform.games[i].name, 
+                            creatorName: platform.games[i].creatorName, description: platform.games[i].description}})
+                            }
+                        }
                         // refresh();
                     }}>Add Game
                     </Button>

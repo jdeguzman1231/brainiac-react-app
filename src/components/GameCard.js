@@ -18,14 +18,21 @@ function GameCard(id) {
     }, [])
     if (loading) { return "loading" }
     else {
-
-        const game = data.getGame
+        var game
+        if(data){
+            game = data.getGame
+        }
+    
 
         if (game == null) { return null; }
         const parentPlatform = game.parentPlatform
         console.log(img)
-        if(game && game.pictures){
-            if(game.pictures[0] != img){
+        if(game){
+            if(game.pictures.length == 0){
+                img = randcolor[ind]
+            }
+            console.log('game pictures '+ game.pictures)
+            if(game.pictures.length > 0 && game.pictures[0] != img){
                 img = game.pictures[0]
             }
         }
