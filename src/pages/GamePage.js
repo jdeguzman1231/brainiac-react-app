@@ -3,20 +3,27 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
 import { Form, Button, Modal, Figure, OverlayTrigger, Tooltip, Jumbotron, ButtonGroup } from 'react-bootstrap';
 import { AuthContext } from "../context/auth";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { useForm } from '../util/hooks';
 import { Link } from 'react-router-dom'
 import { run as runHolder } from 'holderjs/holder'
 import trashcan from '../images/trashcan.png'
 import save from '../images/save.png'
 import pencil from '../images/pencil.png'
-
-
+import image from '../images/edit_picture.png'
+import {EDIT_GAME} from '../graphql/mutations'
+import {FETCH_GAME_QUERY} from '../graphql/queries'
+import { transformOperation } from '@apollo/client/link/utils';
 function GamePage(props) {
     useEffect(() => {
         runHolder('layoutimg')
     })
+    const [namedesc, setValues] = useState({name: '', description: ''})
+    const choosePic = useRef(null)
     const [show, setShow] = useState(false);
+    const [gamepic, setgamepic] = useState('')
+    const [all, setAll] = useState([])
+    const[loadimg, setLoad] = useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const ggameID = props.match.params.gameID;
@@ -46,7 +53,7 @@ function GamePage(props) {
     })
     const [updateGame] = useMutation(EDIT_GAME, {
         update(proxy, result) {
-            window.location.replace("/platform/" + platformID + "/game/" + gameID);
+            window.location.reload();
         },
         onError(err) {
             console.log(err.networkError.result.errors)
@@ -61,10 +68,30 @@ function GamePage(props) {
     })
 
     function editGame() {
-        console.log(updateGame);
-        updateGame();
+        var newarray = []
+        for(var i = 0; i < all.length; i++){
+            newarray.push(all[i])
+        }
+        newarray[0] = gamepic
+        console.log(values)
+        if(values.name == ''){
+            values.name = namedesc.name
+        }
+        if(values.description == ''){
+            values.description = namedesc.description
+        }
+        updateGame({variables: {
+            gameID: gameID,
+            parentPlatform: parentPlatform,
+            name: values.name,
+            creatorName: creatorName,
+            description: values.description,
+            pictures: newarray
+        }});
     }
-
+    const btnclick = (e) => {
+        choosePic.current.click()
+    }
     const [delGame] = useMutation(DELETE_GAME, {
         update(proxy, result) {
             // props.history.push("/platform/" + platformID)
@@ -106,29 +133,72 @@ function GamePage(props) {
     //     console.log("delete game");
     //     delGame();
     // }
-
+    const setPhoto = async e =>{
+        const newfile = new FormData()
+        newfile.append('file', e.target.files[0])
+        newfile.append('upload_preset', 'brainiac_img')
+        setLoad(true)
+        const res = await fetch('https://api.cloudinary.com/v1_1/dkgfsmwvg/image/upload/',
+            {
+                method: 'POST',
+                body: newfile
+            }
+        )
+        const picfile = await res.json()
+        console.log(picfile.secure_url)
+        setgamepic(picfile.secure_url);
+        setLoad(false)
+    }
     if (loading) { return "loading" }
     else if (load) {return "loading"}
-    else {
-        console.log(data)
+
         const game = data.getGame
+        console.log(game.pictures[0])
+        console.log(game.name)
+        console.log(game.description)
+        if(namedesc.name == '' && game){
+            var tmp = {name: '', description: ''}
+            tmp.name = game.name
+            tmp.description = game.description
+            setValues(tmp)
+        }
+
+        if(all.length != game.pictures.length){
+            setAll(game.pictures)
+            if (game.pictures.length> 0){
+                setgamepic(game.pictures[0])
+            }
+        }
+        if(gamepic == '' && game.pictures.length == 0){
+            if(game.pictures.length == 0){
+                setgamepic('holder.js/870x524')
+            }
+            else{
+                setgamepic(game.pictures[0])
+            }
+        }
         if (user && user.username == game.creatorName) {
+            console.log(gamepic)
             return (
                 <div className="game-page-container">
                     <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
-
+                    <Form.File.Input style = {{display:'none'}} ref = {choosePic} onChange={setPhoto}></Form.File.Input>
+                    {loadimg ? (
+                        <h1>Loading.....</h1>
+                    ) : (
                     <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
                         <Figure class="game-screen" >
 
-                            <Figure.Image className='layoutimg'
+                            <Figure.Image 
                                 width={870}
                                 height={524}
-                                src="holder.js/870x524"
+                                src={gamepic}
                             />
 
                         </Figure> </Button>
+                    )}
                     <div>
                         <ButtonGroup>
                             <OverlayTrigger
@@ -151,6 +221,12 @@ function GamePage(props) {
                                     <img width={30}
                                         height={30} src={pencil}></img>
                                 </Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger placement = "bottom" overlay={<Tooltip>Edit game image</Tooltip>}>
+                                <Button variant = 'light' onClick = {btnclick}>
+                                <img width={30} height={30} src={image}></img>
+                                </Button>
+         
                             </OverlayTrigger>
 
                         </ButtonGroup>
@@ -207,10 +283,10 @@ function GamePage(props) {
                     <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
                         <Figure class="game-screen" >
 
-                            <Figure.Image className='layoutimg'
+                            <Figure.Image 
                                 width={870}
                                 height={524}
-                                src="holder.js/870x524"
+                                src={gamepic}
                             />
 
                         </Figure> </Button>
@@ -227,38 +303,10 @@ function GamePage(props) {
             )
         }
     }
-}
 
-const FETCH_GAME_QUERY = gql`
-    query($gameID: Int!){
-        getGame(gameID: $gameID){
-            name
-            creatorName
-            description
-            parentPlatform
-            tags
-        }
-    }
-`;
 
-export const EDIT_GAME = gql`
-    mutation editGame(
-        $gameID: Int!
-        $parentPlatform: Int!
-        $name: String!
-        $description: String!
-        $creatorName: String!
-        ){
-            editGame(
-                gameID: $gameID
-                parentPlatform: $parentPlatform
-                creatorName: $creatorName
-                name: $name
-                description: $description
-            )
-        
-        }
-`;
+
+
 
 
 export const DELETE_GAME = gql`
