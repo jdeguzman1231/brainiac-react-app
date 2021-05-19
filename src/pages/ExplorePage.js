@@ -98,11 +98,10 @@ function ExplorePage() {
         for(var i = 0; i< tagnames.length; i++){
             tags.push(
                 <option value = {(i+1).toString()}>{tagnames[i]}</option>
-
+            )
 
   
         }
-    }
     var items = []
     for (var i = 1; i <= pages; i++) {
         items.push(
