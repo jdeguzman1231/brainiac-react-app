@@ -224,10 +224,6 @@ function PlatformSettingsPage(props){
                         </ToggleButtonGroup>
                         </Row>
                     </Container>
-                    <Form.Group controlId = "private">
-                        <Form.Label>Privacy</Form.Label>
-                        <Form.Check name = "private" id = "private"type="switch" defaultValue = {platform.private}></Form.Check>
-                    </Form.Group>
                     <Button onClick = {editPlatform} class="btn btn-primary">
                         Submit
                     </Button>
