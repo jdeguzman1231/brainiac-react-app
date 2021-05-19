@@ -54,6 +54,14 @@ function ExplorePage() {
                 return (tags) && (tags.includes(tag) && name.includes(key))
             })
             console.log(newPlatforms)
+            if(newPlatforms.length == 0 && data){
+                var p = data.getPlatforms
+                newPlatforms = p.filter(function (e){
+                    var tags = e.tags
+                    var name = e.name.toLowerCase()
+                    return (tags) && (tags.includes(tag) && name.includes(key))
+                })
+            }
             setPlatforms(newPlatforms)
         }
 
@@ -99,10 +107,10 @@ function ExplorePage() {
             tags.push(
                 <option value = {(i+1).toString()}>{tagnames[i]}</option>
 
-
+            )
   
         }
-    }
+    
     var items = []
     for (var i = 1; i <= pages; i++) {
         items.push(
