@@ -133,6 +133,7 @@ function GamePage(props) {
     //     console.log("delete game");
     //     delGame();
     // }
+
     const setPhoto = async e =>{
         const newfile = new FormData()
         newfile.append('file', e.target.files[0])
@@ -149,6 +150,11 @@ function GamePage(props) {
         setgamepic(picfile.secure_url);
         setLoad(false)
     }
+
+    const color1 = pdata.getPlatform.color1
+    const color2 = pdata.getPlatform.color2
+    var background = 'radial-gradient(36.69% 153.15% at 50% 50%, ' + color1 + ' 0%, rgba(255, 255, 255, 0) 100%), ' + color2
+
     if (loading) { return "loading" }
     else if (load) {return "loading"}
 
@@ -181,7 +187,7 @@ function GamePage(props) {
             console.log(gamepic)
             return (
                 <div className="game-page-container">
-                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
+                    <Jumbotron style={{ background: background }}><h1>{pdata.getPlatform.name}</h1>
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
                     <Form.File.Input style = {{display:'none'}} ref = {choosePic} onChange={setPhoto}></Form.File.Input>
@@ -277,7 +283,7 @@ function GamePage(props) {
         else {
             return (
                 <div className="game-page-container">
-                    <Jumbotron style={{ background: "radial-gradient(36.11% 118.69% at 45.24% 120.39%, rgba(255, 218, 202, 0.56) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(68.25% 371.6% at 85.88% 91.75%, rgba(251, 254, 255, 0.19) 0%, rgba(195, 241, 255, 0.960065) 0.01%, rgba(255, 255, 255, 0) 99.98%, rgba(252, 254, 255, 0.0416667) 99.99%), #FFF8E7" }}><h1>{pdata.getPlatform.name}</h1>
+                    <Jumbotron style={{ background: background }}><h1>{pdata.getPlatform.name}</h1>
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
                     <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
@@ -329,6 +335,8 @@ const FETCH_PLATFORM_QUERY = gql`
             creatorName
             description
             games
+            color1
+            color2
         }
     }  
 `;

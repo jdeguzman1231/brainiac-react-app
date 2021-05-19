@@ -30,6 +30,9 @@ p {
     width: 75%;
     margin: auto;
 }
+.activity-page{
+    width: 100%;
+}
 
 .game-page-container {
     margin: auto;
@@ -171,7 +174,7 @@ p {
 }
 
 .matching-card {
-    height: 175px;
+    height: 150px;
     width: 150px;
     text-align: center;
     line-height: 120px;
@@ -233,9 +236,17 @@ p {
     font-family: "DM Sans";
     font-size: 25px;
     font-weight: 400;
+    height: 50%;
     color: white;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 80px;
+}
+
+.screen{
+    margin: auto;
+    margin-top: 3%;
+    width: 90%;
+    padding:10%;
 }
 
 .App-logo {
