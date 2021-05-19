@@ -55,8 +55,10 @@ export default function MultipleChoiceActivity(props) {
       console.log(err.networkError.result.errors);
     },
   });
-
-  if (loading) {
+  if (load) {
+    return "loading"
+  }
+  else if (loading) {
     return "loading";
   } else {
     console.log(data);
