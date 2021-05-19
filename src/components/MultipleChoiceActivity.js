@@ -62,12 +62,21 @@ export default function MultipleChoiceActivity(props) {
     return "loading";
   } else {
     console.log(data);
-
-    const activityData = data.getActivity;
+    var questions;
+    var activityData;
+    if (data === undefined) {
+      return (
+        <Container>
+      <p>ERROR: This game's creator <b>{game.getGame.creatorName}</b> has not added any activities yet.</p>
+        <Button href={`/platform/${game.getGame.parentPlatform}`}>Back to Platform</Button>
+        </Container>)
+    }
+    else {
+    activityData = data.getActivity;
     console.log(activityData.data);
     // const questions = [activityData.data];
-    const questions = activityData.data;
-
+    questions = activityData.data;
+    }
     const handleAnswerButtonClick = (answer, selected) => {
       // setShowAlert(true)
       if (selected === answer && !showAlert) {
