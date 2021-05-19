@@ -79,7 +79,9 @@ function Menu() {
             <Nav.Link href="/explore">Explore</Nav.Link>
           </Nav>
           <Nav className="mr-sm-2" >
-          <Nav.Link href={link}>Profile</Nav.Link>
+          <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link> 
+
+          <Nav.Link href={link}>&nbsp;&nbsp;Profile</Nav.Link>
             <Nav.Link href={settingsLink}>Settings</Nav.Link>
             <Nav.Link onClick={logout} href="/">Log Out</Nav.Link>
           </Nav>
@@ -101,7 +103,8 @@ function Menu() {
               <Nav.Link href="/explore">Explore</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2" >
-            <Nav.Link href={link}>Profile</Nav.Link>
+            <Nav.Link className="createNavButton" href="/createplatform">+ Create New Platform</Nav.Link> 
+              <Nav.Link href={link}>&nbsp;&nbsp;Profile</Nav.Link>
               <Nav.Link href={settingsLink}>Settings</Nav.Link>
               <Nav.Link onClick={logout} href="/">Log Out</Nav.Link>
             </Nav>
@@ -126,9 +129,9 @@ function Menu() {
             <Nav.Link href="/explore">Explore</Nav.Link>
 
           </Nav>
-          <Nav className="mr-sm-2" >
-            <Nav.Link href="/login">Log In</Nav.Link>
-            <Nav.Link href="/signup">Sign Up</Nav.Link>
+          <Nav className="justify-content-end" >
+            <Nav.Link href="/login">Log In&nbsp;&nbsp;</Nav.Link>
+            <Nav.Link className="signUpButton" href="/signup">&nbsp;&nbsp;&nbsp;Sign Up&nbsp;&nbsp;&nbsp;</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

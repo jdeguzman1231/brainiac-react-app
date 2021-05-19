@@ -43,7 +43,7 @@ p {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 50px;
+    width: 100%;
 }
 .game-screen:before{
     position:absolute;
@@ -83,6 +83,35 @@ p {
     font-family: "Lato";
     padding-bottom: 20px;
 }
+
+.signUpButton{
+    background: white;
+    border-radius: 39px;
+
+}
+
+.signUpButton:hover{
+    transition: all 500ms ease;
+    border-radius: 10px;
+}
+.navbar-light .navbar-nav .nav-link {
+    color:rgb(49, 49, 49);
+}
+
+.createNavButton{
+    background: white;
+    color: rgb(85, 141, 85);
+    border-radius: 15px;
+    font-size:92%;
+    border: .2px solid rgb(83, 143, 83);
+}
+
+.createNavButton:hover{
+    background-color: white;
+    transition: all 500ms ease;
+    border-radius: 5px;
+}
+
 
 .btn-custom {
     font-family: "Nunito";
