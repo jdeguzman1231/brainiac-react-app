@@ -65,12 +65,20 @@ p {
     color: #eee;
 }
 
+.header img{
+    position: relative;
+    z-index:2;
+}
+
 .header {
     display: grid;
+    position: relative;
+    z-index:1;
     background-image: url(./images/headerimg.svg);
     background-size: cover;
     /* background: radial-gradient(75.61% 75.61% at 47.39% 32.75%, #FFFFD9 0%, rgba(255, 255, 255, 0) 100%), #86D0BE; */
     height: 100%;
+    overflow: hidden;
   }
   
   .content {
@@ -79,7 +87,24 @@ p {
 
 .content{
     width: 60%;
+    height: 1010px;
     background:rgba(255,255,255, 0.7);
+    position: absolute;
+}
+
+/* src: https://www.geeksforgeeks.org/css-floating-animation/ */
+
+.floating:hover {  
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+  
+@keyframes floating{
+    0% { transform: translate(0,  0px); }
+    50%  { transform: translate(0, 15px); }
+    100%   { transform: translate(0, -0px); }    
 }
 
 .exploreDesc{
