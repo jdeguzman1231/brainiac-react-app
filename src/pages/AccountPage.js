@@ -85,24 +85,6 @@ function AccountPage(props) {
 
     if (loggedInUser == username) {
         display = <Col xs = {8} style = {{marginTop: '120px'}}>
-        <Row style = {{paddingBottom: '60px'}}>
-            <Col>
-            <p>Recently Played:</p>
-
-            <Row style = {{paddingBottom: '10px'}}>
-                {user.playedPlatforms.slice(0,3).map((gameID) => (
-                <Col >
-                    <AccountGameCard gameID={gameID} />
-                </Col>
-                ))}
-            </Row>
-            <Row>
-                <Col style = {{paddingLeft: '90px'}}>
-                    <Button style={{fontSize:"95%"}} variant = "outline-dark" size='lg' href='/playedplatforms'>View Recently Played Games</Button>
-                </Col>
-            </Row>
-            </Col>
-        </Row>
         <hr></hr>
         <Row style = {{paddingBottom: '60px'}}>
             <Col>

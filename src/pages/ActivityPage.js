@@ -153,6 +153,10 @@ function ActivityPage(props) {
         deleteQuestion({ variables: { activityID: activityID, index: index } });
     }
 
+    function backToDesign() {
+        window.history.back();
+    }
+
     function addCardCallback() {
         addCard();
         setShow(false);
@@ -173,6 +177,8 @@ function ActivityPage(props) {
             len = 6;
             start = 2;
             modal =
+                <div>
+                <p>Make sure to input the correct answer in <u><b>both</b></u> the correct answer section and in the options</p>
                 <Form onSubmit={onSubmit}>
                     <Form.Group>
                         <Form.Control onChange={handleChange} placeholder="Question" type="text" name="question" />
@@ -196,6 +202,7 @@ function ActivityPage(props) {
                         Add
                 </Button>
                 </Form>
+                </div>
         }
         else if (activity.type === 'fill') {
             // source = fill
@@ -318,7 +325,7 @@ function ActivityPage(props) {
                         <Button onClick={openModal}>Add a question</Button>
                     </Col>
                     <Col>
-                        <Button onClick={openModal} style = {{float: "right"}} variant = "light">Back</Button>
+                        <Button onClick={backToDesign} style = {{float: "right"}} variant = "light">Back</Button>
                     </Col>
                 </Row>
                 <Modal show={showDelete} onHide={handleCloseDelete}>
@@ -344,7 +351,7 @@ function ActivityPage(props) {
                         <Modal.Title>Add question</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Input your {title} options below:
+                        <u><b>Input your {title} options below:</b></u>
                         {modal}
                     </Modal.Body>
                 </Modal>
