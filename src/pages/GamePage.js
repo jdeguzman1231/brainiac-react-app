@@ -194,18 +194,16 @@ function GamePage(props) {
                         <h1>Loading.....</h1>
                     ) : (
                     <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
-                        <Figure class="game-screen" >
-
+                        <Figure class="game-screen" style={{margin:"auto", marginLeft:"6%"}} >
                             <Figure.Image 
                                 width={870}
                                 height={524}
                                 src={gamepic}
                             />
-
                         </Figure> </Button>
                     )}
                     <div>
-                        <ButtonGroup>
+                        <ButtonGroup style={{marginLeft:"79%"}}>
                             <OverlayTrigger
                                 placement="bottom"
                                 overlay={
@@ -213,8 +211,8 @@ function GamePage(props) {
                                         Delete Game
                             </Tooltip>
                                 }>
-                                <Button variant="light" onClick={handleShow}><img width={30}
-                                    height={30} src={trashcan}></img></Button>
+                                <Button variant="light" onClick={handleShow}><img width={25}
+                                    height={25} src={trashcan}></img></Button>
                             </OverlayTrigger>
                             <OverlayTrigger placement="bottom"
                                 overlay={
@@ -223,13 +221,13 @@ function GamePage(props) {
                             </Tooltip>
                                 }>
                                 <Button variant="light" href={designLink}>
-                                    <img width={30}
-                                        height={30} src={pencil}></img>
+                                    <img width={25}
+                                        height={25} src={pencil}></img>
                                 </Button>
                             </OverlayTrigger>
                             <OverlayTrigger placement = "bottom" overlay={<Tooltip>Edit game image</Tooltip>}>
                                 <Button variant = 'light' onClick = {btnclick}>
-                                <img width={30} height={30} src={image}></img>
+                                <img width={25} height={25} src={image}></img>
                                 </Button>
          
                             </OverlayTrigger>
@@ -271,8 +269,8 @@ function GamePage(props) {
                                 <Tooltip>
                                     Save Changes
                             </Tooltip>
-                            }><Button variant="light " type="submit"><img width={25}
-                                height={25} src={save}></img>  Save Changes</Button></OverlayTrigger>
+                            }><Button variant="light " type="submit"><img width={20}
+                                height={20} src={save}></img>  Save Changes</Button></OverlayTrigger>
 
                     </Form>
                 </div>
@@ -286,7 +284,7 @@ function GamePage(props) {
                         <Link to={`/platform/${parentPlatform}`}>Back to platform</Link>
                     </Jumbotron>
                     <Button style={{ background: "#FFFF", borderColor: "#FFFF" }} href={playLink}>
-                        <Figure class="game-screen" >
+                        <Figure class="game-screen" style={{margin:"auto", marginLeft:"6%", paddingBottom:"1%"}} >
 
                             <Figure.Image 
                                 width={870}

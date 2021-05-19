@@ -154,16 +154,17 @@ export default function MultipleChoiceActivity(props) {
       return (
         <Container>
           {endGame ? (
-            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white'}}>
+            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white', width:"80%", textAlign:"center"}}>
               <h1>Congratulations</h1>
               You have completed {game.getGame.name} 
               <br></br>
-              <Row>
-                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
+              <Row style={{marginTop:"4%", marginLeft:"22%"}}>
+                <Button href="/">Go back to home page</Button>
+                <Button style={{marginLeft:"2%"}} href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
               </Row>
-              <Row>
+              {/* <Row>
                 <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
-              </Row>
+              </Row> */}
             </div>
           ) : (
               <Container style={{ paddingBottom: "20px" }}>
@@ -242,7 +243,7 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
-          <h2>{game.getGame.name}</h2>
+          <h2 style={{marginTop:"2%"}}>{game.getGame.name}</h2>
           <p>by {game.getGame.creatorName}</p>
           <hr></hr>
           <p>{game.getGame.description}</p>
@@ -264,15 +265,13 @@ export default function MultipleChoiceActivity(props) {
       return (
         <Container>
           {endGame ? (
-            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white'}}>
+            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white', textAlign:"center"}}>
               <h1>Congratulations</h1>
               You have completed {game.getGame.name}
               <br></br>
-              <Row>
-                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
-              </Row>
-              <Row>
-                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+              <Row style={{marginTop:"4%", marginLeft:"22%"}}>
+                <Button href="/">Go back to home page</Button>
+                <Button style={{marginLeft:"2%"}} href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
               </Row>
             </div>
           ) : (
@@ -339,7 +338,7 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
-          <h2>{game.getGame.name}</h2>
+          <h2 style={{marginTop:"2%"}}>{game.getGame.name}</h2>
           <p>by {game.getGame.creatorName}</p>
           <hr></hr>
           <p>{game.getGame.description}</p>
@@ -368,15 +367,13 @@ export default function MultipleChoiceActivity(props) {
       return (
         <Container>
           {endGame ? (
-            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white'}}>
+            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white',textAlign:"center"}}>
               <h1>Congratulations</h1>
               You have completed {game.getGame.name}
               <br></br>
-              <Row>
-                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
-              </Row>
-              <Row>
-                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+              <Row style={{marginTop:"4%", marginLeft:"22%"}}>
+                <Button href="/">Go back to home page</Button>
+                <Button style={{marginLeft:"2%"}} href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
               </Row>
             </div>
           ) : (
@@ -456,7 +453,7 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
-          <h2>{game.getGame.name}</h2>
+          <h2 style={{marginTop:"2%"}}>{game.getGame.name}</h2>
           <p>by {game.getGame.creatorName}</p>
           <hr></hr>
           <p>{game.getGame.description}</p>
@@ -570,15 +567,13 @@ export default function MultipleChoiceActivity(props) {
         <div className="activity-page">
  <Container style={{ height: "70%" }}>
           {endGame ? (
-            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white'}}>
+            <div className="screen" style={{ background: "rgba(49, 48, 48, 0.8)" , color: 'white',textAlign:"center"}}>
               <h1>Congratulations</h1>
               You have completed {game.getGame.name}
               <br></br>
-              <Row>
-                <Button href="/" style = {{marginBottom: "10px"}}>Go back to home page</Button>
-              </Row>
-              <Row>
-                <Button href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
+              <Row style={{marginTop:"4%", marginLeft:"22%"}}>
+                <Button href="/">Go back to home page</Button>
+                <Button style={{marginLeft:"2%"}} href={`/platform/${game.getGame.parentPlatform}`}>Go back to platform</Button>
               </Row>
             </div>
           ) : (
@@ -638,7 +633,7 @@ export default function MultipleChoiceActivity(props) {
               </Container>
             )
           }
-          <h2>{game.getGame.name}</h2>
+          <h2 style={{marginTop:"2%"}}>{game.getGame.name}</h2>
           <p>by {game.getGame.creatorName}</p>
           <hr></hr>
           <p>{game.getGame.description}</p>
